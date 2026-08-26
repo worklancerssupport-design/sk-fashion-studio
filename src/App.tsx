@@ -76,12 +76,12 @@ const designCategories = [
     desc: 'Premium bridal blouse designs with heavy embroidery, stone work and detailed craftsmanship — made for your most important day.',
     layout: 'feature-left',
     images: [
-      'photo-1595777457583-95e059d581b8',
-      'photo-1583391733956-6c78276477e2',
-      'photo-1604005950576-100b5e9a23c4',
-      'photo-1605763240000-7e93b172d754',
-      'photo-1515886657613-9f3515b0c78f',
-      'photo-1469334031218-e382a71b716b',
+      'https://i.pinimg.com/originals/b3/f6/6d/b3f66da77bb5d1b9e685a34ae521a17e.jpg',
+      'https://i.pinimg.com/736x/57/19/88/57198834376e8a889039341a69d92e51.jpg',
+      'https://www.anantexports.in/cdn/shop/files/IMG-20240908-WA0106.jpg',
+      'https://hyderabad.ksethnic.com/blouse/2024/12/WhatsApp-Image-2024-12-08-at-7.32.05-PM.jpeg',
+      'https://hyderabad.ksethnic.com/blouse/2025/08/peach-peacock-designer-maggam-work-grand-blouse-latest-bridal-wedding-blouse-design-1.webp',
+      'https://stylishladiestailoring.com/wp-content/uploads/2026/06/vibrant-kerala-bridal-aari-blouse-back-view.webp',
     ],
   },
   {
@@ -90,11 +90,11 @@ const designCategories = [
     desc: 'Modern, traditional and custom blouse designs tailored to suit every personality and style preference.',
     layout: 'masonry-duo',
     images: [
-      'photo-1469334031218-e382a71b716b',
-      'photo-1515886657613-9f3515b0c78f',
-      'photo-1583391733956-6c78276477e2',
-      'photo-1595777457583-95e059d581b8',
-      'photo-1604005950576-100b5e9a23c4',
+      'https://global.indiansilkhouseagencies.com/cdn/shop/files/BL601167LAVENDER-2_700x.jpg?v=1763364490',
+      'https://i.pinimg.com/1200x/cb/c3/8c/cbc38c4b654891bb69b293821617db36.jpg',
+      'https://i.pinimg.com/736x/84/70/4e/84704e1976bd2e5eac84d53cab09b232.jpg',
+      'https://amodinistudio.in/cdn/shop/files/DSC6741.jpg?v=1735018118',
+      'https://m.media-amazon.com/images/I/71j15SvuImL._AC_UY350_.jpg',
     ],
   },
   {
@@ -103,12 +103,12 @@ const designCategories = [
     desc: 'Bridal, traditional and designer lehenga stitching styles — from grand bridal flares to contemporary silhouettes.',
     layout: 'editorial-right',
     images: [
-      'photo-1519741497674-611481863552',
-      'photo-1594552072238-b8a33785b261',
-      'photo-1581044777550-4cfa60707c03',
-      'photo-1610189020381-8b9e3d1b5c34',
-      'photo-1535632066927-ab7c9ab60908',
-      'photo-1583846783214-7229a91b20ed',
+      'https://www.trendbuy.co.in/cdn/shop/files/New_Trending_Design_Bridal_Lehenga_Choli.jpg?v=1743833178',
+      'https://i.pinimg.com/originals/a0/bd/b8/a0bdb8e3682b9dcbb6841484da170f11.jpg',
+      'https://media.samyakk.com/pub/media/catalog/product/d/a/dark-red-umbrella-style-silk-bridal-lehenga-with-v-neck-blouse-gf3472.jpg',
+      'https://assets0.mirraw.com/images/13551893/image_original_long_webp.webp?1759401359',
+      'https://i0.wp.com/www.womansplaza.com/wp-content/uploads/2024/07/DT124.webp?ssl=1',
+      'https://img.perniaspopupshop.com/catalog/product/l/p/lpkc062213.jpg?impolicy=detailimageprod',
     ],
   },
   {
@@ -117,25 +117,11 @@ const designCategories = [
     desc: 'Elegant and modern outfits curated for receptions and special events — refined, graceful and unforgettable.',
     layout: 'triple-grid',
     images: [
-      'photo-1539008835657-9e8e9680c956',
-      'photo-1606800052052-a08af7148866',
-      'photo-1602751584552-8ba73aad10e1',
-      'photo-1594736797933-d0501ba2fe65',
-      'photo-1515886657613-9f3515b0c78f',
-    ],
-  },
-  {
-    id: 'marriage-designs',
-    label: 'Marriage Designs',
-    desc: 'Traditional wedding outfits, silk designs and grand bridal creations — stitched with generations of craft and care.',
-    layout: 'feature-right',
-    images: [
-      'photo-1511285560929-80b456fea0bc',
-      'photo-1523438885200-e635ba2c371e',
-      'photo-1544078751-58fee2d8a03b',
-      'photo-1594736797933-d0501ba2fe65',
-      'photo-1606800052052-a08af7148866',
-      'photo-1539008835657-9e8e9680c956',
+      'https://i.pinimg.com/1200x/38/0f/dc/380fdcf5dc8a36c295ccb1bf29a67329.jpg',
+      'https://i.pinimg.com/736x/e4/1b/ca/e41bca7414bfd57b037ebf06c73ddd98.jpg',
+      'https://i.pinimg.com/736x/75/75/4e/75754e69b454b41fc4e755d2e518749b.jpg',
+      'https://i.pinimg.com/736x/14/da/92/14da92895c29374cfd6056ec561f1204.jpg',
+      'https://i.pinimg.com/736x/43/ae/de/43aede95862d946d9b084e19a10f60d4.jpg',
     ],
   },
   {
@@ -144,12 +130,12 @@ const designCategories = [
     desc: 'Detailed embroidery including thread work, stone work, bead work, bridal embroidery and custom patterns — each piece a labour of love.',
     layout: 'masonry-wide',
     images: [
-      'photo-1621184455862-c163dfb30e0f',
-      'photo-1601924994987-69e26d50dc26',
-      'photo-1564584217132-2271feaeb3c5',
-      'photo-1566206091558-7f218b696731',
-      'photo-1583391733956-6c78276477e2',
-      'photo-1595777457583-95e059d581b8',
+      'https://i.pinimg.com/736x/ce/11/a6/ce11a64f821dd3de4884baba6b23b5c1.jpg',
+      'https://i.pinimg.com/1200x/24/17/d4/2417d49172bcd14159251ea79c66828f.jpg',
+      'https://viaanadesignerstudio.com/wp-content/uploads/2024/07/IMG_0681-scaled.jpg',
+      'https://i.pinimg.com/736x/e8/df/85/e8df85e67ac841576e4213b6de725a22.jpg',
+      'https://viaanadesignerstudio.com/wp-content/uploads/2025/09/1000012264-scaled.jpg',
+      'https://viaanadesignerstudio.com/wp-content/uploads/2024/12/img_9642-scaled.jpeg',
     ],
   },
   {
@@ -158,11 +144,11 @@ const designCategories = [
     desc: 'Custom stitched and designer chudidar collections — comfortable, stylish and made precisely for you.',
     layout: 'masonry-duo',
     images: [
-      'photo-1610030469983-98e550d6193c',
-      'photo-1583846783214-7229a91b20ed',
-      'photo-1618220179428-22790b461013',
-      'photo-1608234807905-4466023792f5',
-      'photo-1535632066927-ab7c9ab60908',
+      'https://i.pinimg.com/736x/40/a4/9e/40a49eb2fd21506641abb8c5a0961e3b.jpg',
+      'https://cdn.shopify.com/s/files/1/0593/9616/1590/files/partnerimages_3ce2ce7b_04-10-2023-01532.jpg?v=1712832183',
+      'https://assets.myntassets.com/dpr_1.5,q_60,w_400,c_limit,fl_progressive/assets/images/2024/OCTOBER/16/IJV7f7KX_2c67021049694df4848b7c99bd3f8e6b.jpg',
+      'https://i.pinimg.com/736x/82/30/05/823005eb0c6c8d2594fe68f3ce7bebec.jpg',
+      'https://www.lashkaraa.com/cdn/shop/files/dusty-green-embroidered-satin-straight-suit-7363508.png?v=1773720030&width=1091',
     ],
   },
 ];
@@ -172,7 +158,6 @@ const navLabels: Record<string, string> = {
   'designer-blouses': 'Designer Blouses',
   'lehenga-designs': 'Lehengas',
   'reception-designs': 'Reception',
-  'marriage-designs': 'Marriage',
   'embroidery-works': 'Embroidery',
   'chudidar-works': 'Chudidars',
 };
@@ -188,11 +173,11 @@ const shopPhotos = [
 
 // ─── HERO SLIDESHOW ──────────────────────────────────────────────────────────
 const heroSlides = [
-  'https://www.embroiderywale.com/wp-content/uploads/2025/02/JMD009-1300x1733.jpg',
-  'https://hyderabad.ksethnic.com/blouse/2025/03/classy-black-minimal-embroidery-blouse-1.webp',
-  'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSIVWFfYekR3mbUvaFGbmDO5HAOHkLYdCVz8g8MCRpMVNQEWQkqSyjU5e2m&s=10',
-  'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcR2vjihiHnJ-K8ApbaYiza-dmENzY4Na05hm-WQtCGxnsS1eg60ujBeHzM&s=10',
-  'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTauxkZkyllajv53BI7bCSxglVgKkSyfOQv8AcIONXacw&s',
+  'https://i.pinimg.com/1200x/e9/f4/9a/e9f49a11717c94b60662edfe43c8b20b.jpg',
+  'https://images.pexels.com/photos/37054326/pexels-photo-37054326.jpeg?auto=compress&cs=tinysrgb&w=1600&h=900&fit=crop',
+  'https://i.pinimg.com/1200x/a5/3c/0d/a53c0d145bc607f516eb929d0689f874.jpg',
+  'https://i.pinimg.com/736x/73/a5/f7/73a5f73f221da11303dadc2bb4fe5567.jpg',
+  'https://images.pexels.com/photos/32503225/pexels-photo-32503225.jpeg?auto=compress&cs=tinysrgb&w=1600&h=900&fit=crop',
 ];
 
 function HeroSlideshow() {
@@ -1139,7 +1124,7 @@ export default function App() {
           <div className="service-grid">
             {[
               'Designer Blouse Stitching', 'Bridal Wear', 'Lehenga Stitching',
-              'Saree Blouses', 'Chudidar & Ethnic Wear', 'Embroidery Work', 'Fabric to Fashion'
+              'Saree Blouses', 'Chudidar & Ethnic Wear', 'Embroidery Work'
             ].map((x, i) => (
               <motion.article whileHover={{ y: -6 }} className="service" key={x}>
                 <em>0{i + 1}</em>
