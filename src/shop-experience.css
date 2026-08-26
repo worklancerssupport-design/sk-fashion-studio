@@ -1,0 +1,237 @@
+/* ════════════════════════════════════════════════════════════════════════════
+   SHOP GALLERY SECTION — "Step Inside SK Fashion Tailors"
+   Purpose: Show the PHYSICAL boutique and workspace only.
+   Identity: Dark, warm, editorial — luxury boutique brochure feel.
+   Completely DISTINCT from Explore Designs (blush/cream fashion portfolio).
+   ════════════════════════════════════════════════════════════════════════════ */
+
+.shop-gallery-section {
+  padding: 140px 9vw 160px;
+  background:
+    radial-gradient(ellipse at 10% 20%, rgba(45, 25, 20, 0.7) 0%, transparent 50%),
+    radial-gradient(ellipse at 90% 80%, rgba(35, 15, 12, 0.5) 0%, transparent 45%),
+    linear-gradient(160deg, #1c1210 0%, #211714 45%, #1e1412 100%);
+  scroll-margin-top: 80px;
+  position: relative;
+  overflow: hidden;
+}
+
+/* Subtle warm woven texture overlay */
+.shop-gallery-section::before {
+  content: '';
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+  z-index: 0;
+  opacity: 0.038;
+  background-image:
+    repeating-linear-gradient(
+      0deg,
+      transparent,
+      transparent 2px,
+      rgba(255, 220, 180, 0.55) 2px,
+      rgba(255, 220, 180, 0.55) 3px
+    ),
+    repeating-linear-gradient(
+      90deg,
+      transparent,
+      transparent 18px,
+      rgba(255, 220, 180, 0.2) 18px,
+      rgba(255, 220, 180, 0.2) 19px
+    );
+}
+
+.shop-gallery-section > * {
+  position: relative;
+  z-index: 1;
+}
+
+/* ── Section Intro ── */
+.shop-gallery-intro {
+  max-width: 600px;
+  margin-bottom: 72px;
+}
+
+.shop-gallery-intro .eyebrow {
+  margin-bottom: 14px;
+  color: #e8a87c !important;
+  letter-spacing: 0.22em;
+}
+
+.shop-gallery-intro h2 {
+  margin-bottom: 22px;
+  color: #f5ede8;
+  letter-spacing: -0.035em;
+  line-height: 1.06;
+}
+
+.shop-gallery-intro > p {
+  color: #a89790;
+  line-height: 1.9;
+  font-size: 0.97rem;
+  max-width: 500px;
+}
+
+/* ── Asymmetric gallery grid ──
+   [ item-0  (large, 2 rows tall) ] [ item-1 ] [ item-2 ]
+                                     [ item-3 ] [ item-4 ]
+*/
+.shop-gallery-grid {
+  display: grid;
+  grid-template-columns: 1.65fr 1fr 1fr;
+  grid-template-rows: 310px 310px;
+  gap: 20px;
+}
+
+.shop-gallery-item {
+  position: relative;
+  overflow: hidden;
+  border-radius: 14px;
+  border: 1px solid rgba(255, 220, 180, 0.07);
+  padding: 0;
+  background: #2a1e18;
+  cursor: pointer;
+  box-shadow:
+    0 8px 32px rgba(0, 0, 0, 0.5),
+    inset 0 0 0 1px rgba(255, 220, 180, 0.04);
+  transition: all 0.45s cubic-bezier(0.25, 0.46, 0.45, 0.94);
+}
+
+.shop-gallery-item:hover {
+  box-shadow:
+    0 22px 60px rgba(0, 0, 0, 0.65),
+    inset 0 0 0 1px rgba(255, 200, 140, 0.14);
+  transform: translateY(-5px);
+}
+
+.shop-gallery-item--0 { grid-row: span 2; }
+
+.shop-gallery-item img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  display: block;
+  transition: transform 0.8s cubic-bezier(0.25, 0.46, 0.45, 0.94);
+  filter: brightness(0.85) saturate(0.85);
+}
+
+.shop-gallery-item:hover img {
+  transform: scale(1.09);
+  filter: brightness(0.95) saturate(1.0);
+}
+
+/* Warm amber-gold hover overlay */
+.shop-gallery-overlay {
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(
+    to top,
+    rgba(28, 12, 6, 0.9) 0%,
+    rgba(28, 12, 6, 0.35) 45%,
+    transparent 70%
+  );
+  display: flex;
+  align-items: flex-end;
+  padding: 28px 24px;
+  opacity: 0;
+  transition: opacity 0.4s ease;
+}
+
+.shop-gallery-item:hover .shop-gallery-overlay {
+  opacity: 1;
+}
+
+.shop-gallery-overlay span {
+  color: #f5d9b8;
+  font-family: 'Playfair Display', Georgia, serif;
+  font-size: 1.08rem;
+  letter-spacing: 0.02em;
+  line-height: 1.35;
+}
+
+/* ── Meet the Owners — sits below gallery on same dark canvas ── */
+.meet-owners {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  align-items: center;
+  background: #19100f;
+  border-top: 1px solid rgba(255, 220, 180, 0.07);
+}
+
+.owner-photo {
+  height: 640px;
+  overflow: hidden;
+}
+
+.owner-photo img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  filter: brightness(0.88) saturate(0.82);
+}
+
+.owner-content {
+  padding: 8vw;
+  color: #d4c8c4;
+}
+
+.owner-content .eyebrow {
+  margin-bottom: 15px;
+  color: #e8a87c !important;
+}
+
+.owner-content h2 {
+  color: #f5ede8;
+}
+
+.owner-content > p:not(.eyebrow) {
+  line-height: 1.9;
+  color: #a89790;
+  margin-top: 26px;
+}
+
+.owner-content blockquote {
+  margin: 30px 0;
+  font: 1.35rem/1.5 'Playfair Display', Georgia, serif;
+  color: #f0e6df;
+  border-left: 3px solid #e8a87c;
+  padding-left: 20px;
+}
+
+.owner-content b {
+  font-size: 0.72rem;
+  letter-spacing: 0.12em;
+  color: #c9bfbc;
+}
+
+.owner-content b small {
+  display: block;
+  margin-top: 6px;
+  color: #7a6e6a;
+  font-size: 0.58rem;
+}
+
+/* ── Responsive ── */
+@media (max-width: 900px) {
+  .shop-gallery-section { padding: 90px 7vw 100px; }
+  .shop-gallery-grid {
+    grid-template-columns: 1fr 1fr;
+    grid-template-rows: 220px 220px 220px;
+    gap: 14px;
+  }
+  .shop-gallery-item--0 { grid-column: span 2; grid-row: span 1; }
+  .meet-owners { grid-template-columns: 1fr; }
+  .owner-photo { height: 420px; }
+  .owner-content { padding: 60px 7vw; }
+}
+
+@media (max-width: 600px) {
+  .shop-gallery-section { padding: 70px 6vw 80px; }
+  .shop-gallery-grid {
+    grid-template-columns: 1fr;
+    grid-template-rows: 280px 200px 200px 200px 200px;
+    gap: 12px;
+  }
+  .shop-gallery-item--0 { grid-column: span 1; grid-row: span 1; }
+  .shop-gallery-item { border-radius: 12px; }
+}
