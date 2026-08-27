@@ -88,7 +88,7 @@ const designCategories = [
     id: 'designer-blouses',
     label: 'Designer Blouses',
     desc: 'Modern, traditional and custom blouse designs tailored to suit every personality and style preference.',
-    layout: 'masonry-duo',
+    layout: 'triple-grid',
     images: [
       'https://global.indiansilkhouseagencies.com/cdn/shop/files/BL601167LAVENDER-2_700x.jpg?v=1763364490',
       'https://i.pinimg.com/1200x/cb/c3/8c/cbc38c4b654891bb69b293821617db36.jpg',
@@ -128,13 +128,12 @@ const designCategories = [
     id: 'embroidery-works',
     label: 'Embroidery Works',
     desc: 'Detailed embroidery including thread work, stone work, bead work, bridal embroidery and custom patterns — each piece a labour of love.',
-    layout: 'masonry-wide',
+    layout: 'triple-grid',
     images: [
       'https://i.pinimg.com/736x/ce/11/a6/ce11a64f821dd3de4884baba6b23b5c1.jpg',
       'https://i.pinimg.com/1200x/24/17/d4/2417d49172bcd14159251ea79c66828f.jpg',
       'https://viaanadesignerstudio.com/wp-content/uploads/2024/07/IMG_0681-scaled.jpg',
       'https://i.pinimg.com/736x/e8/df/85/e8df85e67ac841576e4213b6de725a22.jpg',
-      'https://viaanadesignerstudio.com/wp-content/uploads/2025/09/1000012264-scaled.jpg',
       'https://viaanadesignerstudio.com/wp-content/uploads/2024/12/img_9642-scaled.jpeg',
     ],
   },
@@ -142,7 +141,7 @@ const designCategories = [
     id: 'chudidar-works',
     label: 'Chudidar Works',
     desc: 'Custom stitched and designer chudidar collections — comfortable, stylish and made precisely for you.',
-    layout: 'masonry-duo',
+    layout: 'triple-grid',
     images: [
       'https://i.pinimg.com/736x/40/a4/9e/40a49eb2fd21506641abb8c5a0961e3b.jpg',
       'https://cdn.shopify.com/s/files/1/0593/9616/1590/files/partnerimages_3ce2ce7b_04-10-2023-01532.jpg?v=1712832183',
