@@ -2421,11 +2421,7 @@ export default function App() {
           transition={{ duration: 0.6, delay: 0.1 }}
           whileHover={{ y: -1 }}
         >
-          <b>SK</b>
-          <div className="brand-text-stack">
-            <span className="brand-primary">SK FASHION</span>
-            <span className="brand-accent">TAILORS</span>
-          </div>
+          <img src="/sk_logo.svg" alt="SK Fashion Tailors" className="brand-logo" />
         </motion.a>
 
         {/* CENTER: Clean Navigation Links */}
