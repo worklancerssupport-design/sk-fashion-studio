@@ -1,20 +1,19 @@
-import { useEffect, useRef, useState } from 'react';
+import React, { useEffect, useRef, useState } from 'react';
 import { AnimatePresence, motion } from 'framer-motion';
 import {
-  ArrowRight, ChevronDown, ChevronLeft, ChevronRight,
-  Download, Heart, Instagram, MapPin, Menu, MessageCircle,
-  Phone, Scissors, Sparkles, Upload, X
+  AlertCircle, ArrowRight, Check, CheckCircle2, ChevronDown, ChevronLeft, ChevronRight,
+  Clock, Download, ExternalLink, FileText, Globe, Heart, Instagram, Loader2, MapPin, Menu,
+  MessageCircle, MessageSquarePlus, Phone, Scissors, Send, ShieldCheck,
+  Sparkles, Star, Upload, UserCheck, X
 } from 'lucide-react';
 import { jsPDF } from 'jspdf';
+import { fetchGoogleReviews, GooglePlaceDetails, fallbackPlaceData } from './services/googleReviews';
 
 // ─── Helpers ────────────────────────────────────────────────────────────────
-// Accepts either a full URL (http/https) or an Unsplash photo ID
 const img = (id: string, w = 900) =>
   id.startsWith('http')
     ? id
     : `https://images.unsplash.com/${id}?auto=format&fit=crop&w=${w}&q=86`;
-
-const slug = (x: string) => x.toLowerCase().replaceAll(' ', '-');
 
 // ─── Custom Cinematic Slow Smooth Scroll ────────────────────────────────────
 function smoothScrollTo(target: string | HTMLElement, duration = 1250, offset = 65) {
@@ -29,7 +28,6 @@ function smoothScrollTo(target: string | HTMLElement, duration = 1250, offset = 
 
   let startTime: number | null = null;
 
-  // Ultra-smooth easeInOutQuart curve for graceful luxury deceleration
   function animation(currentTime: number) {
     if (startTime === null) startTime = currentTime;
     const timeElapsed = currentTime - startTime;
@@ -68,12 +66,209 @@ function Section({ id, c, children }: any) {
   );
 }
 
+// ─── SERVICES DATA (With Informational Modal Content) ─────────────────────────
+interface ServiceItem {
+  id: string;
+  number: string;
+  title: string;
+  badge: string;
+  shortDesc: string;
+  image: string;
+  fullDesc: string;
+  whatsIncluded: string[];
+  suitableOccasions: string[];
+  customizationOptions: string[];
+  outfitKey: string;
+}
+
+const servicesData: ServiceItem[] = [
+  {
+    id: 'bridal-blouses',
+    number: '01',
+    title: 'Bridal Blouses & Couture',
+    badge: 'Signature Bridal',
+    shortDesc: 'Bespoke bridal blouses with heavy Maggam, Aari embroidery, zardosi, and precision armhole shaping.',
+    image: 'https://i.pinimg.com/originals/b3/f6/6d/b3f66da77bb5d1b9e685a34ae521a17e.jpg',
+    fullDesc: 'Custom-designed bridal blouses crafted according to your saree, occasion, personal style, embroidery preferences, and fitting requirements. Every blouse is personally patterned and fitted by Karuna Kumari.',
+    whatsIncluded: [
+      'Personal design consultation & neckline styling',
+      'Intricate Aari, Maggam, Zardosi & stone embroidery',
+      'Dual padded lining & structure reinforcement',
+      'Two measurement trial sessions prior to final delivery',
+      'Handmade designer latkans / tassel detailing'
+    ],
+    suitableOccasions: ['Muhurtham', 'Reception', 'Engagement (Nichayathartham)', 'Sangeet & Haldi'],
+    customizationOptions: [
+      'Neck cuts: Boat neck, Sweetheart, Deep U, Sheer back, High collar',
+      'Sleeve styles: Elbow length, Cap sleeves, Full sheer sleeves, Puff sleeves',
+      'Work intensity: Delicate borders to heavy all-over royal bridal embroidery',
+      'Personalized couple monogram & wedding date embroidery'
+    ],
+    outfitKey: 'Bridal Blouse',
+  },
+  {
+    id: 'designer-blouses',
+    number: '02',
+    title: 'Designer Blouse Stitching',
+    badge: 'Trending Styles',
+    shortDesc: 'Modern and contemporary blouse patterns tailored to complement any party wear or silk saree drape.',
+    image: 'https://global.indiansilkhouseagencies.com/cdn/shop/files/BL601167LAVENDER-2_700x.jpg?v=1763364490',
+    fullDesc: 'Elevate your festive look with perfectly tailored designer blouses. From backless silhouettes and halter cuts to vintage Peter Pan collars and contrast piping, we create styles that celebrate your individuality.',
+    whatsIncluded: [
+      'Contemporary cut styling & darts alignment',
+      'Premium soft cotton inner lining (breathable & anti-chafing)',
+      'Clean concealed seam finishing',
+      'High-grade cups & invisible zip closures'
+    ],
+    suitableOccasions: ['Cocktail Parties', 'Festivals & Poojas', 'Family Functions', 'Casual Silk Draping'],
+    customizationOptions: [
+      'Backless with tie-up cords, Princess cuts, Corset fits',
+      'Fabric play: Organza, Raw Silk, Brocade, Velvet & Chiffon',
+      'Piping in contrast metallic or silk piping'
+    ],
+    outfitKey: 'Designer Blouse',
+  },
+  {
+    id: 'lehenga-designs',
+    number: '03',
+    title: 'Lehenga Stitching & Choli',
+    badge: 'Grand Silhouettes',
+    shortDesc: 'Bridal and festive lehenga tailoring featuring grand umbrella flares, can-can layers, and designer blouses.',
+    image: 'https://www.trendbuy.co.in/cdn/shop/files/New_Trending_Design_Bridal_Lehenga_Choli.jpg?v=1743833178',
+    fullDesc: 'Stunning lehenga cholis tailored for maximum elegance and movement. We construct circular umbrella flares with multi-tier can-can netting, personalized waistbands, and custom-styled matching dupattas.',
+    whatsIncluded: [
+      'Full circular / kalidar flare stitching with can-can padding',
+      'Custom choli blouse tailoring with supportive structure',
+      'Dupatta border attachment & decorative tassel finishing',
+      'Waist drawstring with concealed heavy-duty zip'
+    ],
+    suitableOccasions: ['Bridal Trousseau', 'Reception Nights', 'Sangeet Choreography', 'Mehendi Celebrations'],
+    customizationOptions: [
+      'Flare volume: 4-meter, 6-meter, or 8-meter umbrella kalis',
+      'Blouse: Crop top, peplum choli, sweetheart corset',
+      'Tiered ruffles, velvet borders, and scallop dupatta edges'
+    ],
+    outfitKey: 'Lehenga',
+  },
+  {
+    id: 'saree-pre-pleating',
+    number: '04',
+    title: 'Saree Pre-Pleating & Draping',
+    badge: 'Effortless Draping',
+    shortDesc: 'Crisply ironed, pre-pleated, and pinned sarees for hassle-free 2-minute draping on busy event days.',
+    image: 'https://i.pinimg.com/736x/a8/80/a5/a880a50976d2727f67ca983e8454a50d.jpg',
+    fullDesc: 'Eliminate the stress of saree draping. We professionally steam-press, measure, pre-pleat, and secure your saree pleats so you can step into your drape in under two minutes with immaculate pallu alignment.',
+    whatsIncluded: [
+      'Precise waist pleat measuring and crisp steam pressing',
+      'Pallu pleating adjusted to your exact height and shoulder fit',
+      'Invisible safety locking & discreet pinning',
+      'Delivered ready-to-wear on a premium custom hanger'
+    ],
+    suitableOccasions: ['Early Morning Muhurthams', 'Stage Performances', 'Travel & Destination Weddings', 'Photo Shoots'],
+    customizationOptions: [
+      'Pleat count preference (3, 4, 5, or 6 pleats)',
+      'Traditional South Indian box pleats or sleek contemporary pleats',
+      'Gujarati front-pallu or classic seedha pallu setting'
+    ],
+    outfitKey: 'Saree Pre-Pleating',
+  },
+  {
+    id: 'saree-conversion',
+    number: '05',
+    title: 'Saree Conversion & Upcycling',
+    badge: 'Heritage Redesign',
+    shortDesc: 'Bring your treasured sarees and convert them into modern Chudidars, Lehengas, Gowns, or Kurthis.',
+    image: 'https://i.pinimg.com/736x/d7/9f/d7/d79fd7f8383b7ac17ce012ce0d6519ca.jpg',
+    fullDesc: 'Preserve the sentimental value of your mother’s or grandmother’s silk sarees by converting them into chic contemporary outfits. We carefully incorporate the vintage zari borders into modern silhouettes.',
+    whatsIncluded: [
+      'Comprehensive design restyling consultation',
+      'Careful preservation and reuse of authentic zari borders & pallu',
+      'High-grade inner lining matched to fabric weight',
+      'Custom pattern drafting for optimal fabric utilization'
+    ],
+    suitableOccasions: ['Anniversaries', 'Festive Celebrations', 'Family Gatherings', 'Heirloom Keepsakes'],
+    customizationOptions: [
+      'Saree to Chudidar / Anarkali Suit',
+      'Saree to Lehenga Skirt & Crop Blouse',
+      'Saree to Indo-Western Evening Gown',
+      'Saree to A-line Long Kurthi with Palazzo'
+    ],
+    outfitKey: 'Saree Conversion',
+  },
+  {
+    id: 'one-minute-saree',
+    number: '06',
+    title: 'One Minute Saree (Ready-to-Wear)',
+    badge: 'Modern Convenience',
+    shortDesc: 'Pre-stitched ready-to-wear sarees with tailored waistbands and pre-set pleats for instant perfection.',
+    image: 'https://i.pinimg.com/736x/45/65/45/456545090710842f223c7c8ba387452a.jpg',
+    fullDesc: 'Experience the beauty of a saree with the simplicity of a skirt. Our One Minute Saree is custom-stitched with an adjustable hook-and-bar waistband, pre-set waist pleats, and draped pallu.',
+    whatsIncluded: [
+      'Custom waistband with multi-level adjustable hooks',
+      'Pre-stitched pleated fall that never slips or bunches',
+      'Pre-aligned pallu length tailored to your exact height',
+      'No underskirt bulkiness for an ultra-flattering slimming drape'
+    ],
+    suitableOccasions: ['Cocktail Receptions', 'Corporate Gatherings', 'Quick Change Functions', 'Farewells & Graduations'],
+    customizationOptions: [
+      'Belt loop additions for embellished waist belts',
+      'Front slit variations for contemporary Indo-Western looks',
+      'Adjustable hook sizing (up to 3 inches allowance)'
+    ],
+    outfitKey: 'One Minute Saree',
+  },
+  {
+    id: 'kids-wear',
+    number: '07',
+    title: 'Kids Collection & Pattu Pavadai',
+    badge: 'Soft & Child-Safe',
+    shortDesc: 'Pattu Pavadai, mini lehengas, and celebration gowns made with ultra-soft baby lining and zero-itch seams.',
+    image: 'https://i.pinimg.com/736x/75/0e/6a/750e6a3f46660c249889441d6969c9c4.jpg',
+    fullDesc: 'Traditional and festive attire designed specifically for young girls. Crafted with ultra-soft, skin-friendly cotton lining and gentle enclosed seams so your little ones stay joyful and comfortable all day.',
+    whatsIncluded: [
+      '100% soft breathable pure cotton lining (zero itching)',
+      'Growing seam allowances for easy future resizing',
+      'Comfort-fit elasticated waistbands and soft snap fasteners',
+      'Matching baby hair accessories and tassel cords'
+    ],
+    suitableOccasions: ['Birthdays', 'Ear Piercing / Ayushya Homam', 'Diwali & Pongal Festivals', 'Weddings & Receptions'],
+    customizationOptions: [
+      'Traditional Pattu Pavadai with contrast zari borders',
+      'Kids designer lehenga with soft net can-can',
+      'Princess flare gowns with feather or floral applique'
+    ],
+    outfitKey: 'Kids Wear',
+  },
+  {
+    id: 'embroidery-work',
+    number: '08',
+    title: 'Hand Embroidery & Aari Work',
+    badge: 'Artisanal Craft',
+    shortDesc: 'Intricate Maggam, Zardosi, cutwork, stone work, and custom motifs handcrafted with artisan precision.',
+    image: 'https://i.pinimg.com/736x/ce/11/a6/ce11a64f821dd3de4884baba6b23b5c1.jpg',
+    fullDesc: 'Every thread tells a story of dedication. Our skilled artisans craft bespoke Aari embroidery, metallic Zardosi, pearl beading, and stone embellishments designed around your saree borders and jewelry.',
+    whatsIncluded: [
+      'Original hand-drawn motif tracing and design approval',
+      'High-grade non-tarnishing metallic zari & Swarovski stones',
+      'Reinforced knotting technique for lifelong durability',
+      'Seamless border matching on necklines, sleeves, and back'
+    ],
+    suitableOccasions: ['Bridal Trousseau', 'Grand Anniversaries', 'Milestone Celebrations', 'Heirloom Garments'],
+    customizationOptions: [
+      'Peacock, floral creeper, temple idol, and lotus motifs',
+      'Cutwork and mesh net back designs with stone lattices',
+      'Antique gold, silver, rose gold, or antique copper zari'
+    ],
+    outfitKey: 'Embroidery Work',
+  },
+];
+
 // ─── EXPLORE DESIGNS DATA ────────────────────────────────────────────────────
 const designCategories = [
   {
     id: 'bridal-blouses',
     label: 'Bridal Blouses',
-    desc: 'Premium bridal blouse designs with heavy embroidery, stone work and detailed craftsmanship — made for your most important day.',
+    desc: 'Premium bridal blouse designs with heavy embroidery, stone work, and detailed craftsmanship — made for your most important day.',
     layout: 'feature-left',
     images: [
       'https://i.pinimg.com/originals/b3/f6/6d/b3f66da77bb5d1b9e685a34ae521a17e.jpg',
@@ -87,7 +282,7 @@ const designCategories = [
   {
     id: 'designer-blouses',
     label: 'Designer Blouses',
-    desc: 'Modern, traditional and custom blouse designs tailored to suit every personality and style preference.',
+    desc: 'Modern, traditional, and custom blouse designs tailored to suit every personality, neckline preference, and style.',
     layout: 'triple-grid',
     images: [
       'https://global.indiansilkhouseagencies.com/cdn/shop/files/BL601167LAVENDER-2_700x.jpg?v=1763364490',
@@ -100,7 +295,7 @@ const designCategories = [
   {
     id: 'lehenga-designs',
     label: 'Lehenga Designs',
-    desc: 'Bridal, traditional and designer lehenga stitching styles — from grand bridal flares to contemporary silhouettes.',
+    desc: 'Bridal, traditional, and designer lehenga stitching styles — from grand bridal flares to contemporary silhouettes.',
     layout: 'editorial-right',
     images: [
       'https://www.trendbuy.co.in/cdn/shop/files/New_Trending_Design_Bridal_Lehenga_Choli.jpg?v=1743833178',
@@ -114,7 +309,7 @@ const designCategories = [
   {
     id: 'reception-designs',
     label: 'Reception Designs',
-    desc: 'Elegant and modern outfits curated for receptions and special events — refined, graceful and unforgettable.',
+    desc: 'Elegant and modern outfits curated for receptions and special evening events — refined, graceful, and unforgettable.',
     layout: 'triple-grid',
     images: [
       'https://i.pinimg.com/1200x/38/0f/dc/380fdcf5dc8a36c295ccb1bf29a67329.jpg',
@@ -125,9 +320,62 @@ const designCategories = [
     ],
   },
   {
+    id: 'saree-pre-pleating',
+    label: 'Saree Pre-Pleating',
+    desc: 'Crisply ironed and professionally pre-pleated sarees designed for effortless, graceful draping in under two minutes.',
+    layout: 'triple-grid',
+    images: [
+      'https://i.pinimg.com/736x/a8/80/a5/a880a50976d2727f67ca983e8454a50d.jpg',
+      'https://i.pinimg.com/1200x/10/58/5b/10585b339b931b416aa3ae2856f57dc7.jpg',
+      'https://i.pinimg.com/736x/8f/d1/0a/8fd10acee9683ea26db0983cc13a70e8.jpg',
+      'https://i.pinimg.com/1200x/f7/bb/dc/f7bbdc0f23f3b487bc30ea261e592ebe.jpg',
+    ],
+  },
+  {
+    id: 'saree-conversion',
+    label: 'Saree Conversion',
+    desc: 'Transform your precious saree materials into stunning Chudidars, Lehengas, Indo-Western Gowns, or Kurthis while preserving heritage borders.',
+    subcategories: ['Saree to Chudidar', 'Saree to Lehenga', 'Saree to Gown', 'Saree to Kurthi'],
+    layout: 'conversion-grid',
+    images: [
+      'https://i.pinimg.com/736x/d7/9f/d7/d79fd7f8383b7ac17ce012ce0d6519ca.jpg',
+      'https://i.pinimg.com/736x/12/8f/44/128f44acf8c8a78922c3204392ae9d80.jpg',
+      'https://i.pinimg.com/736x/ef/3e/97/ef3e97d8d1cd5b1c04638dc1501a7023.jpg',
+      'https://i.pinimg.com/1200x/f5/9e/1e/f59e1eae7f5adfdb3fbb1dfdf581c37d.jpg',
+      'https://i.pinimg.com/1200x/b3/e8/88/b3e888ec2fa23fecc31b89afcfc173b3.jpg',
+    ],
+  },
+  {
+    id: 'one-minute-saree',
+    label: 'One Minute Saree',
+    desc: 'Ready-to-wear pre-stitched sarees with customized waistbands and immaculate pleats for instant luxury and supreme comfort.',
+    layout: 'feature-left',
+    images: [
+      'https://i.pinimg.com/736x/45/65/45/456545090710842f223c7c8ba387452a.jpg',
+      'https://5.imimg.com/data5/SELLER/Default/2025/12/567702007/MA/HC/PO/102721331/ready-to-wear-one-minute-party-wear-saree.jpg',
+      'https://i.pinimg.com/1200x/40/cc/07/40cc07310681d24c3917f7aa52870f96.jpg',
+      'https://global.indiansilkhouseagencies.com/cdn/shop/files/BL601167LAVENDER-2_700x.jpg?v=1763364490',
+      'https://i.pinimg.com/736x/73/a5/f7/73a5f73f221da11303dadc2bb4fe5567.jpg',
+    ],
+  },
+  {
+    id: 'kids-collection',
+    label: 'Kids Collection',
+    desc: 'Charming Pattu Pavadais, festive kids lehengas, and party gowns tailored with ultra-soft baby lining for joyful celebrations.',
+    subcategories: ['Pattu Pavadai', 'Kids Lehenga', 'Kids Gowns'],
+    layout: 'editorial-right',
+    images: [
+      'https://i.pinimg.com/736x/75/0e/6a/750e6a3f46660c249889441d6969c9c4.jpg',
+      'https://i.pinimg.com/736x/b1/4a/16/b14a163796c90d1010dcd3f1ca594056.jpg',
+      'https://i.pinimg.com/736x/14/2f/5c/142f5c5a5341fe49f67fb23b6a7ac5f7.jpg',
+      'https://i.pinimg.com/736x/5f/06/09/5f060985deead9a704df7364cfc44dbe.jpg',
+      'https://i.pinimg.com/736x/a5/20/c7/a520c7c3556bf2d7d4991abe74019214.jpg',
+    ],
+  },
+  {
     id: 'embroidery-works',
     label: 'Embroidery Works',
-    desc: 'Detailed embroidery including thread work, stone work, bead work, bridal embroidery and custom patterns — each piece a labour of love.',
+    desc: 'Detailed embroidery including thread work, stone work, bead work, bridal embroidery, and custom patterns — each piece a labour of love.',
     layout: 'triple-grid',
     images: [
       'https://i.pinimg.com/736x/ce/11/a6/ce11a64f821dd3de4884baba6b23b5c1.jpg',
@@ -140,7 +388,7 @@ const designCategories = [
   {
     id: 'chudidar-works',
     label: 'Chudidar Works',
-    desc: 'Custom stitched and designer chudidar collections — comfortable, stylish and made precisely for you.',
+    desc: 'Custom stitched and designer chudidar collections — comfortable, stylish, and made precisely for your silhouette.',
     layout: 'triple-grid',
     images: [
       'https://i.pinimg.com/736x/40/a4/9e/40a49eb2fd21506641abb8c5a0961e3b.jpg',
@@ -157,17 +405,41 @@ const navLabels: Record<string, string> = {
   'designer-blouses': 'Designer Blouses',
   'lehenga-designs': 'Lehengas',
   'reception-designs': 'Reception',
+  'saree-pre-pleating': 'Pre-Pleating',
+  'saree-conversion': 'Saree Conversion',
+  'one-minute-saree': '1-Min Saree',
+  'kids-collection': 'Kids Wear',
   'embroidery-works': 'Embroidery',
   'chudidar-works': 'Chudidars',
 };
 
-// ─── GALLERY DATA (shop / workspace photos only) ──────────────────────────
+// ─── GALLERY DATA (shop / boutique photos only) ─────────────────────────────
 const shopPhotos = [
-  { title: 'Our Boutique Storefront', id: 'photo-1558769132-cb1aea458c5e' },
-  { title: 'Inside the Boutique', id: 'photo-1528698827591-e19ccd7bc23d' },
-  { title: 'The Stitching Workspace', id: 'photo-1518895312237-a9e23508077d' },
-  { title: 'Embroidery Studio', id: 'photo-1556742400-b5b7a512a8c2' },
-  { title: 'Fabric & Colour Display', id: 'photo-1620799140408-edc6dcb6d633' },
+  {
+    title: 'Our Boutique',
+    tag: 'Boutique Exterior',
+    url: 'https://images.unsplash.com/photo-1558769132-cb1aea458c5e?auto=format&fit=crop&w=1400&q=85',
+  },
+  {
+    title: 'Inside SK Fashion Tailors',
+    tag: 'Showroom & Mannequins',
+    url: 'https://images.unsplash.com/photo-1528698827591-e19ccd7bc23d?auto=format&fit=crop&w=900&q=85',
+  },
+  {
+    title: 'A Space Made for You',
+    tag: 'Studio Ambiance',
+    url: 'https://images.unsplash.com/photo-1556742400-b5b7a512a8c2?auto=format&fit=crop&w=900&q=85',
+  },
+  {
+    title: 'Where Every Design Begins',
+    tag: 'Craftsmanship & Stitching',
+    url: 'https://images.unsplash.com/photo-1518895312237-a9e23508077d?auto=format&fit=crop&w=1200&q=85',
+  },
+  {
+    title: 'Crafted With Care',
+    tag: 'Fabrics & Swatches',
+    url: 'https://images.unsplash.com/photo-1620799140408-edc6dcb6d633?auto=format&fit=crop&w=1200&q=85',
+  },
 ];
 
 // ─── HERO SLIDESHOW ──────────────────────────────────────────────────────────
@@ -182,7 +454,6 @@ const heroSlides = [
 function HeroSlideshow() {
   const [current, setCurrent] = useState(0);
 
-  // Advance slide every 5 seconds
   useEffect(() => {
     const t = setInterval(() => {
       setCurrent(c => (c + 1) % heroSlides.length);
@@ -209,7 +480,6 @@ function HeroSlideshow() {
 }
 
 // ─── HERO EXPLORE DROPDOWN ───────────────────────────────────────────────────
-
 function ExploreDropdown() {
   const [open, setOpen] = useState(false);
   const ref = useRef<HTMLDivElement>(null);
@@ -260,6 +530,131 @@ function ExploreDropdown() {
   );
 }
 
+// ─── SERVICE INFORMATIONAL MODAL (Framer Motion) ─────────────────────────────
+function ServiceDetailModal({
+  service,
+  onClose,
+  onStartCustom,
+}: {
+  service: ServiceItem | null;
+  onClose: () => void;
+  onStartCustom: (outfitKey: string) => void;
+}) {
+  useEffect(() => {
+    const handleKeyDown = (e: KeyboardEvent) => {
+      if (e.key === 'Escape') onClose();
+    };
+    window.addEventListener('keydown', handleKeyDown);
+    return () => window.removeEventListener('keydown', handleKeyDown);
+  }, [onClose]);
+
+  if (!service) return null;
+
+  return (
+    <motion.div
+      className="modal-backdrop service-modal-backdrop"
+      initial={{ opacity: 0 }}
+      animate={{ opacity: 1 }}
+      exit={{ opacity: 0 }}
+      onClick={onClose}
+    >
+      <motion.div
+        className="service-modal-card"
+        initial={{ opacity: 0, scale: 0.96, y: 20 }}
+        animate={{ opacity: 1, scale: 1, y: 0 }}
+        exit={{ opacity: 0, scale: 0.96, y: 15 }}
+        transition={{ duration: 0.3, ease: [0.16, 1, 0.3, 1] }}
+        onClick={(e: React.MouseEvent) => e.stopPropagation()}
+      >
+        <button className="service-modal-close" onClick={onClose} aria-label="Close modal">
+          <X size={20} />
+        </button>
+
+        {/* Modal Banner */}
+        <div className="service-modal-hero">
+          <img src={img(service.image, 1200)} alt={service.title} />
+          <div className="service-modal-hero-overlay">
+            <span className="service-modal-badge">{service.badge}</span>
+            <h2>{service.title}</h2>
+          </div>
+        </div>
+
+        {/* Modal Body */}
+        <div className="service-modal-body">
+          <div className="service-modal-section">
+            <p className="service-modal-desc">{service.fullDesc}</p>
+          </div>
+
+          <div className="service-modal-grid">
+            <div className="service-modal-block">
+              <h4>
+                <CheckCircle2 size={16} className="pink-icon" /> What is Included
+              </h4>
+              <ul>
+                {service.whatsIncluded.map((item, idx) => (
+                  <li key={idx}>
+                    <span className="bullet-dot" />
+                    <span>{item}</span>
+                  </li>
+                ))}
+              </ul>
+            </div>
+
+            <div className="service-modal-block">
+              <h4>
+                <Sparkles size={16} className="pink-icon" /> Suitable Occasions
+              </h4>
+              <div className="occasion-tags">
+                {service.suitableOccasions.map((occ, idx) => (
+                  <span className="occasion-tag" key={idx}>{occ}</span>
+                ))}
+              </div>
+
+              <h4 style={{ marginTop: '20px' }}>
+                <Scissors size={16} className="pink-icon" /> Customization &amp; Options
+              </h4>
+              <ul className="custom-options-list">
+                {service.customizationOptions.map((opt, idx) => (
+                  <li key={idx}>
+                    <span className="bullet-dash">–</span>
+                    <span>{opt}</span>
+                  </li>
+                ))}
+              </ul>
+            </div>
+          </div>
+
+          {/* Privacy & Trust Bar */}
+          <div className="service-modal-trust-bar">
+            <UserCheck size={18} className="pink-icon" />
+            <div>
+              <strong>Personal Measurement Guarantee:</strong> All customer measurements and fittings are conducted personally by Karuna Kumari.
+            </div>
+          </div>
+
+          {/* Bottom Action */}
+          <div className="service-modal-footer">
+            <div className="service-modal-footer-text">
+              <p className="eyebrow pink-text">INTERESTED IN THIS SERVICE?</p>
+              <span>Have questions or specific fabric requirements? Let's bring your design to life.</span>
+            </div>
+            <motion.button
+              className="button pink service-modal-cta"
+              whileHover={{ scale: 1.03 }}
+              whileTap={{ scale: 0.97 }}
+              onClick={() => onStartCustom(service.outfitKey)}
+            >
+              <Sparkles size={16} />
+              <span>Create Your Custom Design</span>
+              <ArrowRight size={16} />
+            </motion.button>
+          </div>
+        </div>
+      </motion.div>
+    </motion.div>
+  );
+}
+
 // ─── EXPLORE DESIGNS CATEGORY LAYOUT ────────────────────────────────────────
 function CategorySection({ cat, active }: { cat: typeof designCategories[0]; active: boolean }) {
   const [light, setLight] = useState<number | null>(null);
@@ -268,7 +663,6 @@ function CategorySection({ cat, active }: { cat: typeof designCategories[0]; act
     const { images, layout } = cat;
 
     if (layout === 'feature-left') {
-      // Large image left, 2×2 grid right
       return (
         <div className="cat-layout-feature-left">
           <motion.button
@@ -282,7 +676,7 @@ function CategorySection({ cat, active }: { cat: typeof designCategories[0]; act
           <div className="cat-img-grid-2x2">
             {images.slice(1, 5).map((id, i) => (
               <motion.button
-                key={id}
+                key={id + i}
                 className="cat-img"
                 whileHover={{ scale: 1.03 }}
                 onClick={() => setLight(i + 1)}
@@ -297,13 +691,12 @@ function CategorySection({ cat, active }: { cat: typeof designCategories[0]; act
     }
 
     if (layout === 'editorial-right') {
-      // 2×2 grid left, large image right
       return (
         <div className="cat-layout-editorial-right">
           <div className="cat-img-grid-2x2">
             {images.slice(0, 4).map((id, i) => (
               <motion.button
-                key={id}
+                key={id + i}
                 className="cat-img"
                 whileHover={{ scale: 1.03 }}
                 onClick={() => setLight(i)}
@@ -316,7 +709,7 @@ function CategorySection({ cat, active }: { cat: typeof designCategories[0]; act
           <motion.button
             className="cat-img cat-img--hero"
             whileHover={{ scale: 1.02 }}
-            onClick={() => setLight(4)}
+            onClick={() => setLight(images.length > 4 ? 4 : 0)}
           >
             <img src={img(images[4] || images[0], 1200)} alt={cat.label} />
             <span className="cat-img-overlay"><span>{cat.label}</span></span>
@@ -325,63 +718,20 @@ function CategorySection({ cat, active }: { cat: typeof designCategories[0]; act
       );
     }
 
-    if (layout === 'feature-right') {
-      // Row of 3 small, then large feature
+    if (layout === 'conversion-grid') {
       return (
-        <div className="cat-layout-feature-right">
-          <div className="cat-img-row-3">
-            {images.slice(0, 3).map((id, i) => (
-              <motion.button
-                key={id}
-                className="cat-img"
-                whileHover={{ scale: 1.03 }}
-                onClick={() => setLight(i)}
-              >
-                <img src={img(id)} alt={cat.label} />
-                <span className="cat-img-overlay"><span>{cat.label}</span></span>
-              </motion.button>
-            ))}
-          </div>
-          <div className="cat-img-row-2-tall">
-            <motion.button
-              className="cat-img cat-img--tall"
-              whileHover={{ scale: 1.02 }}
-              onClick={() => setLight(3)}
-            >
-              <img src={img(images[3], 1200)} alt={cat.label} />
-              <span className="cat-img-overlay"><span>{cat.label}</span></span>
-            </motion.button>
-            <div className="cat-img-stack">
-              {images.slice(4, 6).map((id, i) => (
-                <motion.button
-                  key={id}
-                  className="cat-img"
-                  whileHover={{ scale: 1.03 }}
-                  onClick={() => setLight(i + 4)}
-                >
-                  <img src={img(id)} alt={cat.label} />
-                  <span className="cat-img-overlay"><span>{cat.label}</span></span>
-                </motion.button>
-              ))}
-            </div>
-          </div>
-        </div>
-      );
-    }
-
-    if (layout === 'triple-grid') {
-      // Horizontal masonry: first image spans 2 rows
-      return (
-        <div className="cat-layout-triple">
+        <div className="cat-layout-conversion">
           {images.map((id, i) => (
             <motion.button
-              key={id}
-              className={`cat-img${i === 0 ? ' cat-img--span2' : ''}`}
-              whileHover={{ scale: 1.02 }}
+              key={id + i}
+              className={`cat-img cat-img--conversion cat-img--conversion-${i}`}
+              whileHover={{ scale: 1.025 }}
               onClick={() => setLight(i)}
             >
-              <img src={img(id, i === 0 ? 1200 : 900)} alt={cat.label} />
-              <span className="cat-img-overlay"><span>{cat.label}</span></span>
+              <img src={img(id, 1200)} alt={cat.label} />
+              <span className="cat-img-overlay">
+                <span>{cat.subcategories ? cat.subcategories[i % cat.subcategories.length] : cat.label}</span>
+              </span>
             </motion.button>
           ))}
         </div>
@@ -389,12 +739,11 @@ function CategorySection({ cat, active }: { cat: typeof designCategories[0]; act
     }
 
     if (layout === 'masonry-wide') {
-      // 3-column masonry, first wide
       return (
         <div className="cat-layout-masonry">
           {images.map((id, i) => (
             <motion.button
-              key={id}
+              key={id + i}
               className={`cat-img${i === 0 ? ' cat-img--wide' : ''}`}
               whileHover={{ scale: 1.02 }}
               onClick={() => setLight(i)}
@@ -407,30 +756,20 @@ function CategorySection({ cat, active }: { cat: typeof designCategories[0]; act
       );
     }
 
-    // masonry-duo (default)
+    // triple-grid (default)
     return (
-      <div className="cat-layout-duo">
-        <motion.button
-          className="cat-img cat-img--tall"
-          whileHover={{ scale: 1.02 }}
-          onClick={() => setLight(0)}
-        >
-          <img src={img(images[0], 1200)} alt={cat.label} />
-          <span className="cat-img-overlay"><span>{cat.label}</span></span>
-        </motion.button>
-        <div className="cat-img-stack-multi">
-          {images.slice(1).map((id, i) => (
-            <motion.button
-              key={id}
-              className="cat-img"
-              whileHover={{ scale: 1.03 }}
-              onClick={() => setLight(i + 1)}
-            >
-              <img src={img(id)} alt={cat.label} />
-              <span className="cat-img-overlay"><span>{cat.label}</span></span>
-            </motion.button>
-          ))}
-        </div>
+      <div className="cat-layout-triple">
+        {images.map((id, i) => (
+          <motion.button
+            key={id + i}
+            className={`cat-img${i === 0 ? ' cat-img--span2' : ''}`}
+            whileHover={{ scale: 1.02 }}
+            onClick={() => setLight(i)}
+          >
+            <img src={img(id, i === 0 ? 1200 : 900)} alt={cat.label} />
+            <span className="cat-img-overlay"><span>{cat.label}</span></span>
+          </motion.button>
+        ))}
       </div>
     );
   };
@@ -451,6 +790,15 @@ function CategorySection({ cat, active }: { cat: typeof designCategories[0]; act
           <div className="design-cat-meta">
             <h3>{cat.label}</h3>
             <p>{cat.desc}</p>
+            {cat.subcategories && (
+              <div className="design-subcat-chips">
+                {cat.subcategories.map((sub, idx) => (
+                  <span key={idx} className="subcat-chip">
+                    <Sparkles size={12} /> {sub}
+                  </span>
+                ))}
+              </div>
+            )}
           </div>
           <span className="design-cat-num">0{designCategories.indexOf(cat) + 1}</span>
         </div>
@@ -511,8 +859,8 @@ function ExploreDesigns() {
         <p className="eyebrow pink-text">THE DESIGN PORTFOLIO</p>
         <h2>Explore Our <i>Designs</i></h2>
         <p className="explore-subtitle">
-          From timeless bridal craftsmanship to contemporary elegance, discover
-          designs created for every occasion.
+          From timeless bridal craftsmanship to modern saree transformations and kids wear, discover
+          creations crafted for life’s grandest occasions.
         </p>
       </motion.div>
 
@@ -522,7 +870,7 @@ function ExploreDesigns() {
           className={`cat-nav-pill${activeNav === 'all' ? ' cat-nav-pill--active' : ''}`}
           onClick={() => selectCategory('all')}
         >
-          All
+          All Designs
         </button>
         {designCategories.map(cat => (
           <button
@@ -530,7 +878,7 @@ function ExploreDesigns() {
             className={`cat-nav-pill${activeNav === cat.id ? ' cat-nav-pill--active' : ''}`}
             onClick={() => selectCategory(cat.id)}
           >
-            {navLabels[cat.id]}
+            {navLabels[cat.id] || cat.label}
           </button>
         ))}
       </div>
@@ -545,74 +893,207 @@ function ExploreDesigns() {
   );
 }
 
-// ─── SHOP GALLERY SECTION ────────────────────────────────────────────────────
-function ShopGallery({ onCustom }: { onCustom: () => void }) {
+// ─── VISIT OUR SPACE / SHOP GALLERY SECTION ────────────────────────────────
+function ShopGallery() {
   const [light, setLight] = useState<number | null>(null);
+
   const shift = (n: number) =>
-    setLight(prev => prev === null ? 0 : (prev + n + shopPhotos.length) % shopPhotos.length);
+    setLight(prev => (prev === null ? 0 : (prev + n + shopPhotos.length) % shopPhotos.length));
+
+  // Keyboard navigation for lightbox
+  useEffect(() => {
+    if (light === null) return;
+    const handleKeyDown = (e: KeyboardEvent) => {
+      if (e.key === 'Escape') setLight(null);
+      if (e.key === 'ArrowLeft') shift(-1);
+      if (e.key === 'ArrowRight') shift(1);
+    };
+    window.addEventListener('keydown', handleKeyDown);
+    return () => window.removeEventListener('keydown', handleKeyDown);
+  }, [light]);
 
   return (
-    <section id="gallery" className="shop-gallery-section">
-      <motion.div
-        className="shop-gallery-intro"
-        initial={{ opacity: 0, y: 22 }}
-        whileInView={{ opacity: 1, y: 0 }}
-        viewport={{ once: true }}
-      >
-        <p className="eyebrow pink-text">VISIT OUR SPACE</p>
-        <h2>Step Inside<br /><i>SK Fashion Tailors.</i></h2>
-        <p>Take a glimpse into the space where ideas, fabrics and craftsmanship come together.</p>
-      </motion.div>
+    <section id="gallery" className="space-gallery-section">
+      {/* Subtle fashion-related decorative elements (absolute positioned) */}
+      <DecorThreadSpool className="decor-space-tl" />
+      <DecorFloralMotif className="decor-space-br" />
 
-      {/* Asymmetric premium gallery grid */}
-      <div className="shop-gallery-grid">
-        {shopPhotos.map((photo, i) => (
-          <motion.button
-            key={photo.id}
-            className={`shop-gallery-item shop-gallery-item--${i}`}
-            whileHover={{ scale: 1.018 }}
-            initial={{ opacity: 0, y: 20 }}
-            whileInView={{ opacity: 1, y: 0 }}
-            viewport={{ once: true }}
-            transition={{ delay: i * 0.08 }}
-            onClick={() => setLight(i)}
-          >
-            <img src={img(photo.id, i === 0 ? 1400 : 900)} alt={photo.title} />
-            <div className="shop-gallery-overlay">
-              <span>{photo.title}</span>
+      <div className="space-gallery-container">
+        {/* Section Header */}
+        <motion.div
+          className="space-gallery-head"
+          initial={{ opacity: 0, y: 22 }}
+          whileInView={{ opacity: 1, y: 0 }}
+          viewport={{ once: true, amount: 0.2 }}
+        >
+          <p className="eyebrow pink-text">ATELIER &amp; BOUTIQUE</p>
+          <h2>Visit Our Space</h2>
+          <p className="space-gallery-subtitle">
+            Step inside SK Fashion Tailors — where creativity, craftsmanship, and personal attention come together.
+          </p>
+        </motion.div>
+
+        {/* Clean Editorial Layout */}
+        <div className="space-gallery-layout">
+          {/* Top Row: Large Featured (Left) + 2 Stacked (Right) */}
+          <div className="space-gallery-top-grid">
+            {/* 1. Large Shop Image (Left) */}
+            <motion.button
+              className="space-gallery-card space-card--featured"
+              whileHover={{ scale: 1.015 }}
+              initial={{ opacity: 0, y: 20 }}
+              whileInView={{ opacity: 1, y: 0 }}
+              viewport={{ once: true }}
+              onClick={() => setLight(0)}
+              aria-label={`View ${shopPhotos[0].title}`}
+            >
+              <img src={shopPhotos[0].url} alt={shopPhotos[0].title} />
+              <div className="space-card-overlay">
+                <span className="space-card-tag">{shopPhotos[0].tag}</span>
+                <h4 className="space-card-caption">{shopPhotos[0].title}</h4>
+              </div>
+            </motion.button>
+
+            {/* Right: 2 Stacked Boutique Images */}
+            <div className="space-gallery-stack">
+              {/* 2. Small Interior */}
+              <motion.button
+                className="space-gallery-card space-card--stacked"
+                whileHover={{ scale: 1.02 }}
+                initial={{ opacity: 0, y: 20 }}
+                whileInView={{ opacity: 1, y: 0 }}
+                viewport={{ once: true }}
+                transition={{ delay: 0.1 }}
+                onClick={() => setLight(1)}
+                aria-label={`View ${shopPhotos[1].title}`}
+              >
+                <img src={shopPhotos[1].url} alt={shopPhotos[1].title} />
+                <div className="space-card-overlay">
+                  <span className="space-card-tag">{shopPhotos[1].tag}</span>
+                  <h4 className="space-card-caption">{shopPhotos[1].title}</h4>
+                </div>
+              </motion.button>
+
+              {/* 3. Small Detail */}
+              <motion.button
+                className="space-gallery-card space-card--stacked"
+                whileHover={{ scale: 1.02 }}
+                initial={{ opacity: 0, y: 20 }}
+                whileInView={{ opacity: 1, y: 0 }}
+                viewport={{ once: true }}
+                transition={{ delay: 0.15 }}
+                onClick={() => setLight(2)}
+                aria-label={`View ${shopPhotos[2].title}`}
+              >
+                <img src={shopPhotos[2].url} alt={shopPhotos[2].title} />
+                <div className="space-card-overlay">
+                  <span className="space-card-tag">{shopPhotos[2].tag}</span>
+                  <h4 className="space-card-caption">{shopPhotos[2].title}</h4>
+                </div>
+              </motion.button>
             </div>
-          </motion.button>
-        ))}
+          </div>
+
+          {/* Bottom Row: 2 Balanced Images */}
+          <div className="space-gallery-bottom-row">
+            {/* 4. Workspace */}
+            <motion.button
+              className="space-gallery-card space-card--bottom"
+              whileHover={{ scale: 1.018 }}
+              initial={{ opacity: 0, y: 20 }}
+              whileInView={{ opacity: 1, y: 0 }}
+              viewport={{ once: true }}
+              transition={{ delay: 0.2 }}
+              onClick={() => setLight(3)}
+              aria-label={`View ${shopPhotos[3].title}`}
+            >
+              <img src={shopPhotos[3].url} alt={shopPhotos[3].title} />
+              <div className="space-card-overlay">
+                <span className="space-card-tag">{shopPhotos[3].tag}</span>
+                <h4 className="space-card-caption">{shopPhotos[3].title}</h4>
+              </div>
+            </motion.button>
+
+            {/* 5. Boutique Detail */}
+            <motion.button
+              className="space-gallery-card space-card--bottom"
+              whileHover={{ scale: 1.018 }}
+              initial={{ opacity: 0, y: 20 }}
+              whileInView={{ opacity: 1, y: 0 }}
+              viewport={{ once: true }}
+              transition={{ delay: 0.25 }}
+              onClick={() => setLight(4)}
+              aria-label={`View ${shopPhotos[4].title}`}
+            >
+              <img src={shopPhotos[4].url} alt={shopPhotos[4].title} />
+              <div className="space-card-overlay">
+                <span className="space-card-tag">{shopPhotos[4].tag}</span>
+                <h4 className="space-card-caption">{shopPhotos[4].title}</h4>
+              </div>
+            </motion.button>
+          </div>
+        </div>
       </div>
 
-      {/* Lightbox */}
+      {/* Lightbox Preview */}
       <AnimatePresence>
         {light !== null && (
           <motion.div
-            className="lightbox"
+            className="space-lightbox-backdrop"
             initial={{ opacity: 0 }}
             animate={{ opacity: 1 }}
             exit={{ opacity: 0 }}
             onClick={() => setLight(null)}
           >
-            <B className="close-light" onClick={() => setLight(null)}><X /></B>
-            <B className="lb-prev" onClick={(e: React.MouseEvent) => { e.stopPropagation(); shift(-1); }}>
-              <ChevronLeft />
-            </B>
+            <button
+              className="space-lightbox-close"
+              onClick={() => setLight(null)}
+              aria-label="Close preview"
+            >
+              <X size={22} />
+            </button>
+
+            <button
+              className="space-lightbox-nav space-lightbox-prev"
+              onClick={(e: React.MouseEvent) => {
+                e.stopPropagation();
+                shift(-1);
+              }}
+              aria-label="Previous image"
+            >
+              <ChevronLeft size={26} />
+            </button>
+
             <motion.figure
-              initial={{ scale: 0.94, opacity: 0 }}
-              animate={{ scale: 1, opacity: 1 }}
+              className="space-lightbox-figure"
+              initial={{ scale: 0.94, opacity: 0, y: 10 }}
+              animate={{ scale: 1, opacity: 1, y: 0 }}
+              exit={{ scale: 0.94, opacity: 0 }}
+              transition={{ duration: 0.25, ease: [0.16, 1, 0.3, 1] }}
               onClick={(e: React.MouseEvent) => e.stopPropagation()}
             >
-              <img src={img(shopPhotos[light].id, 1500)} alt={shopPhotos[light].title} />
-              <figcaption>
-                {shopPhotos[light].title}
-                <span>{light + 1} / {shopPhotos.length}</span>
+              <img src={shopPhotos[light].url} alt={shopPhotos[light].title} />
+              <figcaption className="space-lightbox-caption">
+                <div className="space-lightbox-meta">
+                  <span className="space-lightbox-tag">{shopPhotos[light].tag}</span>
+                  <h4>{shopPhotos[light].title}</h4>
+                </div>
+                <span className="space-lightbox-counter">
+                  {light + 1} / {shopPhotos.length}
+                </span>
               </figcaption>
             </motion.figure>
-            <B className="lb-next" onClick={(e: React.MouseEvent) => { e.stopPropagation(); shift(1); }}>
-              <ChevronRight />
-            </B>
+
+            <button
+              className="space-lightbox-nav space-lightbox-next"
+              onClick={(e: React.MouseEvent) => {
+                e.stopPropagation();
+                shift(1);
+              }}
+              aria-label="Next image"
+            >
+              <ChevronRight size={26} />
+            </button>
           </motion.div>
         )}
       </AnimatePresence>
@@ -620,154 +1101,1052 @@ function ShopGallery({ onCustom }: { onCustom: () => void }) {
   );
 }
 
-// ─── MEET THE OWNERS SECTION ─────────────────────────────────────────────────
-function MeetOwners() {
+// ─── ABOUT THE OWNER SECTION (Karuna Kumari) ─────────────────────────────────
+function AboutOwner() {
+  const languages = ['Tamil', 'English', 'Hindi', 'Malayalam', 'Telugu'];
+
   return (
     <motion.section
-      className="meet-owners"
-      initial={{ opacity: 0, y: 24 }}
+      id="about-owner"
+      className="about-owner-section"
+      initial={{ opacity: 0, y: 28 }}
       whileInView={{ opacity: 1, y: 0 }}
       viewport={{ once: true, amount: 0.12 }}
     >
-      <div className="owner-photo">
-        <img
-          src={`https://images.unsplash.com/photo-1556761175-b413da4baf72?auto=format&fit=crop&w=900&q=85`}
-          alt="The SK Fashion Tailors studio team"
-        />
-      </div>
-      <div className="owner-content">
-        <p className="eyebrow pink-text">THE HEART OF SK</p>
-        <h2>Meet the people<br /><i>behind the atelier.</i></h2>
-        <p>
-          With a passion for fashion, craftsmanship and detail, the team at SK Fashion Tailors
-          believes every outfit should feel personal. Every stitch, design and embroidery flourish
-          is carefully crafted to bring our customers' vision to life.
-        </p>
-        <blockquote>
-          "The most beautiful thing you can wear is a garment that feels truly like you."
-        </blockquote>
-        <b>SK FASHION TAILORS<small>FOUNDER &amp; DESIGN TEAM</small></b>
+      {/* Light Tailoring Background Motifs */}
+      <DecorMeasuringTape className="decor-owner-tl" />
+      <DecorMannequinSilhouette className="decor-owner-br" />
+      <DecorTailorScissors className="decor-owner-tr" />
+
+      <div className="about-owner-container">
+        {/* Owner Header Info */}
+        <div className="owner-header-tag">
+          <p className="eyebrow pink-text">THE HEART OF SK FASHION TAILORS</p>
+          <h2>About the Owner</h2>
+          <h3 className="owner-name-title">Karuna Kumari</h3>
+          <span className="owner-role-badge">Founder &amp; Head Designer</span>
+        </div>
+
+        {/* Bio Text */}
+        <div className="owner-bio-text">
+          <p>
+            Karuna Kumari is the creative force behind SK Fashion Tailors. A fashion school graduate since 2016,
+            she brings over 8 years of experience in designing, tailoring, custom styling, and understanding the
+            unique needs of every client.
+          </p>
+          <p>
+            Her approach to fashion is deeply personal — every outfit is designed with attention to comfort,
+            fit, occasion, personality, and individual style. From bridal blouses and wedding outfits to saree
+            transformations and children’s wear, she believes that every creation should feel truly made for the
+            person wearing it.
+          </p>
+        </div>
+
+        {/* Measurements Trust Highlight Card */}
+        <div className="owner-trust-card">
+          <div className="trust-card-icon">
+            <ShieldCheck size={26} />
+          </div>
+          <div className="trust-card-body">
+            <h4>Personal Measurements, Personally Taken</h4>
+            <p>
+              "At SK Fashion Tailors, all customer measurements are personally taken by Karuna Kumari.
+              No male staff member will take measurements."
+            </p>
+            <span className="trust-card-guarantee">
+              <UserCheck size={14} /> 100% Privacy, Comfort &amp; Respect Guaranteed
+            </span>
+          </div>
+        </div>
+
+        {/* Languages Spoken */}
+        <div className="owner-languages-block">
+          <span className="languages-label">
+            <Globe size={15} /> Languages Spoken:
+          </span>
+          <div className="languages-pills">
+            {languages.map(lang => (
+              <span className="lang-pill" key={lang}>{lang}</span>
+            ))}
+          </div>
+        </div>
       </div>
     </motion.section>
   );
 }
 
-// ─── CONSULTATION MODAL ───────────────────────────────────────────────────────
-function Consultation({ close }: { close: () => void }) {
-  const [s, setS] = useState(0);
-  const [d, setD] = useState<any>({
-    name: '', phone: '', email: '', outfit: '', occasion: '',
-    style: '', notes: '', files: []
+// ─── GOOGLE REVIEWS SECTION ("Loved by Our Clients") ─────────────────────────
+function CustomerReviews() {
+  const [placeData, setPlaceData] = useState<GooglePlaceDetails>(fallbackPlaceData);
+  const [currentIndex, setCurrentIndex] = useState(0);
+  const [touchStart, setTouchStart] = useState<number | null>(null);
+
+  useEffect(() => {
+    fetchGoogleReviews().then(data => {
+      if (data && data.reviews && data.reviews.length > 0) {
+        setPlaceData(data);
+      }
+    });
+  }, []);
+
+  const reviews = placeData.reviews || fallbackPlaceData.reviews;
+
+  const nextReview = () => {
+    setCurrentIndex(prev => (prev + 1) % reviews.length);
+  };
+
+  const prevReview = () => {
+    setCurrentIndex(prev => (prev - 1 + reviews.length) % reviews.length);
+  };
+
+  const handleTouchStart = (e: React.TouchEvent) => {
+    setTouchStart(e.targetTouches[0].clientX);
+  };
+
+  const handleTouchEnd = (e: React.TouchEvent) => {
+    if (touchStart === null) return;
+    const touchEnd = e.changedTouches[0].clientX;
+    const diff = touchStart - touchEnd;
+    if (diff > 50) nextReview();
+    if (diff < -50) prevReview();
+    setTouchStart(null);
+  };
+
+  return (
+    <section id="reviews" className="customer-reviews-section">
+      <div className="reviews-container">
+        {/* Section Header */}
+        <motion.div
+          className="reviews-header"
+          initial={{ opacity: 0, y: 22 }}
+          whileInView={{ opacity: 1, y: 0 }}
+          viewport={{ once: true }}
+        >
+          <p className="eyebrow pink-text">REAL GOOGLE REVIEWS</p>
+          <h2>Loved by Our <i>Clients</i></h2>
+          <p className="reviews-subtitle">
+            Every stitch tells a story. Here's what our clients have to say about their experience with SK Fashion Tailors.
+          </p>
+        </motion.div>
+
+        {/* Prominent Overall Rating Banner */}
+        <motion.div
+          className="reviews-summary-badge"
+          initial={{ opacity: 0, scale: 0.95 }}
+          whileInView={{ opacity: 1, scale: 1 }}
+          viewport={{ once: true }}
+        >
+          <div className="summary-rating-left">
+            <span className="large-score">{placeData.rating.toFixed(1)}</span>
+            <div className="score-stars">
+              {[...Array(5)].map((_, i) => (
+                <Star key={i} size={22} className="pink-star-filled" fill="#f08bab" />
+              ))}
+            </div>
+          </div>
+          <div className="summary-rating-divider" />
+          <div className="summary-rating-right">
+            <div className="google-verified-tag">
+              <svg width="20" height="20" viewBox="0 0 24 24" fill="none">
+                <path d="M22.56 12.25c0-.78-.07-1.53-.2-2.25H12v4.26h5.92c-.26 1.37-1.04 2.53-2.21 3.31v2.77h3.57c2.08-1.92 3.28-4.74 3.28-8.09z" fill="#4285F4"/>
+                <path d="M12 23c2.97 0 5.46-.98 7.28-2.66l-3.57-2.77c-.98.66-2.23 1.06-3.71 1.06-2.86 0-5.29-1.93-6.16-4.53H2.18v2.84C3.99 20.53 7.7 23 12 23z" fill="#34A853"/>
+                <path d="M5.84 14.09c-.22-.66-.35-1.36-.35-2.09s.13-1.43.35-2.09V7.06H2.18C1.43 8.55 1 10.22 1 12s.43 3.45 1.18 4.94l2.85-2.22.81-.63z" fill="#FBBC05"/>
+                <path d="M12 5.38c1.62 0 3.06.56 4.21 1.64l3.15-3.15C17.45 2.09 14.97 1 12 1 7.7 1 3.99 3.47 2.18 7.06l3.66 2.84c.87-2.6 3.3-4.52 6.16-4.52z" fill="#EA4335"/>
+              </svg>
+              <span>Based on Google Reviews</span>
+            </div>
+            <p className="summary-count">Verified reviews from authentic studio clients in Chennai</p>
+          </div>
+        </motion.div>
+
+        {/* Review Cards Carousel */}
+        <div
+          className="reviews-carousel-wrap"
+          onTouchStart={handleTouchStart}
+          onTouchEnd={handleTouchEnd}
+        >
+          <div className="reviews-carousel-controls">
+            <button
+              className="review-nav-btn prev"
+              onClick={prevReview}
+              aria-label="Previous Review"
+            >
+              <ChevronLeft size={22} />
+            </button>
+            <button
+              className="review-nav-btn next"
+              onClick={nextReview}
+              aria-label="Next Review"
+            >
+              <ChevronRight size={22} />
+            </button>
+          </div>
+
+          <div className="reviews-cards-viewport">
+            <AnimatePresence mode="wait">
+              <motion.div
+                key={currentIndex}
+                className="review-card"
+                initial={{ opacity: 0, x: 40 }}
+                animate={{ opacity: 1, x: 0 }}
+                exit={{ opacity: 0, x: -40 }}
+                transition={{ duration: 0.35, ease: 'easeInOut' }}
+              >
+                <div className="review-card-top">
+                  <div className="reviewer-profile">
+                    <img
+                      src={reviews[currentIndex].profile_photo_url || img('photo-1534528741775-53994a69daeb', 160)}
+                      alt={reviews[currentIndex].author_name}
+                      className="reviewer-avatar"
+                    />
+                    <div className="reviewer-info">
+                      <h4>{reviews[currentIndex].author_name}</h4>
+                      <span className="review-date">
+                        {reviews[currentIndex].relative_time_description || 'Google Verified Client'}
+                      </span>
+                    </div>
+                  </div>
+                  <div className="review-stars-row">
+                    {[...Array(reviews[currentIndex].rating || 5)].map((_, i) => (
+                      <Star key={i} size={17} className="pink-star" fill="#f08bab" />
+                    ))}
+                  </div>
+                </div>
+
+                <div className="review-card-text">
+                  <p>"{reviews[currentIndex].text}"</p>
+                </div>
+
+                <div className="review-card-footer">
+                  <span className="google-badge-pill">
+                    <CheckCircle2 size={13} /> Verified Google Review
+                  </span>
+                </div>
+              </motion.div>
+            </AnimatePresence>
+          </div>
+
+          {/* Dots Indicator */}
+          <div className="reviews-carousel-dots">
+            {reviews.map((_, idx) => (
+              <button
+                key={idx}
+                className={`review-dot${idx === currentIndex ? ' active' : ''}`}
+                onClick={() => setCurrentIndex(idx)}
+                aria-label={`Go to review ${idx + 1}`}
+              />
+            ))}
+          </div>
+        </div>
+
+        {/* Official Google Buttons */}
+        <div className="reviews-actions-row">
+          <a
+            href={placeData.place_url}
+            target="_blank"
+            rel="noreferrer"
+            className="button light google-action-btn"
+          >
+            <span>Read All Reviews on Google</span>
+            <ExternalLink size={16} />
+          </a>
+
+          <a
+            href={placeData.write_review_url}
+            target="_blank"
+            rel="noreferrer"
+            className="button pink google-action-btn"
+          >
+            <MessageSquarePlus size={16} />
+            <span>Write a Review</span>
+          </a>
+        </div>
+      </div>
+    </section>
+  );
+}
+
+// ─── CONSULTATION / CUSTOM DESIGN WORKFLOW ───────────────────────────────────
+interface ConsultationFormData {
+  name: string;
+  phone: string;
+  email: string;
+  outfit: string;
+  occasion: string;
+  style: string;
+  embroidery: string;
+  fabric: string;
+  measurements: string;
+  timeline: string;
+  notes: string;
+  files: string[];
+}
+
+function generateBrandedPDF(data: ConsultationFormData) {
+  const doc = new jsPDF({
+    orientation: 'portrait',
+    unit: 'mm',
+    format: 'a4',
   });
+
+  const pageWidth = doc.internal.pageSize.getWidth();
+  const pageHeight = doc.internal.pageSize.getHeight();
+  const margin = 18;
+  const contentWidth = pageWidth - margin * 2;
+
+  // 1. Header Banner Background (#150d12)
+  doc.setFillColor(21, 13, 18);
+  doc.rect(0, 0, pageWidth, 42, 'F');
+
+  // Decorative Pink Accent Line (#f08bab)
+  doc.setFillColor(240, 139, 171);
+  doc.rect(0, 41, pageWidth, 1.2, 'F');
+
+  // Brand Name & Subtitle
+  doc.setTextColor(255, 255, 255);
+  doc.setFont('helvetica', 'bold');
+  doc.setFontSize(18);
+  doc.text('SK FASHION TAILORS', margin, 18);
+
+  doc.setFont('helvetica', 'normal');
+  doc.setFontSize(8.5);
+  doc.setTextColor(240, 139, 171);
+  doc.text('BESPOKE BRIDAL & COUTURE ATELIER · CHENNAI', margin, 25);
+
+  // Right Header Meta
+  doc.setFont('helvetica', 'bold');
+  doc.setFontSize(11);
+  doc.setTextColor(255, 255, 255);
+  doc.text('CUSTOM DESIGN ENQUIRY', pageWidth - margin, 18, { align: 'right' });
+
+  const submissionDate = new Date().toLocaleDateString('en-IN', {
+    day: 'numeric',
+    month: 'long',
+    year: 'numeric',
+  });
+  doc.setFont('helvetica', 'normal');
+  doc.setFontSize(8.5);
+  doc.setTextColor(200, 190, 195);
+  doc.text(`Date: ${submissionDate}`, pageWidth - margin, 25, { align: 'right' });
+
+  let y = 52;
+
+  // Helper for Section Titles
+  const drawSectionHeader = (title: string, currentY: number) => {
+    doc.setFillColor(248, 235, 240);
+    doc.roundedRect(margin, currentY, contentWidth, 7, 1.2, 1.2, 'F');
+    doc.setTextColor(165, 45, 80);
+    doc.setFont('helvetica', 'bold');
+    doc.setFontSize(9.2);
+    doc.text(title, margin + 4, currentY + 4.8);
+    return currentY + 11.5;
+  };
+
+  // Helper for key-value rows
+  const drawRow = (label: string, value: string, currentY: number, isAlternate = false) => {
+    if (isAlternate) {
+      doc.setFillColor(253, 248, 250);
+      doc.rect(margin, currentY - 3.8, contentWidth, 6.5, 'F');
+    }
+    doc.setFont('helvetica', 'bold');
+    doc.setFontSize(8.2);
+    doc.setTextColor(90, 60, 70);
+    doc.text(label, margin + 4, currentY + 0.8);
+
+    doc.setFont('helvetica', 'normal');
+    doc.setTextColor(25, 20, 22);
+    const splitValue = doc.splitTextToSize(value || '—', contentWidth - 62);
+    doc.text(splitValue, margin + 58, currentY + 0.8);
+
+    const rowHeight = Math.max(6.5, splitValue.length * 4.2 + 2.2);
+    return currentY + rowHeight;
+  };
+
+  // ── SECTION 1: CUSTOMER DETAILS ──
+  y = drawSectionHeader('1. CUSTOMER INFORMATION', y);
+  y = drawRow('Customer Name', data.name, y, false);
+  y = drawRow('Phone Number', data.phone, y, true);
+  y = drawRow('Email Address', data.email, y, false);
+  y = drawRow('Submission Date', submissionDate, y, true);
+
+  y += 3;
+
+  // ── SECTION 2: DESIGN & TAILORING SPECIFICATIONS ──
+  y = drawSectionHeader('2. DESIGN REQUIREMENTS & PREFERENCES', y);
+  y = drawRow('Selected Service', data.outfit, y, false);
+  y = drawRow('Occasion', data.occasion, y, true);
+  y = drawRow('Design Style', data.style, y, false);
+  y = drawRow('Embroidery Preference', data.embroidery, y, true);
+  y = drawRow('Fabric Details', data.fabric, y, false);
+  y = drawRow('Measurement Mode', data.measurements, y, true);
+  y = drawRow('Preferred Timeline', data.timeline, y, false);
+
+  y += 3;
+
+  // ── SECTION 3: ADDITIONAL REQUIREMENTS & NOTES ──
+  y = drawSectionHeader('3. ADDITIONAL REQUIREMENTS & NOTES', y);
+  const notesText = data.notes && data.notes.trim() ? data.notes.trim() : 'No additional custom notes provided.';
+  const splitNotes = doc.splitTextToSize(notesText, contentWidth - 8);
+  doc.setFont('helvetica', 'normal');
+  doc.setFontSize(8.2);
+  doc.setTextColor(40, 35, 38);
+  doc.text(splitNotes, margin + 4, y);
+  y += splitNotes.length * 4.4 + 3.5;
+
+  if (data.files && data.files.length > 0) {
+    doc.setFont('helvetica', 'italic');
+    doc.setFontSize(7.8);
+    doc.setTextColor(140, 70, 95);
+    doc.text(`Reference files noted: ${data.files.join(', ')} (Customer will attach in WhatsApp)`, margin + 4, y);
+    y += 6;
+  }
+
+  // ── FOOTER / ATELIER DETAILS ──
+  const footerY = pageHeight - 32;
+  doc.setDrawColor(240, 180, 200);
+  doc.setLineWidth(0.4);
+  doc.line(margin, footerY, pageWidth - margin, footerY);
+
+  doc.setFont('helvetica', 'bold');
+  doc.setFontSize(8.2);
+  doc.setTextColor(165, 45, 80);
+  doc.text('SK FASHION TAILORS · ATELIER GUARANTEE', margin, footerY + 5);
+
+  doc.setFont('helvetica', 'normal');
+  doc.setFontSize(7.5);
+  doc.setTextColor(100, 85, 90);
+  doc.text(
+    'All customer fittings and personal measurements taken exclusively by Karuna Kumari. 100% Privacy Guaranteed.',
+    margin,
+    footerY + 9.2
+  );
+  doc.text(
+    'Address: 30A, Sheshadripuram 1st Main Rd, Velachery, Chennai - 600042 · WhatsApp: +91 98840 16637',
+    margin,
+    footerY + 13.5
+  );
+
+  const fileName = `SK-Fashion-Enquiry-${(data.name || 'Customer').replace(/[^a-zA-Z0-9]/g, '-')}.pdf`;
+  doc.save(fileName);
+}
+
+function buildWhatsAppUrl(data: ConsultationFormData): string {
+  const ownerNumber = (import.meta.env.VITE_OWNER_WHATSAPP_NUMBER || '919884016637').replace(/[^0-9]/g, '');
+
+  const message = `Hello SK Fashion Tailors 👋
+
+I would like to enquire about a custom design.
+
+CUSTOMER DETAILS
+Name: ${data.name || '—'}
+Phone: ${data.phone || '—'}
+Email: ${data.email || '—'}
+
+DESIGN REQUIREMENTS
+Service: ${data.outfit || '—'}
+Occasion: ${data.occasion || '—'}
+Design Style: ${data.style || '—'}
+Embroidery: ${data.embroidery || '—'}
+Fabric Details: ${data.fabric || '—'}
+Measurements: ${data.measurements || '—'}
+Preferred Timeline: ${data.timeline || '—'}
+
+ADDITIONAL REQUIREMENTS:
+${data.notes && data.notes.trim() ? data.notes.trim() : 'None'}
+
+Thank you!`;
+
+  return `https://wa.me/${ownerNumber}?text=${encodeURIComponent(message)}`;
+}
+
+function Consultation({
+  initialOutfit = '',
+  close,
+}: {
+  initialOutfit?: string;
+  close: () => void;
+}) {
+  const [s, setS] = useState(0);
+  const [d, setD] = useState<ConsultationFormData>({
+    name: '',
+    phone: '',
+    email: '',
+    outfit: initialOutfit || '',
+    occasion: '',
+    style: '',
+    embroidery: '',
+    fabric: '',
+    measurements: '',
+    timeline: '',
+    notes: '',
+    files: [],
+  });
+
   const [err, setErr] = useState('');
+  const [isSubmitting, setIsSubmitting] = useState(false);
+  const [submitStage, setSubmitStage] = useState<'idle' | 'pdf' | 'download' | 'whatsapp'>('idle');
   const [done, setDone] = useState(false);
 
+  useEffect(() => {
+    if (initialOutfit && !d.outfit) {
+      setD(prev => ({ ...prev, outfit: initialOutfit }));
+    }
+  }, [initialOutfit]);
+
   const steps = [
-    'Personal details', 'Choose your outfit', 'Select the occasion',
-    'Design preferences', 'Embroidery preferences', 'Fabric details',
-    'Measurements', 'Reference images', 'Additional requirements', 'Review & submit'
+    'Personal Details',
+    'Choose Your Outfit / Service',
+    'Select the Occasion',
+    'Design Preferences',
+    'Embroidery Preferences',
+    'Fabric Details',
+    'Measurements',
+    'Preferred Timeline',
+    'Reference Images & Notes',
+    'Review & Submit',
   ];
 
-  const choice: any = [
-    null,
-    ['Blouse', 'Bridal Blouse', 'Lehenga', 'Wedding Outfit', 'Custom Outfit'],
-    ['Wedding', 'Reception', 'Engagement', 'Festival', 'Other'],
-    ['Traditional', 'Modern', 'Minimal', 'Heavy Bridal', 'Designer'],
-    ['No embroidery', 'Light embroidery', 'Heavy embroidery', 'Stone work', 'Bead work'],
-    ['I will bring my own fabric', 'I need assistance choosing fabric'],
-    ['I will visit the studio', 'I want to provide measurements', 'I need assistance']
-  ];
+  const choices: Record<number, string[]> = {
+    1: [
+      'Bridal Blouse',
+      'Designer Blouse',
+      'Lehenga Stitching & Choli',
+      'Saree Pre-Pleating & Draping',
+      'Saree Conversion & Upcycling',
+      'One Minute Saree (Ready-to-Wear)',
+      'Kids Collection & Pattu Pavadai',
+      'Hand Embroidery & Aari Work',
+      'Wedding / Reception Outfit',
+      'Custom Bespoke Creation',
+    ],
+    2: [
+      'Wedding / Muhurtham',
+      'Reception / Sangeet',
+      'Engagement / Ring Ceremony',
+      'Festival / Temple Pooja',
+      'Birthday / Milestone Celebration',
+      'Cocktail / Evening Party',
+      'Casual / Everyday Elegance',
+    ],
+    3: [
+      'Traditional Heritage & Royal',
+      'Modern Chic & Contemporary',
+      'Minimalist Understated Elegance',
+      'Heavy Bridal Grandeur',
+      'Indo-Western Fusion Flare',
+      'Custom Pattern Reference',
+    ],
+    4: [
+      'No Embroidery (Clean Concealed Finishing)',
+      'Light Border & Neckline Embroidery',
+      'Heavy Maggam & Aari Handwork',
+      'Zardosi, Stones & Pearl Beading',
+      'Cutwork & Sheer Net Embellishments',
+      'Customized Artwork / Motifs',
+    ],
+    5: [
+      'I will provide my own fabric / saree',
+      'I am upcycling / converting an existing silk saree',
+      'I need fabric selection & sourcing assistance',
+      'Fabric already purchased, needs styling guidance',
+    ],
+    6: [
+      'In-Studio Fitting (Personal measurement by Karuna Kumari)',
+      'I will provide my exact measurements online',
+      'I will send a best-fitting sample garment',
+      'Schedule a private video measurement consultation',
+    ],
+    7: [
+      'Urgent / Express (Within 3–5 Days)',
+      'Standard (1–2 Weeks)',
+      'Relaxed (2–4 Weeks)',
+      'Wedding Date / Specific Event Date (Flexible)',
+    ],
+  };
 
-  const key: any = ['', '', 'outfit', 'occasion', 'style', 'embroidery', 'fabric', 'measurements'][s];
+  const stepKeyMap: Record<number, keyof ConsultationFormData> = {
+    1: 'outfit',
+    2: 'occasion',
+    3: 'style',
+    4: 'embroidery',
+    5: 'fabric',
+    6: 'measurements',
+    7: 'timeline',
+  };
 
   const next = () => {
-    if (s < 7 && s !== 0 && !d[key]) return setErr('Please choose an option before continuing.');
-    if (s === 0 && (!d.name || !d.phone || !/^\S+@\S+\.\S+$/.test(d.email)))
-      return setErr('Please complete your contact details.');
+    // Validate current step
+    if (s === 0) {
+      if (!d.name || d.name.trim().length < 2) {
+        return setErr('Please enter your full name (minimum 2 characters).');
+      }
+      const digitsOnly = d.phone.replace(/[^0-9]/g, '');
+      if (!digitsOnly || digitsOnly.length < 10) {
+        return setErr('Please enter a valid 10-digit phone number.');
+      }
+      if (!d.email || !/^\S+@\S+\.\S+$/.test(d.email.trim())) {
+        return setErr('Please enter a valid email address.');
+      }
+    } else if (s >= 1 && s <= 7) {
+      const fieldKey = stepKeyMap[s];
+      if (!d[fieldKey]) {
+        return setErr('Please choose an option before continuing.');
+      }
+    }
+
     setErr('');
     setS(s + 1);
   };
 
-  const pdf = () => {
-    const p = new jsPDF();
-    p.setFillColor(22, 19, 20); p.rect(0, 0, 210, 38, 'F');
-    p.setTextColor(255, 255, 255); p.setFontSize(23);
-    p.text('SK FASHION TAILORS', 18, 22);
-    p.setTextColor(25, 22, 23); p.setFontSize(16);
-    p.text('Customer Design Enquiry', 18, 55);
-    let y = 70;
-    Object.entries(d).filter(([k]) => k !== 'files').forEach(([k, v]) => {
-      p.setFontSize(10); p.text(k.toUpperCase(), 18, y);
-      p.text(String(v || '—'), 75, y); y += 12;
-    });
-    p.save(`SK-Fashion-Tailors-Enquiry-${d.name.replace(/\s+/g, '-') || 'Customer'}.pdf`);
+  const handleFinalSubmit = async () => {
+    // Comprehensive validation
+    if (!d.name || d.name.trim().length < 2) {
+      setErr('Please enter your full name.');
+      setS(0);
+      return;
+    }
+    if (!d.phone || d.phone.replace(/[^0-9]/g, '').length < 10) {
+      setErr('Please enter a valid 10-digit phone number.');
+      setS(0);
+      return;
+    }
+    if (!d.email || !/^\S+@\S+\.\S+$/.test(d.email.trim())) {
+      setErr('Please enter a valid email address.');
+      setS(0);
+      return;
+    }
+    if (!d.outfit) {
+      setErr('Please select your preferred outfit / service.');
+      setS(1);
+      return;
+    }
+
+    setErr('');
+    setIsSubmitting(true);
+
+    try {
+      // 1. Generate & Download PDF
+      setSubmitStage('pdf');
+      await new Promise(r => setTimeout(r, 450));
+
+      setSubmitStage('download');
+      generateBrandedPDF(d);
+
+      // 2. Wait until download is triggered successfully
+      await new Promise(r => setTimeout(r, 850));
+
+      // 3. Prepare WhatsApp & trigger redirect
+      setSubmitStage('whatsapp');
+      const waUrl = buildWhatsAppUrl(d);
+
+      // Open WhatsApp in new tab / application
+      window.open(waUrl, '_blank', 'noopener,noreferrer');
+
+      // 4. Show success screen
+      await new Promise(r => setTimeout(r, 500));
+      setDone(true);
+      setIsSubmitting(false);
+    } catch (error) {
+      console.error('Error processing custom design enquiry:', error);
+      setErr('An error occurred while generating your enquiry summary. Please try again.');
+      setIsSubmitting(false);
+    }
   };
 
   return (
-    <motion.div className="modal-backdrop" initial={{ opacity: 0 }} animate={{ opacity: 1 }} exit={{ opacity: 0 }}>
-      <motion.div className="consultation" initial={{ opacity: 0, scale: 0.96 }} animate={{ opacity: 1, scale: 1 }} exit={{ opacity: 0, scale: 0.96 }}>
+    <motion.div
+      className="modal-backdrop consultation-backdrop"
+      initial={{ opacity: 0 }}
+      animate={{ opacity: 1 }}
+      exit={{ opacity: 0 }}
+    >
+      <motion.div
+        className="consultation-modal-card"
+        initial={{ opacity: 0, scale: 0.95, y: 15 }}
+        animate={{ opacity: 1, scale: 1, y: 0 }}
+        exit={{ opacity: 0, scale: 0.95 }}
+        transition={{ duration: 0.3, ease: [0.16, 1, 0.3, 1] }}
+        onClick={(e: React.MouseEvent) => e.stopPropagation()}
+      >
+        <button className="consultation-modal-close" onClick={close} aria-label="Close modal">
+          <X size={20} />
+        </button>
+
         {!done ? (
           <>
-            <B className="xclose" onClick={close}><X /></B>
-            <p className="eyebrow pink-text">PRIVATE DESIGN CONSULTATION</p>
-            <div className="form-title">
-              <h2>{steps[s]}</h2>
-              <span>STEP {s + 1} OF 10</span>
+            {/* Header / Progress */}
+            <div className="consultation-header">
+              <span className="eyebrow pink-text">START YOUR BESPOKE CREATION</span>
+              <div className="consultation-title-row">
+                <h2>{steps[s]}</h2>
+                <span className="step-counter">STEP {s + 1} OF {steps.length}</span>
+              </div>
+              <div className="consultation-progress-bar">
+                <motion.div
+                  className="consultation-progress-fill"
+                  animate={{ width: `${((s + 1) / steps.length) * 100}%` }}
+                  transition={{ duration: 0.3 }}
+                />
+              </div>
             </div>
-            <div className="progress"><motion.i animate={{ width: `${(s + 1) * 10}%` }} /></div>
-            {s === 0 ? (
-              <div className="form-grid">
-                {[['name', 'Full name'], ['phone', 'Phone number'], ['email', 'Email address']].map(([k, l]) => (
-                  <label key={k}>{l}<input value={d[k]} onChange={e => setD({ ...d, [k]: e.target.value })} /></label>
-                ))}
-              </div>
-            ) : s === 7 ? (
-              <label className="upload">
-                <Upload /><b>Upload inspiration images</b>
-                <input type="file" multiple accept="image/*" onChange={e => setD({ ...d, files: Array.from(e.target.files || []).map((x: any) => x.name) })} />
-              </label>
-            ) : s === 8 ? (
-              <label className="notes">Tell us exactly what you have in mind...
-                <textarea value={d.notes} onChange={e => setD({ ...d, notes: e.target.value })} />
-              </label>
-            ) : s === 9 ? (
-              <div className="review">
-                {Object.entries(d).filter(([k]) => k !== 'files').map(([k, v]) => (
-                  <p key={k}><b>{k}</b><span>{String(v || '—')}</span></p>
-                ))}
-              </div>
-            ) : (
-              <div className="choices">
-                {choice[s].map((x: string) => (
-                  <B className={d[key] === x ? 'selected' : ''} key={x} onClick={() => setD({ ...d, [key]: x })}>{x}</B>
-                ))}
-              </div>
-            )}
-            {err && <p className="form-error">{err}</p>}
-            <div className="form-actions">
-              {s > 0 && <B className="back" onClick={() => setS(s - 1)}>Previous</B>}
-              {s < 9
-                ? <B className="button pink" onClick={next}>Continue <ArrowRight /></B>
-                : <B className="button pink" onClick={() => { pdf(); setDone(true); }}>Prepare enquiry <Sparkles /></B>
-              }
+
+            {/* Step Content */}
+            <div className="consultation-body">
+              {/* Step 0: Personal Contact Details */}
+              {s === 0 && (
+                <div className="consultation-form-grid">
+                  <div className="consultation-field">
+                    <label htmlFor="customer-name">Full Name *</label>
+                    <input
+                      id="customer-name"
+                      type="text"
+                      placeholder="e.g. Priyadarshini Sundaram"
+                      value={d.name}
+                      onChange={e => setD({ ...d, name: e.target.value })}
+                      autoFocus
+                    />
+                  </div>
+
+                  <div className="consultation-field">
+                    <label htmlFor="customer-phone">Phone Number (WhatsApp preferred) *</label>
+                    <input
+                      id="customer-phone"
+                      type="tel"
+                      placeholder="e.g. 98840 12345"
+                      value={d.phone}
+                      onChange={e => setD({ ...d, phone: e.target.value })}
+                    />
+                  </div>
+
+                  <div className="consultation-field full-span">
+                    <label htmlFor="customer-email">Email Address *</label>
+                    <input
+                      id="customer-email"
+                      type="email"
+                      placeholder="e.g. priya@gmail.com"
+                      value={d.email}
+                      onChange={e => setD({ ...d, email: e.target.value })}
+                    />
+                  </div>
+
+                  <div className="consultation-guarantee-pill full-span">
+                    <ShieldCheck size={16} className="pink-icon" />
+                    <span>Your details are completely confidential. Personal measurements taken exclusively by Karuna Kumari.</span>
+                  </div>
+                </div>
+              )}
+
+              {/* Step 1 to 7: Multiple Choice Selection */}
+              {s >= 1 && s <= 7 && (
+                <div className="consultation-choices-grid">
+                  {choices[s].map((option: string) => {
+                    const currentKey = stepKeyMap[s];
+                    const isSelected = d[currentKey] === option;
+                    return (
+                      <button
+                        key={option}
+                        type="button"
+                        className={`consultation-choice-btn ${isSelected ? 'choice--selected' : ''}`}
+                        onClick={() => {
+                          setD({ ...d, [currentKey]: option });
+                          setErr('');
+                        }}
+                      >
+                        <div className="choice-indicator">
+                          {isSelected ? <Check size={14} /> : <span className="choice-dot" />}
+                        </div>
+                        <span className="choice-text">{option}</span>
+                      </button>
+                    );
+                  })}
+                </div>
+              )}
+
+              {/* Step 8: Reference Images & Additional Notes */}
+              {s === 8 && (
+                <div className="consultation-notes-step">
+                  <div className="consultation-field">
+                    <label>Inspiration / Reference Images (Optional)</label>
+                    <label className="consultation-upload-box">
+                      <Upload size={22} className="pink-icon" />
+                      <div className="upload-box-text">
+                        <strong>Click to select images from your device</strong>
+                        <span>PNG, JPG, WEBP formats supported</span>
+                      </div>
+                      <input
+                        type="file"
+                        multiple
+                        accept="image/*"
+                        onChange={e => {
+                          const fileNames = Array.from(e.target.files || []).map((f: File) => f.name);
+                          setD({ ...d, files: fileNames });
+                        }}
+                      />
+                    </label>
+                    {d.files && d.files.length > 0 && (
+                      <div className="uploaded-files-list">
+                        <span className="uploaded-count">
+                          <CheckCircle2 size={14} className="pink-icon" /> {d.files.length} file(s) selected:
+                        </span>
+                        <div className="file-chips">
+                          {d.files.map((fn, idx) => (
+                            <span key={idx} className="file-chip">{fn}</span>
+                          ))}
+                        </div>
+                      </div>
+                    )}
+                    <p className="upload-note">
+                      💡 <strong>Note:</strong> You can also send your photos and Pinterest links directly in the WhatsApp chat when it opens.
+                    </p>
+                  </div>
+
+                  <div className="consultation-field">
+                    <label htmlFor="customer-notes">Additional Requirements &amp; Design Notes</label>
+                    <textarea
+                      id="customer-notes"
+                      rows={3}
+                      placeholder="Tell us about specific necklines, sleeve preferences, color combinations, or special requests..."
+                      value={d.notes}
+                      onChange={e => setD({ ...d, notes: e.target.value })}
+                    />
+                  </div>
+                </div>
+              )}
+
+              {/* Step 9: Review & Submit */}
+              {s === 9 && (
+                <div className="consultation-review-container">
+                  <div className="review-summary-box">
+                    <div className="review-row">
+                      <span className="review-label">Customer Name:</span>
+                      <strong className="review-val">{d.name || '—'}</strong>
+                    </div>
+                    <div className="review-row">
+                      <span className="review-label">Phone Number:</span>
+                      <strong className="review-val">{d.phone || '—'}</strong>
+                    </div>
+                    <div className="review-row">
+                      <span className="review-label">Email Address:</span>
+                      <strong className="review-val">{d.email || '—'}</strong>
+                    </div>
+                    <div className="review-row">
+                      <span className="review-label">Selected Service:</span>
+                      <strong className="review-val pink-highlight">{d.outfit || '—'}</strong>
+                    </div>
+                    <div className="review-row">
+                      <span className="review-label">Occasion:</span>
+                      <strong className="review-val">{d.occasion || '—'}</strong>
+                    </div>
+                    <div className="review-row">
+                      <span className="review-label">Design Style:</span>
+                      <strong className="review-val">{d.style || '—'}</strong>
+                    </div>
+                    <div className="review-row">
+                      <span className="review-label">Embroidery:</span>
+                      <strong className="review-val">{d.embroidery || '—'}</strong>
+                    </div>
+                    <div className="review-row">
+                      <span className="review-label">Fabric Details:</span>
+                      <strong className="review-val">{d.fabric || '—'}</strong>
+                    </div>
+                    <div className="review-row">
+                      <span className="review-label">Measurements:</span>
+                      <strong className="review-val">{d.measurements || '—'}</strong>
+                    </div>
+                    <div className="review-row">
+                      <span className="review-label">Preferred Timeline:</span>
+                      <strong className="review-val">{d.timeline || '—'}</strong>
+                    </div>
+                    {d.notes && (
+                      <div className="review-row full">
+                        <span className="review-label">Additional Notes:</span>
+                        <p className="review-val notes-val">{d.notes}</p>
+                      </div>
+                    )}
+                  </div>
+
+                  <div className="review-workflow-notice">
+                    <div className="notice-icon"><Sparkles size={18} className="pink-icon" /></div>
+                    <div className="notice-text">
+                      <strong>Automatic Workflow on Submit:</strong>
+                      <ol>
+                        <li>A professional branded PDF will download to your device immediately.</li>
+                        <li>WhatsApp will automatically open with your complete enquiry pre-filled to chat with SK Fashion Tailors.</li>
+                      </ol>
+                    </div>
+                  </div>
+                </div>
+              )}
+
+              {/* Error Message */}
+              {err && (
+                <motion.div
+                  className="consultation-error-banner"
+                  initial={{ opacity: 0, y: 6 }}
+                  animate={{ opacity: 1, y: 0 }}
+                >
+                  <AlertCircle size={16} />
+                  <span>{err}</span>
+                </motion.div>
+              )}
+            </div>
+
+            {/* Footer Actions */}
+            <div className="consultation-footer">
+              {s > 0 ? (
+                <button
+                  type="button"
+                  className="consultation-back-btn"
+                  onClick={() => {
+                    setErr('');
+                    setS(s - 1);
+                  }}
+                  disabled={isSubmitting}
+                >
+                  <ChevronLeft size={16} /> Back
+                </button>
+              ) : (
+                <div />
+              )}
+
+              {s < steps.length - 1 ? (
+                <motion.button
+                  type="button"
+                  className="button pink consultation-next-btn"
+                  whileHover={{ scale: 1.02 }}
+                  whileTap={{ scale: 0.98 }}
+                  onClick={next}
+                >
+                  <span>Continue</span>
+                  <ArrowRight size={16} />
+                </motion.button>
+              ) : (
+                <motion.button
+                  type="button"
+                  className="button pink consultation-submit-btn"
+                  whileHover={{ scale: 1.02 }}
+                  whileTap={{ scale: 0.98 }}
+                  disabled={isSubmitting}
+                  onClick={handleFinalSubmit}
+                >
+                  {isSubmitting ? (
+                    <>
+                      <Loader2 size={18} className="animate-spin" />
+                      <span>
+                        {submitStage === 'pdf' && 'Generating PDF...'}
+                        {submitStage === 'download' && 'Downloading PDF...'}
+                        {submitStage === 'whatsapp' && 'Opening WhatsApp...'}
+                      </span>
+                    </>
+                  ) : (
+                    <>
+                      <Sparkles size={16} />
+                      <span>Generate PDF &amp; Open WhatsApp</span>
+                      <Send size={16} />
+                    </>
+                  )}
+                </motion.button>
+              )}
             </div>
           </>
         ) : (
-          <div className="success">
-            <Sparkles />
-            <p className="eyebrow pink-text">YOUR ENQUIRY IS READY</p>
-            <h2>Thank you,<br /><i>{d.name}!</i></h2>
-            <p>Your branded enquiry summary has downloaded successfully.</p>
-            <B className="button pink" onClick={pdf}><Download /> Download PDF again</B>
-            <B className="button dark" onClick={() => window.open(
-              `https://wa.me/${import.meta.env.VITE_OWNER_WHATSAPP_NUMBER}?text=${encodeURIComponent(
-                `NEW CUSTOMER ENQUIRY — SK FASHION TAILORS\nName: ${d.name}\nOutfit: ${d.outfit}\nOccasion: ${d.occasion}\nStyle: ${d.style}\nNotes: ${d.notes}`
-              )}`, '_blank'
-            )}>
-              <MessageCircle /> Send via WhatsApp
-            </B>
-            <B className="back" onClick={close}>Back to website</B>
-          </div>
+          /* ── Premium Success Screen ── */
+          <motion.div
+            className="consultation-success-screen"
+            initial={{ opacity: 0, scale: 0.95 }}
+            animate={{ opacity: 1, scale: 1 }}
+            transition={{ duration: 0.35 }}
+          >
+            <div className="success-icon-badge">
+              <CheckCircle2 size={48} className="pink-icon-glow" />
+            </div>
+
+            <p className="eyebrow pink-text">BESPOKE DESIGN ENQUIRY</p>
+            <h2>Your Design Request Is Ready!</h2>
+            <p className="success-subtitle">
+              Thank you, <strong>{d.name}</strong>. We have prepared your complete custom tailoring specification.
+            </p>
+
+            {/* Animated Checklist */}
+            <div className="success-checklist">
+              <motion.div
+                className="checklist-item"
+                initial={{ opacity: 0, x: -12 }}
+                animate={{ opacity: 1, x: 0 }}
+                transition={{ delay: 0.15 }}
+              >
+                <span className="check-bullet"><Check size={14} /></span>
+                <span>Your enquiry has been created</span>
+              </motion.div>
+
+              <motion.div
+                className="checklist-item"
+                initial={{ opacity: 0, x: -12 }}
+                animate={{ opacity: 1, x: 0 }}
+                transition={{ delay: 0.3 }}
+              >
+                <span className="check-bullet"><Check size={14} /></span>
+                <span>Your PDF has been downloaded</span>
+              </motion.div>
+
+              <motion.div
+                className="checklist-item"
+                initial={{ opacity: 0, x: -12 }}
+                animate={{ opacity: 1, x: 0 }}
+                transition={{ delay: 0.45 }}
+              >
+                <span className="check-bullet"><Check size={14} /></span>
+                <span>Your WhatsApp message is ready</span>
+              </motion.div>
+            </div>
+
+            {/* Opening WhatsApp Status Box */}
+            <div className="success-whatsapp-status">
+              <div className="wa-status-header">
+                <MessageCircle size={20} className="pink-icon" />
+                <strong>Opening WhatsApp so you can send your enquiry to SK Fashion Tailors.</strong>
+              </div>
+              <p className="wa-status-desc">
+                WhatsApp click-to-chat pre-fills your complete enquiry details. Please press the <strong>Send</strong> button in WhatsApp to deliver it directly to our head designer.
+              </p>
+              {d.files && d.files.length > 0 && (
+                <p className="wa-status-files">
+                  📷 <strong>Reference Images:</strong> You can attach your inspiration photos or sketches directly in the WhatsApp chat.
+                </p>
+              )}
+            </div>
+
+            {/* Actions */}
+            <div className="success-actions">
+              <a
+                className="button pink success-wa-btn"
+                href={buildWhatsAppUrl(d)}
+                target="_blank"
+                rel="noreferrer"
+              >
+                <MessageCircle size={18} />
+                <span>Open WhatsApp &amp; Send Enquiry</span>
+                <Send size={16} />
+              </a>
+
+              <button
+                type="button"
+                className="button dark success-pdf-btn"
+                onClick={() => generateBrandedPDF(d)}
+              >
+                <Download size={16} />
+                <span>Download PDF Again</span>
+              </button>
+
+              <button
+                type="button"
+                className="success-close-link"
+                onClick={close}
+              >
+                Back to website
+              </button>
+            </div>
+          </motion.div>
         )}
       </motion.div>
     </motion.div>
@@ -775,9 +2154,6 @@ function Consultation({ close }: { close: () => void }) {
 }
 
 // ─── DECORATIVE FASHION ELEMENTS ─────────────────────────────────────────────
-// Subtle SVG motifs — pink/rose palette, low opacity, slow Framer Motion float.
-// pointer-events: none — never blocks interactions.
-
 function DecorEmbroideryCircle({ className }: { className: string }) {
   return (
     <motion.div
@@ -816,17 +2192,13 @@ function DecorBlouseOutline({ className }: { className: string }) {
       transition={{ duration: 22, repeat: Infinity, ease: 'easeInOut', delay: 3 }}
     >
       <svg width="70" height="90" viewBox="0 0 70 90" fill="none" xmlns="http://www.w3.org/2000/svg">
-        {/* Simplified blouse neckline silhouette */}
         <path
           d="M10 10 C10 10 20 5 35 5 C50 5 60 10 60 10 L65 30 L55 35 L55 85 L15 85 L15 35 L5 30 Z"
           stroke="#c2446e" strokeWidth="1.2" fill="none" strokeLinejoin="round" strokeLinecap="round"
         />
-        {/* Neckline */}
         <path d="M22 10 Q35 22 48 10" stroke="#c2446e" strokeWidth="1" fill="none" />
-        {/* Sleeve decorative lines */}
         <path d="M5 30 Q8 28 15 35" stroke="#c2446e" strokeWidth="0.8" fill="none" opacity="0.6" />
         <path d="M65 30 Q62 28 55 35" stroke="#c2446e" strokeWidth="0.8" fill="none" opacity="0.6" />
-        {/* Embroidery dots on hem */}
         {[20, 27, 34, 41, 48].map((x, i) => (
           <circle key={i} cx={x} cy={80} r="1.5" fill="#c2446e" fillOpacity="0.5" />
         ))}
@@ -846,7 +2218,6 @@ function DecorThreadSpool({ className }: { className: string }) {
         <ellipse cx="28" cy="12" rx="22" ry="8" stroke="#c2446e" strokeWidth="1" fill="none" />
         <ellipse cx="28" cy="58" rx="22" ry="8" stroke="#c2446e" strokeWidth="1" fill="none" />
         <rect x="6" y="12" width="44" height="46" rx="2" stroke="#c2446e" strokeWidth="1" fill="none" />
-        {/* Thread lines on spool */}
         {[18, 23, 28, 33, 38].map((y, i) => (
           <line key={i} x1="6" y1={y} x2="50" y2={y} stroke="#c2446e" strokeWidth="0.5" opacity="0.4" />
         ))}
@@ -864,7 +2235,6 @@ function DecorFloralMotif({ className }: { className: string }) {
       transition={{ duration: 20, repeat: Infinity, ease: 'easeInOut', delay: 9 }}
     >
       <svg width="72" height="72" viewBox="0 0 72 72" fill="none" xmlns="http://www.w3.org/2000/svg">
-        {/* 8-petal floral motif */}
         {[0, 45, 90, 135, 180, 225, 270, 315].map((deg, i) => (
           <ellipse
             key={i}
@@ -877,8 +2247,72 @@ function DecorFloralMotif({ className }: { className: string }) {
         ))}
         <circle cx="36" cy="36" r="5" stroke="#c2446e" strokeWidth="1" fill="none" />
         <circle cx="36" cy="36" r="2" fill="#c2446e" fillOpacity="0.4" />
-        {/* Outer ring */}
         <circle cx="36" cy="36" r="34" stroke="#c2446e" strokeWidth="0.4" strokeDasharray="2 4" opacity="0.5" />
+      </svg>
+    </motion.div>
+  );
+}
+
+function DecorMeasuringTape({ className }: { className: string }) {
+  return (
+    <motion.div
+      className={`decor-el ${className}`}
+      animate={{ y: [0, -10, 0], rotate: [0, 5, 0] }}
+      transition={{ duration: 19, repeat: Infinity, ease: 'easeInOut' }}
+    >
+      <svg width="90" height="90" viewBox="0 0 90 90" fill="none" xmlns="http://www.w3.org/2000/svg">
+        <path
+          d="M15 75 C25 70, 35 35, 50 35 C65 35, 75 65, 80 60 C86 54, 82 25, 65 18 C48 10, 24 16, 16 35 C10 50, 16 68, 30 72"
+          stroke="#f08bab"
+          strokeWidth="1.2"
+          strokeDasharray="4 2"
+        />
+        {[10, 20, 30, 40, 50, 60, 70].map((_, i) => (
+          <circle key={i} cx={22 + i * 8} cy={35 + (i % 2) * 6} r="1" fill="#f08bab" fillOpacity="0.5" />
+        ))}
+      </svg>
+    </motion.div>
+  );
+}
+
+function DecorMannequinSilhouette({ className }: { className: string }) {
+  return (
+    <motion.div
+      className={`decor-el ${className}`}
+      animate={{ y: [0, 12, 0], rotate: [0, -4, 0] }}
+      transition={{ duration: 23, repeat: Infinity, ease: 'easeInOut', delay: 2 }}
+    >
+      <svg width="80" height="130" viewBox="0 0 80 130" fill="none" xmlns="http://www.w3.org/2000/svg">
+        <circle cx="40" cy="10" r="4" stroke="#f08bab" strokeWidth="1" />
+        <path d="M40 14 L40 22" stroke="#f08bab" strokeWidth="1" />
+        <path
+          d="M26 25 C32 22, 48 22, 54 25 C60 35, 56 50, 48 56 C44 59, 44 64, 50 72 C56 80, 54 92, 40 92 C26 92, 24 80, 30 72 C36 64, 36 59, 32 56 C24 50, 20 35, 26 25 Z"
+          stroke="#f08bab"
+          strokeWidth="1.1"
+          fill="none"
+        />
+        <path d="M33 57 Q40 62 47 57" stroke="#f08bab" strokeWidth="1.3" strokeDasharray="2 2" />
+        <path d="M40 24 L40 91" stroke="#f08bab" strokeWidth="0.7" strokeDasharray="3 3" opacity="0.6" />
+        <path d="M40 92 L40 120" stroke="#f08bab" strokeWidth="1" />
+        <path d="M26 125 L40 120 L54 125" stroke="#f08bab" strokeWidth="1.2" strokeLinecap="round" />
+      </svg>
+    </motion.div>
+  );
+}
+
+function DecorTailorScissors({ className }: { className: string }) {
+  return (
+    <motion.div
+      className={`decor-el ${className}`}
+      animate={{ y: [0, -8, 0], rotate: [0, 8, 0] }}
+      transition={{ duration: 16, repeat: Infinity, ease: 'easeInOut', delay: 4 }}
+    >
+      <svg width="75" height="75" viewBox="0 0 75 75" fill="none" xmlns="http://www.w3.org/2000/svg">
+        <ellipse cx="22" cy="56" rx="8" ry="11" transform="rotate(-30 22 56)" stroke="#f08bab" strokeWidth="1.1" />
+        <ellipse cx="52" cy="56" rx="8" ry="11" transform="rotate(30 52 56)" stroke="#f08bab" strokeWidth="1.1" />
+        <path d="M28 48 L56 16" stroke="#f08bab" strokeWidth="1.1" strokeLinecap="round" />
+        <path d="M46 48 L18 16" stroke="#f08bab" strokeWidth="1.1" strokeLinecap="round" />
+        <circle cx="37" cy="35" r="2.2" fill="#f08bab" />
       </svg>
     </motion.div>
   );
@@ -887,12 +2321,16 @@ function DecorFloralMotif({ className }: { className: string }) {
 // ─── MAIN APP ────────────────────────────────────────────────────────────────
 export default function App() {
   const [form, setForm] = useState(false);
+  const [selectedOutfit, setSelectedOutfit] = useState('');
+  const [activeServiceModal, setActiveServiceModal] = useState<ServiceItem | null>(null);
   const [menu, setMenu] = useState(false);
+  const [scrolled, setScrolled] = useState(false);
+  const [activeSection, setActiveSection] = useState('home');
 
   useEffect(() => {
-    document.body.style.overflow = form ? 'hidden' : '';
+    document.body.style.overflow = form || activeServiceModal ? 'hidden' : '';
     return () => { document.body.style.overflow = ''; };
-  }, [form]);
+  }, [form, activeServiceModal]);
 
   // Global smooth scroll interceptor for all in-page # links
   useEffect(() => {
@@ -914,15 +2352,14 @@ export default function App() {
     return () => document.removeEventListener('click', handleAnchorClick);
   }, []);
 
-  const [scrolled, setScrolled] = useState(false);
-  const [activeSection, setActiveSection] = useState('home');
-
   useEffect(() => {
     const handleScroll = () => {
       setScrolled(window.scrollY > 40);
 
       const sectionMap = [
         { id: 'contact', elementId: 'contact' },
+        { id: 'reviews', elementId: 'reviews' },
+        { id: 'about-owner', elementId: 'about-owner' },
         { id: 'gallery', elementId: 'gallery' },
         { id: 'explore-designs', elementId: 'explore-designs' },
         { id: 'services', elementId: 'services' },
@@ -947,7 +2384,12 @@ export default function App() {
     return () => window.removeEventListener('scroll', handleScroll);
   }, []);
 
-  const custom = () => { setMenu(false); setForm(true); };
+  const openCustomWithOutfit = (outfit = '') => {
+    setActiveServiceModal(null);
+    setSelectedOutfit(outfit);
+    setMenu(false);
+    setForm(true);
+  };
 
   const navLinks = [
     { label: 'Home', href: '#home', id: 'home' },
@@ -967,6 +2409,10 @@ export default function App() {
         animate={{ y: 0, opacity: 1 }}
         transition={{ duration: 0.7, ease: [0.16, 1, 0.3, 1] }}
       >
+        {/* Subtle Luxury Glowing Bottom Line */}
+        <div className="header-glow-line" />
+
+        {/* LEFT: Brand Logo */}
         <motion.a
           className="brand"
           href="#home"
@@ -982,7 +2428,8 @@ export default function App() {
           </div>
         </motion.a>
 
-        <nav>
+        {/* CENTER: Clean Navigation Links */}
+        <nav className="header-nav-center">
           {navLinks.map((n, i) => {
             const isActive = activeSection === n.id;
             return (
@@ -992,7 +2439,7 @@ export default function App() {
                 className={isActive ? 'nav-link--active' : ''}
                 initial={{ opacity: 0, y: -8 }}
                 animate={{ opacity: 1, y: 0 }}
-                transition={{ duration: 0.4, delay: 0.2 + i * 0.06 }}
+                transition={{ duration: 0.4, delay: 0.15 + i * 0.04 }}
                 whileHover={{ y: -2 }}
               >
                 <span>{n.label}</span>
@@ -1008,26 +2455,30 @@ export default function App() {
           })}
         </nav>
 
-        <motion.button
-          className="nav-cta"
-          onClick={custom}
-          initial={{ opacity: 0, scale: 0.92 }}
-          animate={{ opacity: 1, scale: 1 }}
-          transition={{ duration: 0.5, delay: 0.65 }}
-          whileHover={{ scale: 1.04, y: -1 }}
-          whileTap={{ scale: 0.97 }}
-        >
-          <Sparkles size={13} className="cta-icon-sparkle" />
-          <span>Start Your Design</span>
-          <ArrowRight size={14} className="cta-icon-arrow" />
-        </motion.button>
+        {/* RIGHT: Clean CTA & Mobile Toggle */}
+        <div className="header-right-actions">
+          <motion.button
+            className="nav-cta"
+            onClick={() => openCustomWithOutfit()}
+            initial={{ opacity: 0, scale: 0.92 }}
+            animate={{ opacity: 1, scale: 1 }}
+            transition={{ duration: 0.5, delay: 0.4 }}
+            whileHover={{ scale: 1.04, y: -1 }}
+            whileTap={{ scale: 0.97 }}
+          >
+            <Sparkles size={13} className="cta-icon-sparkle" />
+            <span>Start Your Design</span>
+            <ArrowRight size={14} className="cta-icon-arrow" />
+          </motion.button>
 
-        <B className="menu" onClick={() => setMenu(!menu)} aria-label="Toggle Navigation Menu">
-          <motion.div animate={{ rotate: menu ? 90 : 0 }} transition={{ duration: 0.2 }}>
-            {menu ? <X size={22} /> : <Menu size={22} />}
-          </motion.div>
-        </B>
+          <B className="menu" onClick={() => setMenu(!menu)} aria-label="Toggle Navigation Menu">
+            <motion.div animate={{ rotate: menu ? 90 : 0 }} transition={{ duration: 0.2 }}>
+              {menu ? <X size={22} /> : <Menu size={22} />}
+            </motion.div>
+          </B>
+        </div>
 
+        {/* Mobile Menu Drawer */}
         <AnimatePresence>
           {menu && (
             <motion.div
@@ -1045,14 +2496,15 @@ export default function App() {
                     onClick={() => setMenu(false)}
                     initial={{ opacity: 0, x: -10 }}
                     animate={{ opacity: 1, x: 0 }}
-                    transition={{ delay: i * 0.05 }}
+                    transition={{ delay: i * 0.04 }}
                     className={activeSection === n.id ? 'mobile-link--active' : ''}
                   >
                     {n.label}
                   </motion.a>
                 ))}
               </div>
-              <B className="mobile-nav-cta" onClick={custom}>
+
+              <B className="mobile-nav-cta" onClick={() => openCustomWithOutfit()}>
                 <Sparkles size={14} /> Start Your Design <ArrowRight size={14} />
               </B>
             </motion.div>
@@ -1066,12 +2518,8 @@ export default function App() {
           <div className="hero-shade" />
           <DecorEmbroideryCircle className="decor-hero-tl" />
           <DecorThreadSpool className="decor-hero-br" />
-          {/* ── Full-image slideshow — one image at a time ── */}
           <HeroSlideshow />
           <div className="hero-copy">
-            {/* <motion.p className="eyebrow" initial={{ opacity: 0, y: 12 }} animate={{ opacity: 1, y: 0 }}> */}
-            {/*   SK FASHION TAILORS */}
-            {/* </motion.p> */}
             <motion.h1 initial={{ opacity: 0, y: 28 }} animate={{ opacity: 1, y: 0 }} transition={{ delay: 0.16 }}>
               Raw fabric.<br />Rare <i>fashion.</i>
             </motion.h1>
@@ -1079,79 +2527,90 @@ export default function App() {
               Bespoke tailoring and custom design, crafted entirely around you.
             </motion.p>
             <motion.div className="actions" initial={{ opacity: 0, y: 12 }} animate={{ opacity: 1, y: 0 }} transition={{ delay: 0.5 }}>
-              <B
-                className="button pink"
-                onClick={() => {
-                  smoothScrollTo('explore-designs', 1350, 70);
-                }}
-              >
-                Explore our designs <ArrowRight size={17} />
+              <ExploreDropdown />
+              <B className="button light" onClick={() => openCustomWithOutfit()}>
+                Create your custom design
               </B>
-              <B className="button light" onClick={custom}>Create your custom design</B>
             </motion.div>
           </div>
           <a className="scroll" href="#about">SCROLL TO EXPLORE <b>↓</b></a>
         </section>
 
-        {/* ── About ── */}
+        {/* ── About Atelier ── */}
         <Section id="about" c="intro">
           <p className="eyebrow pink-text">THE SK EXPERIENCE</p>
           <h2>Crafting fashion,<br /><i>one detail at a time.</i></h2>
           <div className="intro-grid">
             <p>
-              Every garment begins with a conversation. We listen to your vision, understand the
-              occasion, and bring it alive through considered design and precise craftsmanship.
+              Every garment begins with a personal conversation. We listen to your vision, understand the
+              occasion, and bring it alive through considered design, delicate hand embroidery, and precise bespoke tailoring.
             </p>
             <div>
-              {['Personalised stitching', 'Perfect fitting', 'Detailed embroidery', 'Bridal expertise'].map(x => (
+              {[
+                'Personalised stitching',
+                'Perfect fitting by Karuna Kumari',
+                'Detailed Maggam & Aari embroidery',
+                'Saree conversions & pre-pleating',
+                'Skin-safe kids wear'
+              ].map(x => (
                 <span className="tag" key={x}><Sparkles size={14} />{x}</span>
               ))}
             </div>
           </div>
         </Section>
 
-        {/* ── Services ── */}
+        {/* ── Services Section ── */}
         <Section id="services" c="services">
           <DecorBlouseOutline className="decor-services-tr" />
           <DecorEmbroideryCircle className="decor-services-bl" />
           <div className="heading-row">
             <div>
-              <p className="eyebrow pink-text">OUR ATELIER</p>
+              <p className="eyebrow pink-text">OUR ATELIER SERVICES</p>
               <h2>Designed around <i>you.</i></h2>
+              <p className="services-subtitle">
+                Click any service to view design inclusions, fabric options, and bespoke customization details.
+              </p>
             </div>
           </div>
+
           <div className="service-grid">
-            {[
-              'Designer Blouse Stitching', 'Bridal Wear', 'Lehenga Stitching',
-              'Saree Blouses', 'Chudidar & Ethnic Wear', 'Embroidery Work'
-            ].map((x, i) => (
-              <motion.article whileHover={{ y: -6 }} className="service" key={x}>
-                <em>0{i + 1}</em>
-                <Scissors />
-                <h3>{x}</h3>
-                <p>Bespoke craftsmanship made around your unique occasion and style.</p>
+            {servicesData.map(service => (
+              <motion.article
+                whileHover={{ y: -6 }}
+                className="service service-card-interactive"
+                key={service.id}
+                onClick={() => setActiveServiceModal(service)}
+              >
+                <div className="service-card-top-bar">
+                  <em>{service.number}</em>
+                  <span className="service-badge-pill">{service.badge}</span>
+                </div>
+                <Scissors size={24} className="service-card-icon" />
+                <h3>{service.title}</h3>
+                <p>{service.shortDesc}</p>
+                <div className="service-card-footer">
+                  <span className="service-learn-more">
+                    View Service Details <ArrowRight size={14} />
+                  </span>
+                </div>
               </motion.article>
             ))}
           </div>
         </Section>
 
-        {/* ── Explore Our Designs ── */}
+        {/* ── Explore Our Designs / Design Portfolio ── */}
         <ExploreDesigns />
 
         {/* ── Gallery — Shop Showcase ── */}
-        <ShopGallery onCustom={custom} />
+        <ShopGallery />
 
-        {/* ── Meet the Owners ── */}
-        <MeetOwners />
+        {/* ── About the Owner — Karuna Kumari ── */}
+        <AboutOwner />
 
-        {/* ── Custom Design Banner ── */}
-        <section className="custom-banner">
-          <p className="eyebrow">HAVE A VISION?</p>
-          <h2>Let's create something<br /><i>unforgettable.</i></h2>
-          <B className="button pink" onClick={custom}>Create your custom design <ArrowRight /></B>
-        </section>
+        {/* ── Customer Reviews Section (Loved by Our Clients — Google Reviews) ── */}
+        <CustomerReviews />
 
-        {/* ── Contact ── */}
+        {/* ── Contact Section ── */}
         <Section id="contact" c="contact">
           <DecorFloralMotif className="decor-contact-tr" />
           <div>
@@ -1199,19 +2658,19 @@ export default function App() {
         </div>
       </main>
 
+      {/* ── Footer ── */}
       <footer className="site-footer">
         <div className="footer-inner">
-          {/* ── 1. Top Row: Brand & Horizontal Nav + Socials ── */}
           <div className="footer-header-row">
             <div className="footer-brand-box">
               <a className="footer-brand-logo" href="#home">
                 <span className="footer-brand-monogram">SK</span>
                 <div className="footer-brand-text">
                   <span className="footer-brand-name">FASHION TAILORS</span>
-                  </div>
+                </div>
               </a>
               <p className="footer-brand-desc">
-                Bespoke Bridal, Designer Blouse & Haute Couture Studio
+                Bespoke Bridal, Designer Blouse &amp; Haute Couture Studio
               </p>
             </div>
 
@@ -1223,11 +2682,13 @@ export default function App() {
                   { label: 'Services',        href: '#services' },
                   { label: 'Explore Designs', href: '#explore-designs' },
                   { label: 'Shop Gallery',    href: '#gallery' },
+                  { label: 'About Owner',     href: '#about-owner' },
+                  { label: 'Reviews',         href: '#reviews' },
                   { label: 'Custom Enquiry',  href: undefined },
                 ].map(({ label, href }) => (
                   href
                     ? <a key={label} href={href}>{label}</a>
-                    : <button key={label} onClick={custom}>{label}</button>
+                    : <button key={label} onClick={() => openCustomWithOutfit()}>{label}</button>
                 ))}
               </nav>
 
@@ -1245,14 +2706,13 @@ export default function App() {
             </div>
           </div>
 
-          {/* ── 2. Middle Row: Spacious Contact & Location Tiles ── */}
           <div className="footer-cards-grid">
             <div className="footer-card">
               <div className="footer-card-icon"><Sparkles size={18} /></div>
               <div className="footer-card-body">
                 <span className="footer-card-label">Founder &amp; Head Designer</span>
-                <span className="footer-card-value">Mrs. S. K. Gayatri Devi &amp; Team</span>
-                <span className="footer-card-sub">30+ Years of Bespoke Craftsmanship</span>
+                <span className="footer-card-value">Karuna Kumari</span>
+                <span className="footer-card-sub">Fashion School Graduate 2016 · 8+ Years of Bespoke Craft</span>
               </div>
             </div>
 
@@ -1309,16 +2769,32 @@ export default function App() {
             </div>
           </div>
 
-          {/* ── 3. Bottom Row: Copyright & Tagline ── */}
           <div className="footer-bottom-bar">
             <span className="footer-copyright">© 2026 SK Fashion Tailors. All Rights Reserved.</span>
-            <span className="footer-tag">Crafting bespoke bridal & couture elegance, stitch by stitch.</span>
+            <span className="footer-tag">Crafting bespoke bridal &amp; couture elegance, stitch by stitch.</span>
           </div>
         </div>
       </footer>
 
+      {/* ── Service Details Informational Modal ── */}
       <AnimatePresence>
-        {form && <Consultation close={() => setForm(false)} />}
+        {activeServiceModal && (
+          <ServiceDetailModal
+            service={activeServiceModal}
+            onClose={() => setActiveServiceModal(null)}
+            onStartCustom={(outfitKey) => openCustomWithOutfit(outfitKey)}
+          />
+        )}
+      </AnimatePresence>
+
+      {/* ── Consultation Modal ── */}
+      <AnimatePresence>
+        {form && (
+          <Consultation
+            initialOutfit={selectedOutfit}
+            close={() => setForm(false)}
+          />
+        )}
       </AnimatePresence>
     </>
   );
