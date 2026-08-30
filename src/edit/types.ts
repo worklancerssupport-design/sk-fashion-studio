@@ -1,0 +1,27 @@
+export interface DesignCategory {
+  id: string;
+  label: string;
+  desc: string;
+  layout: string;
+  images: string[];
+  subcategories?: string[];
+}
+
+export interface DesignsData {
+  categories: DesignCategory[];
+  navLabels: Record<string, string>;
+}
+
+export interface EditHook<T> {
+  originalData: T | null;
+  editData: T | null;
+  sha: string;
+  loading: boolean;
+  saving: boolean;
+  error: string | null;
+  hasChanges: boolean;
+  refresh: () => void;
+  save: () => Promise<void>;
+  discard: () => void;
+  updateEditData: (updater: (draft: T) => void) => void;
+}

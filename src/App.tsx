@@ -1,4 +1,5 @@
 import React, { useEffect, useRef, useState } from 'react';
+import { Routes, Route } from 'react-router-dom';
 import { AnimatePresence, motion } from 'framer-motion';
 import {
   AlertCircle, ArrowRight, Check, CheckCircle2, ChevronDown, ChevronLeft, ChevronRight,
@@ -8,6 +9,15 @@ import {
 } from 'lucide-react';
 import { jsPDF } from 'jspdf';
 import { fetchGoogleReviews, GooglePlaceDetails, fallbackPlaceData } from './services/googleReviews';
+import EditPage from './edit/EditPage';
+import servicesData from './data/services.json';
+import { categories as designCategories, navLabels as navLabelsRaw } from './data/designs.json';
+
+const navLabels: Record<string, string> = navLabelsRaw;
+import shopPhotos from './data/shopPhotos.json';
+import heroSlides from './data/heroSlides.json';
+import consultationChoices from './data/consultationChoices.json';
+import contactData from './data/contact.json';
 
 // ─── Helpers ────────────────────────────────────────────────────────────────
 const img = (id: string, w = 900) =>
@@ -81,375 +91,11 @@ interface ServiceItem {
   outfitKey: string;
 }
 
-const servicesData: ServiceItem[] = [
-  {
-    id: 'bridal-blouses',
-    number: '01',
-    title: 'Bridal Blouses & Couture',
-    badge: 'Signature Bridal',
-    shortDesc: 'Bespoke bridal blouses with heavy Maggam, Aari embroidery, zardosi, and precision armhole shaping.',
-    image: 'https://i.pinimg.com/originals/b3/f6/6d/b3f66da77bb5d1b9e685a34ae521a17e.jpg',
-    fullDesc: 'Custom-designed bridal blouses crafted according to your saree, occasion, personal style, embroidery preferences, and fitting requirements. Every blouse is personally patterned and fitted by Karuna Kumari.',
-    whatsIncluded: [
-      'Personal design consultation & neckline styling',
-      'Intricate Aari, Maggam, Zardosi & stone embroidery',
-      'Dual padded lining & structure reinforcement',
-      'Two measurement trial sessions prior to final delivery',
-      'Handmade designer latkans / tassel detailing'
-    ],
-    suitableOccasions: ['Muhurtham', 'Reception', 'Engagement (Nichayathartham)', 'Sangeet & Haldi'],
-    customizationOptions: [
-      'Neck cuts: Boat neck, Sweetheart, Deep U, Sheer back, High collar',
-      'Sleeve styles: Elbow length, Cap sleeves, Full sheer sleeves, Puff sleeves',
-      'Work intensity: Delicate borders to heavy all-over royal bridal embroidery',
-      'Personalized couple monogram & wedding date embroidery'
-    ],
-    outfitKey: 'Bridal Blouse',
-  },
-  {
-    id: 'designer-blouses',
-    number: '02',
-    title: 'Designer Blouse Stitching',
-    badge: 'Trending Styles',
-    shortDesc: 'Modern and contemporary blouse patterns tailored to complement any party wear or silk saree drape.',
-    image: 'https://global.indiansilkhouseagencies.com/cdn/shop/files/BL601167LAVENDER-2_700x.jpg?v=1763364490',
-    fullDesc: 'Elevate your festive look with perfectly tailored designer blouses. From backless silhouettes and halter cuts to vintage Peter Pan collars and contrast piping, we create styles that celebrate your individuality.',
-    whatsIncluded: [
-      'Contemporary cut styling & darts alignment',
-      'Premium soft cotton inner lining (breathable & anti-chafing)',
-      'Clean concealed seam finishing',
-      'High-grade cups & invisible zip closures'
-    ],
-    suitableOccasions: ['Cocktail Parties', 'Festivals & Poojas', 'Family Functions', 'Casual Silk Draping'],
-    customizationOptions: [
-      'Backless with tie-up cords, Princess cuts, Corset fits',
-      'Fabric play: Organza, Raw Silk, Brocade, Velvet & Chiffon',
-      'Piping in contrast metallic or silk piping'
-    ],
-    outfitKey: 'Designer Blouse',
-  },
-  {
-    id: 'lehenga-designs',
-    number: '03',
-    title: 'Lehenga Stitching & Choli',
-    badge: 'Grand Silhouettes',
-    shortDesc: 'Bridal and festive lehenga tailoring featuring grand umbrella flares, can-can layers, and designer blouses.',
-    image: 'https://www.trendbuy.co.in/cdn/shop/files/New_Trending_Design_Bridal_Lehenga_Choli.jpg?v=1743833178',
-    fullDesc: 'Stunning lehenga cholis tailored for maximum elegance and movement. We construct circular umbrella flares with multi-tier can-can netting, personalized waistbands, and custom-styled matching dupattas.',
-    whatsIncluded: [
-      'Full circular / kalidar flare stitching with can-can padding',
-      'Custom choli blouse tailoring with supportive structure',
-      'Dupatta border attachment & decorative tassel finishing',
-      'Waist drawstring with concealed heavy-duty zip'
-    ],
-    suitableOccasions: ['Bridal Trousseau', 'Reception Nights', 'Sangeet Choreography', 'Mehendi Celebrations'],
-    customizationOptions: [
-      'Flare volume: 4-meter, 6-meter, or 8-meter umbrella kalis',
-      'Blouse: Crop top, peplum choli, sweetheart corset',
-      'Tiered ruffles, velvet borders, and scallop dupatta edges'
-    ],
-    outfitKey: 'Lehenga',
-  },
-  {
-    id: 'saree-pre-pleating',
-    number: '04',
-    title: 'Saree Pre-Pleating & Draping',
-    badge: 'Effortless Draping',
-    shortDesc: 'Crisply ironed, pre-pleated, and pinned sarees for hassle-free 2-minute draping on busy event days.',
-    image: 'https://i.pinimg.com/736x/a8/80/a5/a880a50976d2727f67ca983e8454a50d.jpg',
-    fullDesc: 'Eliminate the stress of saree draping. We professionally steam-press, measure, pre-pleat, and secure your saree pleats so you can step into your drape in under two minutes with immaculate pallu alignment.',
-    whatsIncluded: [
-      'Precise waist pleat measuring and crisp steam pressing',
-      'Pallu pleating adjusted to your exact height and shoulder fit',
-      'Invisible safety locking & discreet pinning',
-      'Delivered ready-to-wear on a premium custom hanger'
-    ],
-    suitableOccasions: ['Early Morning Muhurthams', 'Stage Performances', 'Travel & Destination Weddings', 'Photo Shoots'],
-    customizationOptions: [
-      'Pleat count preference (3, 4, 5, or 6 pleats)',
-      'Traditional South Indian box pleats or sleek contemporary pleats',
-      'Gujarati front-pallu or classic seedha pallu setting'
-    ],
-    outfitKey: 'Saree Pre-Pleating',
-  },
-  {
-    id: 'saree-conversion',
-    number: '05',
-    title: 'Saree Conversion & Upcycling',
-    badge: 'Heritage Redesign',
-    shortDesc: 'Bring your treasured sarees and convert them into modern Chudidars, Lehengas, Gowns, or Kurthis.',
-    image: 'https://i.pinimg.com/736x/d7/9f/d7/d79fd7f8383b7ac17ce012ce0d6519ca.jpg',
-    fullDesc: 'Preserve the sentimental value of your mother’s or grandmother’s silk sarees by converting them into chic contemporary outfits. We carefully incorporate the vintage zari borders into modern silhouettes.',
-    whatsIncluded: [
-      'Comprehensive design restyling consultation',
-      'Careful preservation and reuse of authentic zari borders & pallu',
-      'High-grade inner lining matched to fabric weight',
-      'Custom pattern drafting for optimal fabric utilization'
-    ],
-    suitableOccasions: ['Anniversaries', 'Festive Celebrations', 'Family Gatherings', 'Heirloom Keepsakes'],
-    customizationOptions: [
-      'Saree to Chudidar / Anarkali Suit',
-      'Saree to Lehenga Skirt & Crop Blouse',
-      'Saree to Indo-Western Evening Gown',
-      'Saree to A-line Long Kurthi with Palazzo'
-    ],
-    outfitKey: 'Saree Conversion',
-  },
-  {
-    id: 'one-minute-saree',
-    number: '06',
-    title: 'One Minute Saree (Ready-to-Wear)',
-    badge: 'Modern Convenience',
-    shortDesc: 'Pre-stitched ready-to-wear sarees with tailored waistbands and pre-set pleats for instant perfection.',
-    image: 'https://i.pinimg.com/736x/45/65/45/456545090710842f223c7c8ba387452a.jpg',
-    fullDesc: 'Experience the beauty of a saree with the simplicity of a skirt. Our One Minute Saree is custom-stitched with an adjustable hook-and-bar waistband, pre-set waist pleats, and draped pallu.',
-    whatsIncluded: [
-      'Custom waistband with multi-level adjustable hooks',
-      'Pre-stitched pleated fall that never slips or bunches',
-      'Pre-aligned pallu length tailored to your exact height',
-      'No underskirt bulkiness for an ultra-flattering slimming drape'
-    ],
-    suitableOccasions: ['Cocktail Receptions', 'Corporate Gatherings', 'Quick Change Functions', 'Farewells & Graduations'],
-    customizationOptions: [
-      'Belt loop additions for embellished waist belts',
-      'Front slit variations for contemporary Indo-Western looks',
-      'Adjustable hook sizing (up to 3 inches allowance)'
-    ],
-    outfitKey: 'One Minute Saree',
-  },
-  {
-    id: 'kids-wear',
-    number: '07',
-    title: 'Kids Collection & Pattu Pavadai',
-    badge: 'Soft & Child-Safe',
-    shortDesc: 'Pattu Pavadai, mini lehengas, and celebration gowns made with ultra-soft baby lining and zero-itch seams.',
-    image: 'https://i.pinimg.com/736x/75/0e/6a/750e6a3f46660c249889441d6969c9c4.jpg',
-    fullDesc: 'Traditional and festive attire designed specifically for young girls. Crafted with ultra-soft, skin-friendly cotton lining and gentle enclosed seams so your little ones stay joyful and comfortable all day.',
-    whatsIncluded: [
-      '100% soft breathable pure cotton lining (zero itching)',
-      'Growing seam allowances for easy future resizing',
-      'Comfort-fit elasticated waistbands and soft snap fasteners',
-      'Matching baby hair accessories and tassel cords'
-    ],
-    suitableOccasions: ['Birthdays', 'Ear Piercing / Ayushya Homam', 'Diwali & Pongal Festivals', 'Weddings & Receptions'],
-    customizationOptions: [
-      'Traditional Pattu Pavadai with contrast zari borders',
-      'Kids designer lehenga with soft net can-can',
-      'Princess flare gowns with feather or floral applique'
-    ],
-    outfitKey: 'Kids Wear',
-  },
-  {
-    id: 'embroidery-work',
-    number: '08',
-    title: 'Hand Embroidery & Aari Work',
-    badge: 'Artisanal Craft',
-    shortDesc: 'Intricate Maggam, Zardosi, cutwork, stone work, and custom motifs handcrafted with artisan precision.',
-    image: 'https://i.pinimg.com/736x/ce/11/a6/ce11a64f821dd3de4884baba6b23b5c1.jpg',
-    fullDesc: 'Every thread tells a story of dedication. Our skilled artisans craft bespoke Aari embroidery, metallic Zardosi, pearl beading, and stone embellishments designed around your saree borders and jewelry.',
-    whatsIncluded: [
-      'Original hand-drawn motif tracing and design approval',
-      'High-grade non-tarnishing metallic zari & Swarovski stones',
-      'Reinforced knotting technique for lifelong durability',
-      'Seamless border matching on necklines, sleeves, and back'
-    ],
-    suitableOccasions: ['Bridal Trousseau', 'Grand Anniversaries', 'Milestone Celebrations', 'Heirloom Garments'],
-    customizationOptions: [
-      'Peacock, floral creeper, temple idol, and lotus motifs',
-      'Cutwork and mesh net back designs with stone lattices',
-      'Antique gold, silver, rose gold, or antique copper zari'
-    ],
-    outfitKey: 'Embroidery Work',
-  },
-];
-
 // ─── EXPLORE DESIGNS DATA ────────────────────────────────────────────────────
-const designCategories = [
-  {
-    id: 'bridal-blouses',
-    label: 'Bridal Blouses',
-    desc: 'Premium bridal blouse designs with heavy embroidery, stone work, and detailed craftsmanship — made for your most important day.',
-    layout: 'feature-left',
-    images: [
-      'https://i.pinimg.com/originals/b3/f6/6d/b3f66da77bb5d1b9e685a34ae521a17e.jpg',
-      'https://i.pinimg.com/736x/57/19/88/57198834376e8a889039341a69d92e51.jpg',
-      'https://www.anantexports.in/cdn/shop/files/IMG-20240908-WA0106.jpg',
-      'https://hyderabad.ksethnic.com/blouse/2024/12/WhatsApp-Image-2024-12-08-at-7.32.05-PM.jpeg',
-      'https://hyderabad.ksethnic.com/blouse/2025/08/peach-peacock-designer-maggam-work-grand-blouse-latest-bridal-wedding-blouse-design-1.webp',
-      'https://stylishladiestailoring.com/wp-content/uploads/2026/06/vibrant-kerala-bridal-aari-blouse-back-view.webp',
-    ],
-  },
-  {
-    id: 'designer-blouses',
-    label: 'Designer Blouses',
-    desc: 'Modern, traditional, and custom blouse designs tailored to suit every personality, neckline preference, and style.',
-    layout: 'triple-grid',
-    images: [
-      'https://global.indiansilkhouseagencies.com/cdn/shop/files/BL601167LAVENDER-2_700x.jpg?v=1763364490',
-      'https://i.pinimg.com/1200x/cb/c3/8c/cbc38c4b654891bb69b293821617db36.jpg',
-      'https://i.pinimg.com/736x/84/70/4e/84704e1976bd2e5eac84d53cab09b232.jpg',
-      'https://amodinistudio.in/cdn/shop/files/DSC6741.jpg?v=1735018118',
-      'https://m.media-amazon.com/images/I/71j15SvuImL._AC_UY350_.jpg',
-    ],
-  },
-  {
-    id: 'lehenga-designs',
-    label: 'Lehenga Designs',
-    desc: 'Bridal, traditional, and designer lehenga stitching styles — from grand bridal flares to contemporary silhouettes.',
-    layout: 'editorial-right',
-    images: [
-      'https://www.trendbuy.co.in/cdn/shop/files/New_Trending_Design_Bridal_Lehenga_Choli.jpg?v=1743833178',
-      'https://i.pinimg.com/originals/a0/bd/b8/a0bdb8e3682b9dcbb6841484da170f11.jpg',
-      'https://media.samyakk.com/pub/media/catalog/product/d/a/dark-red-umbrella-style-silk-bridal-lehenga-with-v-neck-blouse-gf3472.jpg',
-      'https://assets0.mirraw.com/images/13551893/image_original_long_webp.webp?1759401359',
-      'https://i0.wp.com/www.womansplaza.com/wp-content/uploads/2024/07/DT124.webp?ssl=1',
-      'https://img.perniaspopupshop.com/catalog/product/l/p/lpkc062213.jpg?impolicy=detailimageprod',
-    ],
-  },
-  {
-    id: 'reception-designs',
-    label: 'Reception Designs',
-    desc: 'Elegant and modern outfits curated for receptions and special evening events — refined, graceful, and unforgettable.',
-    layout: 'triple-grid',
-    images: [
-      'https://i.pinimg.com/1200x/38/0f/dc/380fdcf5dc8a36c295ccb1bf29a67329.jpg',
-      'https://i.pinimg.com/736x/e4/1b/ca/e41bca7414bfd57b037ebf06c73ddd98.jpg',
-      'https://i.pinimg.com/736x/75/75/4e/75754e69b454b41fc4e755d2e518749b.jpg',
-      'https://i.pinimg.com/736x/14/da/92/14da92895c29374cfd6056ec561f1204.jpg',
-      'https://i.pinimg.com/736x/43/ae/de/43aede95862d946d9b084e19a10f60d4.jpg',
-    ],
-  },
-  {
-    id: 'saree-pre-pleating',
-    label: 'Saree Pre-Pleating',
-    desc: 'Crisply ironed and professionally pre-pleated sarees designed for effortless, graceful draping in under two minutes.',
-    layout: 'triple-grid',
-    images: [
-      'https://i.pinimg.com/736x/a8/80/a5/a880a50976d2727f67ca983e8454a50d.jpg',
-      'https://i.pinimg.com/1200x/10/58/5b/10585b339b931b416aa3ae2856f57dc7.jpg',
-      'https://i.pinimg.com/736x/8f/d1/0a/8fd10acee9683ea26db0983cc13a70e8.jpg',
-      'https://i.pinimg.com/1200x/f7/bb/dc/f7bbdc0f23f3b487bc30ea261e592ebe.jpg',
-    ],
-  },
-  {
-    id: 'saree-conversion',
-    label: 'Saree Conversion',
-    desc: 'Transform your precious saree materials into stunning Chudidars, Lehengas, Indo-Western Gowns, or Kurthis while preserving heritage borders.',
-    subcategories: ['Saree to Chudidar', 'Saree to Lehenga', 'Saree to Gown', 'Saree to Kurthi'],
-    layout: 'conversion-grid',
-    images: [
-      'https://i.pinimg.com/736x/d7/9f/d7/d79fd7f8383b7ac17ce012ce0d6519ca.jpg',
-      'https://i.pinimg.com/736x/12/8f/44/128f44acf8c8a78922c3204392ae9d80.jpg',
-      'https://i.pinimg.com/736x/ef/3e/97/ef3e97d8d1cd5b1c04638dc1501a7023.jpg',
-      'https://i.pinimg.com/1200x/f5/9e/1e/f59e1eae7f5adfdb3fbb1dfdf581c37d.jpg',
-      'https://i.pinimg.com/1200x/b3/e8/88/b3e888ec2fa23fecc31b89afcfc173b3.jpg',
-    ],
-  },
-  {
-    id: 'one-minute-saree',
-    label: 'One Minute Saree',
-    desc: 'Ready-to-wear pre-stitched sarees with customized waistbands and immaculate pleats for instant luxury and supreme comfort.',
-    layout: 'feature-left',
-    images: [
-      'https://i.pinimg.com/736x/45/65/45/456545090710842f223c7c8ba387452a.jpg',
-      'https://5.imimg.com/data5/SELLER/Default/2025/12/567702007/MA/HC/PO/102721331/ready-to-wear-one-minute-party-wear-saree.jpg',
-      'https://i.pinimg.com/1200x/40/cc/07/40cc07310681d24c3917f7aa52870f96.jpg',
-      'https://global.indiansilkhouseagencies.com/cdn/shop/files/BL601167LAVENDER-2_700x.jpg?v=1763364490',
-      'https://i.pinimg.com/736x/73/a5/f7/73a5f73f221da11303dadc2bb4fe5567.jpg',
-    ],
-  },
-  {
-    id: 'kids-collection',
-    label: 'Kids Collection',
-    desc: 'Charming Pattu Pavadais, festive kids lehengas, and party gowns tailored with ultra-soft baby lining for joyful celebrations.',
-    subcategories: ['Pattu Pavadai', 'Kids Lehenga', 'Kids Gowns'],
-    layout: 'editorial-right',
-    images: [
-      'https://i.pinimg.com/736x/75/0e/6a/750e6a3f46660c249889441d6969c9c4.jpg',
-      'https://i.pinimg.com/736x/b1/4a/16/b14a163796c90d1010dcd3f1ca594056.jpg',
-      'https://i.pinimg.com/736x/14/2f/5c/142f5c5a5341fe49f67fb23b6a7ac5f7.jpg',
-      'https://i.pinimg.com/736x/5f/06/09/5f060985deead9a704df7364cfc44dbe.jpg',
-      'https://i.pinimg.com/736x/a5/20/c7/a520c7c3556bf2d7d4991abe74019214.jpg',
-    ],
-  },
-  {
-    id: 'embroidery-works',
-    label: 'Embroidery Works',
-    desc: 'Detailed embroidery including thread work, stone work, bead work, bridal embroidery, and custom patterns — each piece a labour of love.',
-    layout: 'triple-grid',
-    images: [
-      'https://i.pinimg.com/736x/ce/11/a6/ce11a64f821dd3de4884baba6b23b5c1.jpg',
-      'https://i.pinimg.com/1200x/24/17/d4/2417d49172bcd14159251ea79c66828f.jpg',
-      'https://viaanadesignerstudio.com/wp-content/uploads/2024/07/IMG_0681-scaled.jpg',
-      'https://i.pinimg.com/736x/e8/df/85/e8df85e67ac841576e4213b6de725a22.jpg',
-      'https://viaanadesignerstudio.com/wp-content/uploads/2024/12/img_9642-scaled.jpeg',
-    ],
-  },
-  {
-    id: 'chudidar-works',
-    label: 'Chudidar Works',
-    desc: 'Custom stitched and designer chudidar collections — comfortable, stylish, and made precisely for your silhouette.',
-    layout: 'triple-grid',
-    images: [
-      'https://i.pinimg.com/736x/40/a4/9e/40a49eb2fd21506641abb8c5a0961e3b.jpg',
-      'https://cdn.shopify.com/s/files/1/0593/9616/1590/files/partnerimages_3ce2ce7b_04-10-2023-01532.jpg?v=1712832183',
-      'https://assets.myntassets.com/dpr_1.5,q_60,w_400,c_limit,fl_progressive/assets/images/2024/OCTOBER/16/IJV7f7KX_2c67021049694df4848b7c99bd3f8e6b.jpg',
-      'https://i.pinimg.com/736x/82/30/05/823005eb0c6c8d2594fe68f3ce7bebec.jpg',
-      'https://www.lashkaraa.com/cdn/shop/files/dusty-green-embroidered-satin-straight-suit-7363508.png?v=1773720030&width=1091',
-    ],
-  },
-];
-
-const navLabels: Record<string, string> = {
-  'bridal-blouses': 'Bridal Blouses',
-  'designer-blouses': 'Designer Blouses',
-  'lehenga-designs': 'Lehengas',
-  'reception-designs': 'Reception',
-  'saree-pre-pleating': 'Pre-Pleating',
-  'saree-conversion': 'Saree Conversion',
-  'one-minute-saree': '1-Min Saree',
-  'kids-collection': 'Kids Wear',
-  'embroidery-works': 'Embroidery',
-  'chudidar-works': 'Chudidars',
-};
 
 // ─── GALLERY DATA (shop / boutique photos only) ─────────────────────────────
-const shopPhotos = [
-  {
-    title: 'Our Boutique',
-    tag: 'Boutique Exterior',
-    url: 'https://images.unsplash.com/photo-1558769132-cb1aea458c5e?auto=format&fit=crop&w=1400&q=85',
-  },
-  {
-    title: 'Inside SK Fashion Tailors',
-    tag: 'Showroom & Mannequins',
-    url: 'https://images.unsplash.com/photo-1528698827591-e19ccd7bc23d?auto=format&fit=crop&w=900&q=85',
-  },
-  {
-    title: 'A Space Made for You',
-    tag: 'Studio Ambiance',
-    url: 'https://images.unsplash.com/photo-1556742400-b5b7a512a8c2?auto=format&fit=crop&w=900&q=85',
-  },
-  {
-    title: 'Where Every Design Begins',
-    tag: 'Craftsmanship & Stitching',
-    url: 'https://images.unsplash.com/photo-1518895312237-a9e23508077d?auto=format&fit=crop&w=1200&q=85',
-  },
-  {
-    title: 'Crafted With Care',
-    tag: 'Fabrics & Swatches',
-    url: 'https://images.unsplash.com/photo-1620799140408-edc6dcb6d633?auto=format&fit=crop&w=1200&q=85',
-  },
-];
 
 // ─── HERO SLIDESHOW ──────────────────────────────────────────────────────────
-const heroSlides = [
-  'https://i.pinimg.com/1200x/e9/f4/9a/e9f49a11717c94b60662edfe43c8b20b.jpg',
-  'https://images.pexels.com/photos/37054326/pexels-photo-37054326.jpeg?auto=compress&cs=tinysrgb&w=1600&h=900&fit=crop',
-  'https://i.pinimg.com/1200x/a5/3c/0d/a53c0d145bc607f516eb929d0689f874.jpg',
-  'https://i.pinimg.com/736x/73/a5/f7/73a5f73f221da11303dadc2bb4fe5567.jpg',
-  'https://images.pexels.com/photos/32503225/pexels-photo-32503225.jpeg?auto=compress&cs=tinysrgb&w=1600&h=900&fit=crop',
-];
 
 function HeroSlideshow() {
   const [current, setCurrent] = useState(0);
@@ -913,6 +559,7 @@ function ShopGallery() {
   }, [light]);
 
   return (
+    <>
     <section id="gallery" className="space-gallery-section">
       {/* Subtle fashion-related decorative elements (absolute positioned) */}
       <DecorThreadSpool className="decor-space-tl" />
@@ -1098,6 +745,7 @@ function ShopGallery() {
         )}
       </AnimatePresence>
     </section>
+    </>
   );
 }
 
@@ -1521,7 +1169,7 @@ function generateBrandedPDF(data: ConsultationFormData) {
     footerY + 9.2
   );
   doc.text(
-    'Address: 30A, Sheshadripuram 1st Main Rd, Velachery, Chennai - 600042 · WhatsApp: +91 98840 16637',
+    `Address: ${contactData.address} · WhatsApp: ${contactData.phone}`,
     margin,
     footerY + 13.5
   );
@@ -1531,7 +1179,7 @@ function generateBrandedPDF(data: ConsultationFormData) {
 }
 
 function buildWhatsAppUrl(data: ConsultationFormData): string {
-  const ownerNumber = (import.meta.env.VITE_OWNER_WHATSAPP_NUMBER || '919884016637').replace(/[^0-9]/g, '');
+  const ownerNumber = (import.meta.env.VITE_OWNER_WHATSAPP_NUMBER || contactData.phoneDigits).replace(/[^0-9]/g, '');
 
   const message = `Hello SK Fashion Tailors 👋
 
@@ -1606,63 +1254,7 @@ function Consultation({
     'Review & Submit',
   ];
 
-  const choices: Record<number, string[]> = {
-    1: [
-      'Bridal Blouse',
-      'Designer Blouse',
-      'Lehenga Stitching & Choli',
-      'Saree Pre-Pleating & Draping',
-      'Saree Conversion & Upcycling',
-      'One Minute Saree (Ready-to-Wear)',
-      'Kids Collection & Pattu Pavadai',
-      'Hand Embroidery & Aari Work',
-      'Wedding / Reception Outfit',
-      'Custom Bespoke Creation',
-    ],
-    2: [
-      'Wedding / Muhurtham',
-      'Reception / Sangeet',
-      'Engagement / Ring Ceremony',
-      'Festival / Temple Pooja',
-      'Birthday / Milestone Celebration',
-      'Cocktail / Evening Party',
-      'Casual / Everyday Elegance',
-    ],
-    3: [
-      'Traditional Heritage & Royal',
-      'Modern Chic & Contemporary',
-      'Minimalist Understated Elegance',
-      'Heavy Bridal Grandeur',
-      'Indo-Western Fusion Flare',
-      'Custom Pattern Reference',
-    ],
-    4: [
-      'No Embroidery (Clean Concealed Finishing)',
-      'Light Border & Neckline Embroidery',
-      'Heavy Maggam & Aari Handwork',
-      'Zardosi, Stones & Pearl Beading',
-      'Cutwork & Sheer Net Embellishments',
-      'Customized Artwork / Motifs',
-    ],
-    5: [
-      'I will provide my own fabric / saree',
-      'I am upcycling / converting an existing silk saree',
-      'I need fabric selection & sourcing assistance',
-      'Fabric already purchased, needs styling guidance',
-    ],
-    6: [
-      'In-Studio Fitting (Personal measurement by Karuna Kumari)',
-      'I will provide my exact measurements online',
-      'I will send a best-fitting sample garment',
-      'Schedule a private video measurement consultation',
-    ],
-    7: [
-      'Urgent / Express (Within 3–5 Days)',
-      'Standard (1–2 Weeks)',
-      'Relaxed (2–4 Weeks)',
-      'Wedding Date / Specific Event Date (Flexible)',
-    ],
-  };
+  const choices: Record<number, string[]> = consultationChoices as Record<number, string[]>;
 
   const stepKeyMap: Record<number, keyof ConsultationFormData> = {
     1: 'outfit',
@@ -2401,6 +1993,9 @@ export default function App() {
   ];
 
   return (
+    <Routes>
+      <Route path="/edit" element={<EditPage />} />
+      <Route path="/" element={
     <>
       {/* ── Header ── */}
       <motion.header
@@ -2616,7 +2211,7 @@ export default function App() {
             <p>We would love to hear about your next special outfit. Come visit us or reach out directly.</p>
             <a
               className="button dark"
-              href="https://www.google.com/maps/dir/?api=1&destination=B+Park+Avenue+Street%2C+30A%2C+Sheshadripuram+1st+Main+Rd%2C+Seshadripuram%2C+Velachery%2C+Chennai%2C+Tamil+Nadu+600042"
+              href={contactData.mapsDirectionsUrl}
               target="_blank"
               rel="noreferrer"
             >
@@ -2627,14 +2222,14 @@ export default function App() {
             <p>
               <span><MapPin /></span>
               <span>
-                B Park Avenue Street, 30A Sheshadripuram 1st Main Rd, Seshadripuram, Velachery, Chennai, Tamil Nadu, 600042
+                {contactData.address}
               </span>
             </p>
-            <a href="tel:+919884016637">
+            <a href={`tel:${contactData.phoneDigits}`}>
               <Phone />
-              <span>+91 98840 16637<small>Call us — Mon to Sat, 10:30 AM – 8:30 PM</small></span>
+              <span>{contactData.phone}<small>Call us — {contactData.workingHours}</small></span>
             </a>
-            <a href="https://www.instagram.com/sk_fashion_studio/" target="_blank" rel="noreferrer" aria-label="Follow SK Fashion Studio on Instagram">
+            <a href={contactData.instagram} target="_blank" rel="noreferrer" aria-label="Follow SK Fashion Studio on Instagram">
               <Instagram /> Follow us on Instagram
             </a>
           </div>
@@ -2644,7 +2239,7 @@ export default function App() {
         <div className="map-embed-wrapper">
           <iframe
             title="SK Fashion Tailors Location"
-            src="https://www.google.com/maps?q=B+Park+Avenue+Street,+30A,+Sheshadripuram+1st+Main+Rd,+Seshadripuram,+Velachery,+Chennai,+Tamil+Nadu+600042&output=embed"
+            src={contactData.mapsEmbedUrl}
             width="100%"
             height="420"
             style={{ border: 0, display: 'block' }}
@@ -2690,13 +2285,13 @@ export default function App() {
               </nav>
 
               <div className="footer-social-icons">
-                <a href="https://www.instagram.com/sk_fashion_studio/" target="_blank" rel="noreferrer" aria-label="Follow SK Fashion Studio on Instagram" title="Follow us on Instagram">
+                <a href={contactData.instagram} target="_blank" rel="noreferrer" aria-label="Follow SK Fashion Studio on Instagram" title="Follow us on Instagram">
                   <Instagram size={17} />
                 </a>
-                <a href="https://wa.me/919884016637" target="_blank" rel="noreferrer" aria-label="WhatsApp" title="Chat on WhatsApp">
+                <a href={contactData.whatsapp} target="_blank" rel="noreferrer" aria-label="WhatsApp" title="Chat on WhatsApp">
                   <MessageCircle size={17} />
                 </a>
-                <a href="tel:+919884016637" aria-label="Call SK Fashion Tailors" title="Call Atelier">
+                <a href={`tel:${contactData.phoneDigits}`} aria-label="Call SK Fashion Tailors" title="Call Atelier">
                   <Phone size={17} />
                 </a>
               </div>
@@ -2713,29 +2308,29 @@ export default function App() {
               </div>
             </div>
 
-            <a href="tel:+919884016637" className="footer-card footer-card--clickable">
+            <a href={`tel:${contactData.phoneDigits}`} className="footer-card footer-card--clickable">
               <div className="footer-card-icon"><Phone size={18} /></div>
               <div className="footer-card-body">
                 <span className="footer-card-label">Phone Consultation</span>
-                <span className="footer-card-value">+91 98840 16637</span>
-                <span className="footer-card-sub">Mon – Sat: 10:30 AM – 8:30 PM</span>
+                <span className="footer-card-value">{contactData.phone}</span>
+                <span className="footer-card-sub">{contactData.workingHours}</span>
               </div>
             </a>
 
-            <a href="https://wa.me/919884016637" target="_blank" rel="noreferrer" className="footer-card footer-card--clickable">
+            <a href={contactData.whatsapp} target="_blank" rel="noreferrer" className="footer-card footer-card--clickable">
               <div className="footer-card-icon"><MessageCircle size={18} /></div>
               <div className="footer-card-body">
                 <span className="footer-card-label">WhatsApp Studio</span>
-                <span className="footer-card-value">+91 98840 16637</span>
+                <span className="footer-card-value">{contactData.phone}</span>
                 <span className="footer-card-sub">Instant Design Quotes &amp; Queries</span>
               </div>
             </a>
 
-            <a href="mailto:bespoke@skfashiontailors.in" className="footer-card footer-card--clickable">
+            <a href={`mailto:${contactData.email}`} className="footer-card footer-card--clickable">
               <div className="footer-card-icon"><Heart size={18} /></div>
               <div className="footer-card-body">
                 <span className="footer-card-label">Email Atelier</span>
-                <span className="footer-card-value">bespoke@skfashiontailors.in</span>
+                <span className="footer-card-value">{contactData.email}</span>
                 <span className="footer-card-sub">Send References &amp; Fabric Details</span>
               </div>
             </a>
@@ -2746,7 +2341,7 @@ export default function App() {
                 <span className="footer-card-label">Boutique Studio</span>
                 <span className="footer-card-value">30A, Sheshadripuram 1st Main Rd, Chennai</span>
                 <a
-                  href="https://www.google.com/maps/dir/?api=1&destination=B+Park+Avenue+Street%2C+30A%2C+Sheshadripuram+1st+Main+Rd%2C+Seshadripuram%2C+Velachery%2C+Chennai%2C+Tamil+Nadu+600042"
+                  href={contactData.mapsDirectionsUrl}
                   target="_blank"
                   rel="noreferrer"
                   className="footer-card-link"
@@ -2760,8 +2355,8 @@ export default function App() {
               <div className="footer-card-icon"><Scissors size={18} /></div>
               <div className="footer-card-body">
                 <span className="footer-card-label">Working Hours</span>
-                <span className="footer-card-value">Mon – Sat: 10:30 AM – 8:30 PM</span>
-                <span className="footer-card-sub">Sundays by Prior Appointment</span>
+                <span className="footer-card-value">{contactData.workingHours}</span>
+                <span className="footer-card-sub">{contactData.workingHoursNote}</span>
               </div>
             </div>
           </div>
@@ -2794,5 +2389,7 @@ export default function App() {
         )}
       </AnimatePresence>
     </>
+      } />
+    </Routes>
   );
 }

@@ -1,0 +1,1036 @@
+/* ─── Edit Console Styles ─────────────────────────────────────────────────── */
+
+/* Reset edit panel styles to avoid conflicts with main site */
+.edit-shell,
+.edit-shell *,
+.edit-login-wrapper,
+.edit-login-wrapper * {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+}
+
+/* ─── Login Page ──────────────────────────────────────────────────────────── */
+
+.edit-login-wrapper {
+  min-height: 100vh;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: #f5f5f7;
+  font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+  padding: 20px;
+}
+
+.edit-login-card {
+  background: #fff;
+  border-radius: 16px;
+  padding: 40px;
+  width: 100%;
+  max-width: 400px;
+  box-shadow: 0 4px 24px rgba(0, 0, 0, 0.08);
+}
+
+.edit-login-header {
+  text-align: center;
+  margin-bottom: 32px;
+}
+
+.edit-login-icon {
+  width: 56px;
+  height: 56px;
+  border-radius: 14px;
+  background: linear-gradient(135deg, #1a1a2e, #16213e);
+  color: #fff;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin: 0 auto 16px;
+}
+
+.edit-login-header h1 {
+  font-size: 22px;
+  font-weight: 600;
+  color: #1a1a2e;
+  margin-bottom: 6px;
+}
+
+.edit-login-header p {
+  font-size: 14px;
+  color: #666;
+}
+
+.edit-login-error {
+  background: #fef2f2;
+  border: 1px solid #fecaca;
+  border-radius: 8px;
+  padding: 10px 14px;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  color: #dc2626;
+  font-size: 13px;
+  margin-bottom: 20px;
+}
+
+.edit-login-field {
+  margin-bottom: 18px;
+}
+
+.edit-login-field label {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  font-size: 13px;
+  font-weight: 500;
+  color: #444;
+  margin-bottom: 6px;
+}
+
+.edit-login-field input {
+  width: 100%;
+  padding: 10px 14px;
+  border: 1.5px solid #e0e0e0;
+  border-radius: 10px;
+  font-size: 14px;
+  color: #1a1a2e;
+  background: #fafafa;
+  transition: border-color 0.2s, box-shadow 0.2s;
+  outline: none;
+}
+
+.edit-login-field input:focus {
+  border-color: #1a1a2e;
+  box-shadow: 0 0 0 3px rgba(26, 26, 46, 0.08);
+  background: #fff;
+}
+
+.edit-login-btn {
+  width: 100%;
+  padding: 12px;
+  border: none;
+  border-radius: 10px;
+  background: linear-gradient(135deg, #1a1a2e, #16213e);
+  color: #fff;
+  font-size: 15px;
+  font-weight: 500;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+  transition: opacity 0.2s, transform 0.1s;
+  margin-top: 8px;
+}
+
+.edit-login-btn:hover { opacity: 0.92; }
+.edit-login-btn:active { transform: scale(0.98); }
+.edit-login-btn:disabled { opacity: 0.6; cursor: not-allowed; }
+
+/* ─── Edit Shell ──────────────────────────────────────────────────────────── */
+
+.edit-shell {
+  min-height: 100vh;
+  background: #f5f5f7;
+  font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+  color: #1a1a2e;
+}
+
+.edit-header {
+  background: #fff;
+  border-bottom: 1px solid #e5e5e5;
+  padding: 0 24px;
+  height: 60px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  position: sticky;
+  top: 0;
+  z-index: 100;
+  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.04);
+}
+
+.edit-header-left {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+
+.edit-header-left h1 {
+  font-size: 18px;
+  font-weight: 600;
+  color: #1a1a2e;
+}
+
+.edit-header-right {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.edit-header-btn {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  padding: 8px 14px;
+  border: 1px solid #e0e0e0;
+  border-radius: 8px;
+  background: #fff;
+  color: #444;
+  font-size: 13px;
+  font-weight: 500;
+  cursor: pointer;
+  text-decoration: none;
+  transition: background 0.15s, border-color 0.15s;
+}
+
+.edit-header-btn:hover {
+  background: #f5f5f7;
+  border-color: #ccc;
+}
+
+.edit-header-btn--logout {
+  color: #dc2626;
+  border-color: #fecaca;
+}
+
+.edit-header-btn--logout:hover {
+  background: #fef2f2;
+}
+
+.edit-main {
+  max-width: 960px;
+  margin: 0 auto;
+  padding: 24px 20px 60px;
+}
+
+/* ─── Action Bar ──────────────────────────────────────────────────────────── */
+
+.edit-action-bar {
+  background: #fff;
+  border: 1px solid #e5e5e5;
+  border-radius: 12px;
+  padding: 12px 16px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-bottom: 24px;
+  position: sticky;
+  top: 68px;
+  z-index: 50;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.04);
+}
+
+.edit-action-bar-left {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.edit-action-bar-right {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.edit-unsaved-badge {
+  display: flex;
+  align-items: center;
+  gap: 5px;
+  font-size: 12px;
+  font-weight: 500;
+  color: #d97706;
+  background: #fffbeb;
+  border: 1px solid #fde68a;
+  padding: 4px 10px;
+  border-radius: 6px;
+}
+
+.edit-saved-badge {
+  display: flex;
+  align-items: center;
+  gap: 5px;
+  font-size: 12px;
+  font-weight: 500;
+  color: #16a34a;
+  background: #f0fdf4;
+  border: 1px solid #bbf7d0;
+  padding: 4px 10px;
+  border-radius: 6px;
+}
+
+.edit-error-badge {
+  display: flex;
+  align-items: center;
+  gap: 5px;
+  font-size: 12px;
+  font-weight: 500;
+  color: #dc2626;
+  background: #fef2f2;
+  border: 1px solid #fecaca;
+  padding: 4px 10px;
+  border-radius: 6px;
+}
+
+.edit-action-btn {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  padding: 7px 14px;
+  border: 1px solid #e0e0e0;
+  border-radius: 8px;
+  background: #fff;
+  color: #444;
+  font-size: 13px;
+  font-weight: 500;
+  cursor: pointer;
+  transition: background 0.15s, border-color 0.15s, opacity 0.15s;
+}
+
+.edit-action-btn:hover:not(:disabled) {
+  background: #f5f5f7;
+  border-color: #ccc;
+}
+
+.edit-action-btn:disabled {
+  opacity: 0.4;
+  cursor: not-allowed;
+}
+
+.edit-action-btn--save {
+  background: linear-gradient(135deg, #1a1a2e, #16213e);
+  color: #fff;
+  border-color: transparent;
+}
+
+.edit-action-btn--save:hover:not(:disabled) {
+  opacity: 0.9;
+  background: linear-gradient(135deg, #1a1a2e, #16213e);
+}
+
+/* ─── Sections ────────────────────────────────────────────────────────────── */
+
+.edit-section {
+  margin-bottom: 32px;
+}
+
+.edit-section h2 {
+  font-size: 20px;
+  font-weight: 600;
+  color: #1a1a2e;
+  margin-bottom: 6px;
+}
+
+.edit-section-desc {
+  font-size: 14px;
+  color: #666;
+  margin-bottom: 20px;
+}
+
+/* ─── Category Cards ──────────────────────────────────────────────────────── */
+
+.edit-categories-list {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+}
+
+.edit-category-card {
+  background: #fff;
+  border: 1px solid #e5e5e5;
+  border-radius: 12px;
+  overflow: hidden;
+  transition: box-shadow 0.2s;
+}
+
+.edit-category-card:hover {
+  box-shadow: 0 2px 12px rgba(0, 0, 0, 0.06);
+}
+
+.edit-category-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 14px 16px;
+  cursor: pointer;
+  user-select: none;
+  transition: background 0.15s;
+}
+
+.edit-category-header:hover {
+  background: #fafafa;
+}
+
+.edit-category-header-left {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  flex: 1;
+  min-width: 0;
+}
+
+.edit-grip {
+  color: #ccc;
+  cursor: grab;
+}
+
+.edit-category-number {
+  font-size: 12px;
+  font-weight: 600;
+  color: #999;
+  min-width: 28px;
+}
+
+.edit-category-title {
+  font-size: 14px;
+  font-weight: 600;
+  color: #1a1a2e;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.edit-category-id {
+  font-size: 11px;
+  color: #888;
+  background: #f0f0f0;
+  padding: 2px 8px;
+  border-radius: 4px;
+  font-family: 'SF Mono', Monaco, Consolas, monospace;
+}
+
+.edit-category-layout {
+  font-size: 11px;
+  color: #6366f1;
+  background: #eef2ff;
+  padding: 2px 8px;
+  border-radius: 4px;
+  font-family: 'SF Mono', Monaco, Consolas, monospace;
+}
+
+.edit-category-images {
+  font-size: 11px;
+  color: #888;
+}
+
+.edit-remove-btn {
+  background: none;
+  border: none;
+  color: #ccc;
+  cursor: pointer;
+  padding: 4px;
+  border-radius: 6px;
+  transition: color 0.15s, background 0.15s;
+  display: flex;
+  align-items: center;
+}
+
+.edit-remove-btn:hover {
+  color: #dc2626;
+  background: #fef2f2;
+}
+
+/* ─── Category Body ───────────────────────────────────────────────────────── */
+
+.edit-category-body {
+  padding: 0 16px 16px;
+  border-top: 1px solid #f0f0f0;
+}
+
+.edit-category-fields {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 14px;
+  padding-top: 16px;
+}
+
+.edit-field-group {
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+}
+
+.edit-field-group--wide {
+  grid-column: 1 / -1;
+}
+
+.edit-field-group label {
+  font-size: 11px;
+  font-weight: 600;
+  color: #888;
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+}
+
+.edit-field-input {
+  padding: 8px 10px;
+  border: 1px solid #e0e0e0;
+  border-radius: 8px;
+  font-size: 13px;
+  color: #1a1a2e;
+  background: #fafafa;
+  width: 100%;
+  outline: none;
+  transition: border-color 0.2s, box-shadow 0.2s;
+}
+
+.edit-field-input:focus {
+  border-color: #1a1a2e;
+  box-shadow: 0 0 0 2px rgba(26, 26, 46, 0.08);
+  background: #fff;
+}
+
+textarea.edit-field-input {
+  resize: vertical;
+  min-height: 60px;
+  font-family: inherit;
+}
+
+.edit-field-select {
+  padding: 8px 10px;
+  border: 1px solid #e0e0e0;
+  border-radius: 8px;
+  font-size: 13px;
+  color: #1a1a2e;
+  background: #fafafa;
+  outline: none;
+  cursor: pointer;
+  transition: border-color 0.2s;
+}
+
+.edit-field-select:focus {
+  border-color: #1a1a2e;
+}
+
+/* ─── Inline Edit ─────────────────────────────────────────────────────────── */
+
+.inline-edit-trigger {
+  cursor: pointer;
+  border-bottom: 1px dashed transparent;
+  transition: border-color 0.15s;
+  padding: 2px 0;
+}
+
+.inline-edit-trigger:hover {
+  border-bottom-color: #ccc;
+}
+
+.inline-edit-placeholder {
+  color: #bbb;
+  font-style: italic;
+}
+
+/* ─── Subcategories ───────────────────────────────────────────────────────── */
+
+.edit-subcategories {
+  margin-top: 16px;
+}
+
+.edit-subcategories label {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  font-size: 11px;
+  font-weight: 600;
+  color: #888;
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+  margin-bottom: 8px;
+}
+
+.edit-subcategory-list {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 6px;
+  margin-bottom: 8px;
+}
+
+.edit-subcategory-tag {
+  display: flex;
+  align-items: center;
+  gap: 4px;
+  padding: 4px 10px;
+  background: #f0f0f0;
+  border-radius: 6px;
+  font-size: 12px;
+  color: #444;
+}
+
+.edit-subcategory-tag button {
+  background: none;
+  border: none;
+  color: #999;
+  cursor: pointer;
+  padding: 0;
+  display: flex;
+  align-items: center;
+  transition: color 0.15s;
+}
+
+.edit-subcategory-tag button:hover {
+  color: #dc2626;
+}
+
+.edit-subcategory-add {
+  display: flex;
+  gap: 6px;
+}
+
+.edit-subcategory-add input {
+  flex: 1;
+  padding: 6px 10px;
+  border: 1px solid #e0e0e0;
+  border-radius: 6px;
+  font-size: 12px;
+  outline: none;
+}
+
+.edit-subcategory-add input:focus {
+  border-color: #1a1a2e;
+}
+
+.edit-subcategory-add button {
+  padding: 6px 10px;
+  border: 1px solid #e0e0e0;
+  border-radius: 6px;
+  background: #fff;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  color: #444;
+  transition: background 0.15s;
+}
+
+.edit-subcategory-add button:hover {
+  background: #f5f5f7;
+}
+
+/* ─── Images Section ──────────────────────────────────────────────────────── */
+
+.edit-images-section {
+  margin-top: 16px;
+}
+
+.edit-images-section label {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  font-size: 11px;
+  font-weight: 600;
+  color: #888;
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+  margin-bottom: 10px;
+}
+
+.edit-images-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(100px, 1fr));
+  gap: 10px;
+}
+
+.edit-image-thumb {
+  position: relative;
+  aspect-ratio: 1;
+  border-radius: 8px;
+  overflow: hidden;
+  cursor: pointer;
+  border: 1px solid #e5e5e5;
+}
+
+.edit-image-thumb img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+.edit-image-thumb-overlay {
+  position: absolute;
+  inset: 0;
+  background: rgba(0, 0, 0, 0.4);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  opacity: 0;
+  transition: opacity 0.2s;
+  color: #fff;
+  font-size: 12px;
+  font-weight: 500;
+}
+
+.edit-image-thumb:hover .edit-image-thumb-overlay {
+  opacity: 1;
+}
+
+.edit-image-remove {
+  position: absolute;
+  top: 4px;
+  right: 4px;
+  width: 22px;
+  height: 22px;
+  border-radius: 50%;
+  background: rgba(0, 0, 0, 0.6);
+  color: #fff;
+  border: none;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  opacity: 0;
+  transition: opacity 0.2s;
+}
+
+.edit-image-thumb:hover .edit-image-remove {
+  opacity: 1;
+}
+
+.edit-image-add {
+  aspect-ratio: 1;
+  border: 2px dashed #d0d0d0;
+  border-radius: 8px;
+  background: #fafafa;
+  cursor: pointer;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 4px;
+  color: #999;
+  font-size: 11px;
+  transition: border-color 0.2s, color 0.2s, background 0.2s;
+}
+
+.edit-image-add:hover {
+  border-color: #1a1a2e;
+  color: #1a1a2e;
+  background: #f0f0f5;
+}
+
+/* ─── Add Category Button ─────────────────────────────────────────────────── */
+
+.edit-add-category-btn {
+  width: 100%;
+  padding: 14px;
+  border: 2px dashed #d0d0d0;
+  border-radius: 12px;
+  background: #fafafa;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+  color: #888;
+  font-size: 14px;
+  font-weight: 500;
+  margin-top: 12px;
+  transition: border-color 0.2s, color 0.2s, background 0.2s;
+}
+
+.edit-add-category-btn:hover {
+  border-color: #1a1a2e;
+  color: #1a1a2e;
+  background: #f0f0f5;
+}
+
+/* ─── Nav Labels Section ──────────────────────────────────────────────────── */
+
+.edit-navlabels-section {
+  background: #fff;
+  border: 1px solid #e5e5e5;
+  border-radius: 12px;
+  padding: 20px;
+}
+
+.edit-navlabels-section h3 {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  font-size: 16px;
+  font-weight: 600;
+  color: #1a1a2e;
+  margin-bottom: 4px;
+}
+
+.edit-navlabels-list {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+  margin-top: 14px;
+}
+
+.edit-navlabel-row {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+
+.edit-navlabel-key {
+  font-size: 12px;
+  font-family: 'SF Mono', Monaco, Consolas, monospace;
+  color: #6366f1;
+  background: #eef2ff;
+  padding: 4px 10px;
+  border-radius: 4px;
+  min-width: 140px;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.edit-navlabel-value {
+  flex: 1;
+  padding: 6px 10px;
+  border: 1px solid #e0e0e0;
+  border-radius: 6px;
+  font-size: 13px;
+  outline: none;
+}
+
+.edit-navlabel-value:focus {
+  border-color: #1a1a2e;
+}
+
+.edit-navlabel-add {
+  display: flex;
+  gap: 8px;
+  margin-top: 12px;
+  padding-top: 12px;
+  border-top: 1px solid #f0f0f0;
+}
+
+.edit-navlabel-add input {
+  flex: 1;
+  padding: 7px 10px;
+  border: 1px solid #e0e0e0;
+  border-radius: 6px;
+  font-size: 13px;
+  outline: none;
+}
+
+.edit-navlabel-add input:focus {
+  border-color: #1a1a2e;
+}
+
+/* ─── Modal ───────────────────────────────────────────────────────────────── */
+
+.edit-modal-overlay {
+  position: fixed;
+  inset: 0;
+  background: rgba(0, 0, 0, 0.5);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  z-index: 1000;
+  padding: 20px;
+}
+
+.edit-modal {
+  background: #fff;
+  border-radius: 16px;
+  width: 100%;
+  max-width: 520px;
+  max-height: 85vh;
+  overflow-y: auto;
+  box-shadow: 0 20px 60px rgba(0, 0, 0, 0.2);
+}
+
+.edit-modal-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 18px 20px;
+  border-bottom: 1px solid #f0f0f0;
+}
+
+.edit-modal-header h3 {
+  font-size: 16px;
+  font-weight: 600;
+}
+
+.edit-modal-close {
+  background: none;
+  border: none;
+  color: #999;
+  cursor: pointer;
+  padding: 4px;
+  border-radius: 6px;
+  transition: color 0.15s, background 0.15s;
+}
+
+.edit-modal-close:hover {
+  color: #1a1a2e;
+  background: #f0f0f0;
+}
+
+.edit-modal-tabs {
+  display: flex;
+  border-bottom: 1px solid #f0f0f0;
+}
+
+.edit-modal-tab {
+  flex: 1;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 6px;
+  padding: 12px;
+  border: none;
+  background: none;
+  color: #888;
+  font-size: 13px;
+  font-weight: 500;
+  cursor: pointer;
+  border-bottom: 2px solid transparent;
+  transition: color 0.15s, border-color 0.15s;
+}
+
+.edit-modal-tab:hover {
+  color: #444;
+}
+
+.edit-modal-tab.active {
+  color: #1a1a2e;
+  border-bottom-color: #1a1a2e;
+}
+
+.edit-modal-body {
+  padding: 20px;
+}
+
+.edit-modal-url-input label {
+  display: block;
+  font-size: 12px;
+  font-weight: 600;
+  color: #888;
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+  margin-bottom: 6px;
+}
+
+.edit-modal-url-input input {
+  width: 100%;
+  padding: 10px 12px;
+  border: 1px solid #e0e0e0;
+  border-radius: 8px;
+  font-size: 13px;
+  outline: none;
+}
+
+.edit-modal-url-input input:focus {
+  border-color: #1a1a2e;
+}
+
+.edit-modal-upload {
+  display: flex;
+  justify-content: center;
+}
+
+.edit-modal-upload-btn {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  padding: 14px 28px;
+  border: 2px dashed #d0d0d0;
+  border-radius: 12px;
+  background: #fafafa;
+  cursor: pointer;
+  color: #666;
+  font-size: 14px;
+  font-weight: 500;
+  transition: border-color 0.2s, color 0.2s;
+}
+
+.edit-modal-upload-btn:hover:not(:disabled) {
+  border-color: #1a1a2e;
+  color: #1a1a2e;
+}
+
+.edit-modal-upload-btn:disabled {
+  opacity: 0.5;
+  cursor: not-allowed;
+}
+
+.edit-modal-error {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  padding: 10px;
+  background: #fef2f2;
+  border: 1px solid #fecaca;
+  border-radius: 8px;
+  color: #dc2626;
+  font-size: 13px;
+  margin-top: 12px;
+}
+
+.edit-modal-preview {
+  margin-top: 14px;
+  border-radius: 8px;
+  overflow: hidden;
+  border: 1px solid #e5e5e5;
+}
+
+.edit-modal-preview img {
+  width: 100%;
+  max-height: 200px;
+  object-fit: cover;
+  display: block;
+}
+
+.edit-modal-footer {
+  display: flex;
+  justify-content: flex-end;
+  gap: 8px;
+  padding: 14px 20px;
+  border-top: 1px solid #f0f0f0;
+}
+
+/* ─── Loading & Spinner ───────────────────────────────────────────────────── */
+
+.edit-loading {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  padding: 80px 20px;
+  color: #888;
+}
+
+.edit-loading p {
+  margin-top: 16px;
+  font-size: 14px;
+}
+
+.edit-spinner,
+.edit-spinner-large {
+  width: 20px;
+  height: 20px;
+  border: 2px solid #e0e0e0;
+  border-top-color: #1a1a2e;
+  border-radius: 50%;
+  animation: edit-spin 0.6s linear infinite;
+}
+
+.edit-spinner-large {
+  width: 36px;
+  height: 36px;
+  border-width: 3px;
+}
+
+.edit-spin {
+  animation: edit-spin 0.6s linear infinite;
+}
+
+@keyframes edit-spin {
+  to { transform: rotate(360deg); }
+}
+
+.edit-error-state {
+  text-align: center;
+  padding: 60px 20px;
+  color: #666;
+}
+
+.edit-error-state p {
+  margin-bottom: 16px;
+}

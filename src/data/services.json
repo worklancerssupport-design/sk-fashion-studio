@@ -1,0 +1,181 @@
+[
+  {
+    "id": "bridal-blouses",
+    "number": "01",
+    "title": "Bridal Blouses & Couture",
+    "badge": "Signature Bridal",
+    "shortDesc": "Bespoke bridal blouses with heavy Maggam, Aari embroidery, zardosi, and precision armhole shaping.",
+    "image": "https://i.pinimg.com/originals/b3/f6/6d/b3f66da77bb5d1b9e685a34ae521a17e.jpg",
+    "fullDesc": "Custom-designed bridal blouses crafted according to your saree, occasion, personal style, embroidery preferences, and fitting requirements. Every blouse is personally patterned and fitted by Karuna Kumari.",
+    "whatsIncluded": [
+      "Personal design consultation & neckline styling",
+      "Intricate Aari, Maggam, Zardosi & stone embroidery",
+      "Dual padded lining & structure reinforcement",
+      "Two measurement trial sessions prior to final delivery",
+      "Handmade designer latkans / tassel detailing"
+    ],
+    "suitableOccasions": ["Muhurtham", "Reception", "Engagement (Nichayathartham)", "Sangeet & Haldi"],
+    "customizationOptions": [
+      "Neck cuts: Boat neck, Sweetheart, Deep U, Sheer back, High collar",
+      "Sleeve styles: Elbow length, Cap sleeves, Full sheer sleeves, Puff sleeves",
+      "Work intensity: Delicate borders to heavy all-over royal bridal embroidery",
+      "Personalized couple monogram & wedding date embroidery"
+    ],
+    "outfitKey": "Bridal Blouse"
+  },
+  {
+    "id": "designer-blouses",
+    "number": "02",
+    "title": "Designer Blouse Stitching",
+    "badge": "Trending Styles",
+    "shortDesc": "Modern and contemporary blouse patterns tailored to complement any party wear or silk saree drape.",
+    "image": "https://global.indiansilkhouseagencies.com/cdn/shop/files/BL601167LAVENDER-2_700x.jpg?v=1763364490",
+    "fullDesc": "Elevate your festive look with perfectly tailored designer blouses. From backless silhouettes and halter cuts to vintage Peter Pan collars and contrast piping, we create styles that celebrate your individuality.",
+    "whatsIncluded": [
+      "Contemporary cut styling & darts alignment",
+      "Premium soft cotton inner lining (breathable & anti-chafing)",
+      "Clean concealed seam finishing",
+      "High-grade cups & invisible zip closures"
+    ],
+    "suitableOccasions": ["Cocktail Parties", "Festivals & Poojas", "Family Functions", "Casual Silk Draping"],
+    "customizationOptions": [
+      "Backless with tie-up cords, Princess cuts, Corset fits",
+      "Fabric play: Organza, Raw Silk, Brocade, Velvet & Chiffon",
+      "Piping in contrast metallic or silk piping"
+    ],
+    "outfitKey": "Designer Blouse"
+  },
+  {
+    "id": "lehenga-designs",
+    "number": "03",
+    "title": "Lehenga Stitching & Choli",
+    "badge": "Grand Silhouettes",
+    "shortDesc": "Bridal and festive lehenga tailoring featuring grand umbrella flares, can-can layers, and designer blouses.",
+    "image": "https://www.trendbuy.co.in/cdn/shop/files/New_Trending_Design_Bridal_Lehenga_Choli.jpg?v=1743833178",
+    "fullDesc": "Stunning lehenga cholis tailored for maximum elegance and movement. We construct circular umbrella flares with multi-tier can-can netting, personalized waistbands, and custom-styled matching dupattas.",
+    "whatsIncluded": [
+      "Full circular / kalidar flare stitching with can-can padding",
+      "Custom choli blouse tailoring with supportive structure",
+      "Dupatta border attachment & decorative tassel finishing",
+      "Waist drawstring with concealed heavy-duty zip"
+    ],
+    "suitableOccasions": ["Bridal Trousseau", "Reception Nights", "Sangeet Choreography", "Mehendi Celebrations"],
+    "customizationOptions": [
+      "Flare volume: 4-meter, 6-meter, or 8-meter umbrella kalis",
+      "Blouse: Crop top, peplum choli, sweetheart corset",
+      "Tiered ruffles, velvet borders, and scallop dupatta edges"
+    ],
+    "outfitKey": "Lehenga"
+  },
+  {
+    "id": "saree-pre-pleating",
+    "number": "04",
+    "title": "Saree Pre-Pleating & Draping",
+    "badge": "Effortless Draping",
+    "shortDesc": "Crisply ironed, pre-pleated, and pinned sarees for hassle-free 2-minute draping on busy event days.",
+    "image": "https://i.pinimg.com/736x/a8/80/a5/a880a50976d2727f67ca983e8454a50d.jpg",
+    "fullDesc": "Eliminate the stress of saree draping. We professionally steam-press, measure, pre-pleat, and secure your saree pleats so you can step into your drape in under two minutes with immaculate pallu alignment.",
+    "whatsIncluded": [
+      "Precise waist pleat measuring and crisp steam pressing",
+      "Pallu pleating adjusted to your exact height and shoulder fit",
+      "Invisible safety locking & discreet pinning",
+      "Delivered ready-to-wear on a premium custom hanger"
+    ],
+    "suitableOccasions": ["Early Morning Muhurthams", "Stage Performances", "Travel & Destination Weddings", "Photo Shoots"],
+    "customizationOptions": [
+      "Pleat count preference (3, 4, 5, or 6 pleats)",
+      "Traditional South Indian box pleats or sleek contemporary pleats",
+      "Gujarati front-pallu or classic seedha pallu setting"
+    ],
+    "outfitKey": "Saree Pre-Pleating"
+  },
+  {
+    "id": "saree-conversion",
+    "number": "05",
+    "title": "Saree Conversion & Upcycling",
+    "badge": "Heritage Redesign",
+    "shortDesc": "Bring your treasured sarees and convert them into modern Chudidars, Lehengas, Gowns, or Kurthis.",
+    "image": "https://i.pinimg.com/736x/d7/9f/d7/d79fd7f8383b7ac17ce012ce0d6519ca.jpg",
+    "fullDesc": "Preserve the sentimental value of your mother's or grandmother's silk sarees by converting them into chic contemporary outfits. We carefully incorporate the vintage zari borders into modern silhouettes.",
+    "whatsIncluded": [
+      "Comprehensive design restyling consultation",
+      "Careful preservation and reuse of authentic zari borders & pallu",
+      "High-grade inner lining matched to fabric weight",
+      "Custom pattern drafting for optimal fabric utilization"
+    ],
+    "suitableOccasions": ["Anniversaries", "Festive Celebrations", "Family Gatherings", "Heirloom Keepsakes"],
+    "customizationOptions": [
+      "Saree to Chudidar / Anarkali Suit",
+      "Saree to Lehenga Skirt & Crop Blouse",
+      "Saree to Indo-Western Evening Gown",
+      "Saree to A-line Long Kurthi with Palazzo"
+    ],
+    "outfitKey": "Saree Conversion"
+  },
+  {
+    "id": "one-minute-saree",
+    "number": "06",
+    "title": "One Minute Saree (Ready-to-Wear)",
+    "badge": "Modern Convenience",
+    "shortDesc": "Pre-stitched ready-to-wear sarees with tailored waistbands and pre-set pleats for instant perfection.",
+    "image": "https://i.pinimg.com/736x/45/65/45/456545090710842f223c7c8ba387452a.jpg",
+    "fullDesc": "Experience the beauty of a saree with the simplicity of a skirt. Our One Minute Saree is custom-stitched with an adjustable hook-and-bar waistband, pre-set waist pleats, and draped pallu.",
+    "whatsIncluded": [
+      "Custom waistband with multi-level adjustable hooks",
+      "Pre-stitched pleated fall that never slips or bunches",
+      "Pre-aligned pallu length tailored to your exact height",
+      "No underskirt bulkiness for an ultra-flattering slimming drape"
+    ],
+    "suitableOccasions": ["Cocktail Receptions", "Corporate Gatherings", "Quick Change Functions", "Farewells & Graduations"],
+    "customizationOptions": [
+      "Belt loop additions for embellished waist belts",
+      "Front slit variations for contemporary Indo-Western looks",
+      "Adjustable hook sizing (up to 3 inches allowance)"
+    ],
+    "outfitKey": "One Minute Saree"
+  },
+  {
+    "id": "kids-wear",
+    "number": "07",
+    "title": "Kids Collection & Pattu Pavadai",
+    "badge": "Soft & Child-Safe",
+    "shortDesc": "Pattu Pavadai, mini lehengas, and celebration gowns made with ultra-soft baby lining and zero-itch seams.",
+    "image": "https://i.pinimg.com/736x/75/0e/6a/750e6a3f46660c249889441d6969c9c4.jpg",
+    "fullDesc": "Traditional and festive attire designed specifically for young girls. Crafted with ultra-soft, skin-friendly cotton lining and gentle enclosed seams so your little ones stay joyful and comfortable all day.",
+    "whatsIncluded": [
+      "100% soft breathable pure cotton lining (zero itching)",
+      "Growing seam allowances for easy future resizing",
+      "Comfort-fit elasticated waistbands and soft snap fasteners",
+      "Matching baby hair accessories and tassel cords"
+    ],
+    "suitableOccasions": ["Birthdays", "Ear Piercing / Ayushya Homam", "Diwali & Pongal Festivals", "Weddings & Receptions"],
+    "customizationOptions": [
+      "Traditional Pattu Pavadai with contrast zari borders",
+      "Kids designer lehenga with soft net can-can",
+      "Princess flare gowns with feather or floral applique"
+    ],
+    "outfitKey": "Kids Wear"
+  },
+  {
+    "id": "embroidery-work",
+    "number": "08",
+    "title": "Hand Embroidery & Aari Work",
+    "badge": "Artisanal Craft",
+    "shortDesc": "Intricate Maggam, Zardosi, cutwork, stone work, and custom motifs handcrafted with artisan precision.",
+    "image": "https://i.pinimg.com/736x/ce/11/a6/ce11a64f821dd3de4884baba6b23b5c1.jpg",
+    "fullDesc": "Every thread tells a story of dedication. Our skilled artisans craft bespoke Aari embroidery, metallic Zardosi, pearl beading, and stone embellishments designed around your saree borders and jewelry.",
+    "whatsIncluded": [
+      "Original hand-drawn motif tracing and design approval",
+      "High-grade non-tarnishing metallic zari & Swarovski stones",
+      "Reinforced knotting technique for lifelong durability",
+      "Seamless border matching on necklines, sleeves, and back"
+    ],
+    "suitableOccasions": ["Bridal Trousseau", "Grand Anniversaries", "Milestone Celebrations", "Heirloom Garments"],
+    "customizationOptions": [
+      "Peacock, floral creeper, temple idol, and lotus motifs",
+      "Cutwork and mesh net back designs with stone lattices",
+      "Antique gold, silver, rose gold, or antique copper zari"
+    ],
+    "outfitKey": "Embroidery Work"
+  }
+]

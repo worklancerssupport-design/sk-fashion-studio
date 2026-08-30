@@ -3,7 +3,11 @@
   "private": true,
   "version": "1.0.0",
   "type": "module",
-  "scripts": { "dev": "vite", "build": "tsc -b && vite build", "preview": "vite preview" },
+  "scripts": {
+    "dev": "vite",
+    "build": "tsc -b && vite build",
+    "preview": "vite preview"
+  },
   "dependencies": {
     "@hookform/resolvers": "^5.0.1",
     "framer-motion": "^12.9.2",
@@ -12,8 +16,16 @@
     "react": "^19.1.0",
     "react-dom": "^19.1.0",
     "react-hook-form": "^7.57.0",
+    "react-router-dom": "^7.18.3",
     "tailwindcss": "^4.1.8",
     "zod": "^3.24.4"
   },
-  "devDependencies": { "@types/react": "^19.1.6", "@types/react-dom": "^19.1.5", "@vitejs/plugin-react": "^4.5.2", "typescript": "~5.8.3", "vite": "^6.3.5" }
+  "devDependencies": {
+    "@types/react": "^19.1.6",
+    "@types/react-dom": "^19.1.5",
+    "@vercel/node": "^10.0.0",
+    "@vitejs/plugin-react": "^4.5.2",
+    "typescript": "~5.8.3",
+    "vite": "^6.3.5"
+  }
 }

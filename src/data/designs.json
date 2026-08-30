@@ -1,0 +1,149 @@
+{
+  "categories": [
+    {
+      "id": "bridal-blouses",
+      "label": "Bridal Blouses",
+      "desc": "Premium bridal blouse designs with heavy embroidery, stone work, and detailed craftsmanship — made for your most important day.",
+      "layout": "feature-left",
+      "images": [
+        "https://i.pinimg.com/originals/b3/f6/6d/b3f66da77bb5d1b9e685a34ae521a17e.jpg",
+        "https://i.pinimg.com/736x/57/19/88/57198834376e8a889039341a69d92e51.jpg",
+        "https://www.anantexports.in/cdn/shop/files/IMG-20240908-WA0106.jpg",
+        "https://hyderabad.ksethnic.com/blouse/2024/12/WhatsApp-Image-2024-12-08-at-7.32.05-PM.jpeg",
+        "https://hyderabad.ksethnic.com/blouse/2025/08/peach-peacock-designer-maggam-work-grand-blouse-latest-bridal-wedding-blouse-design-1.webp",
+        "https://stylishladiestailoring.com/wp-content/uploads/2026/06/vibrant-kerala-bridal-aari-blouse-back-view.webp"
+      ]
+    },
+    {
+      "id": "designer-blouses",
+      "label": "Designer Blouses",
+      "desc": "Modern, traditional, and custom blouse designs tailored to suit every personality, neckline preference, and style.",
+      "layout": "triple-grid",
+      "images": [
+        "https://global.indiansilkhouseagencies.com/cdn/shop/files/BL601167LAVENDER-2_700x.jpg?v=1763364490",
+        "https://i.pinimg.com/1200x/cb/c3/8c/cbc38c4b654891bb69b293821617db36.jpg",
+        "https://i.pinimg.com/736x/84/70/4e/84704e1976bd2e5eac84d53cab09b232.jpg",
+        "https://amodinistudio.in/cdn/shop/files/DSC6741.jpg?v=1735018118",
+        "https://m.media-amazon.com/images/I/71j15SvuImL._AC_UY350_.jpg"
+      ]
+    },
+    {
+      "id": "lehenga-designs",
+      "label": "Lehenga Designs",
+      "desc": "Bridal, traditional, and designer lehenga stitching styles — from grand bridal flares to contemporary silhouettes.",
+      "layout": "editorial-right",
+      "images": [
+        "https://www.trendbuy.co.in/cdn/shop/files/New_Trending_Design_Bridal_Lehenga_Choli.jpg?v=1743833178",
+        "https://i.pinimg.com/originals/a0/bd/b8/a0bdb8e3682b9dcbb6841484da170f11.jpg",
+        "https://media.samyakk.com/pub/media/catalog/product/d/a/dark-red-umbrella-style-silk-bridal-lehenga-with-v-neck-blouse-gf3472.jpg",
+        "https://assets0.mirraw.com/images/13551893/image_original_long_webp.webp?1759401359",
+        "https://i0.wp.com/www.womansplaza.com/wp-content/uploads/2024/07/DT124.webp?ssl=1",
+        "https://img.perniaspopupshop.com/catalog/product/l/p/lpkc062213.jpg?impolicy=detailimageprod"
+      ]
+    },
+    {
+      "id": "reception-designs",
+      "label": "Reception Designs",
+      "desc": "Elegant and modern outfits curated for receptions and special evening events — refined, graceful, and unforgettable.",
+      "layout": "triple-grid",
+      "images": [
+        "https://i.pinimg.com/1200x/38/0f/dc/380fdcf5dc8a36c295ccb1bf29a67329.jpg",
+        "https://i.pinimg.com/736x/e4/1b/ca/e41bca7414bfd57b037ebf06c73ddd98.jpg",
+        "https://i.pinimg.com/736x/75/75/4e/75754e69b454b41fc4e755d2e518749b.jpg",
+        "https://i.pinimg.com/736x/14/da/92/14da92895c29374cfd6056ec561f1204.jpg",
+        "https://i.pinimg.com/736x/43/ae/de/43aede95862d946d9b084e19a10f60d4.jpg"
+      ]
+    },
+    {
+      "id": "saree-pre-pleating",
+      "label": "Saree Pre-Pleating",
+      "desc": "Crisply ironed and professionally pre-pleated sarees designed for effortless, graceful draping in under two minutes.",
+      "layout": "triple-grid",
+      "images": [
+        "https://i.pinimg.com/736x/a8/80/a5/a880a50976d2727f67ca983e8454a50d.jpg",
+        "https://i.pinimg.com/1200x/10/58/5b/10585b339b931b416aa3ae2856f57dc7.jpg",
+        "https://i.pinimg.com/736x/8f/d1/0a/8fd10acee9683ea26db0983cc13a70e8.jpg",
+        "https://i.pinimg.com/1200x/f7/bb/dc/f7bbdc0f23f3b487bc30ea261e592ebe.jpg"
+      ]
+    },
+    {
+      "id": "saree-conversion",
+      "label": "Saree Conversion",
+      "desc": "Transform your precious saree materials into stunning Chudidars, Lehengas, Indo-Western Gowns, or Kurthis while preserving heritage borders.",
+      "subcategories": ["Saree to Chudidar", "Saree to Lehenga", "Saree to Gown", "Saree to Kurthi"],
+      "layout": "conversion-grid",
+      "images": [
+        "https://i.pinimg.com/736x/d7/9f/d7/d79fd7f8383b7ac17ce012ce0d6519ca.jpg",
+        "https://i.pinimg.com/736x/12/8f/44/128f44acf8c8a78922c3204392ae9d80.jpg",
+        "https://i.pinimg.com/736x/ef/3e/97/ef3e97d8d1cd5b1c04638dc1501a7023.jpg",
+        "https://i.pinimg.com/1200x/f5/9e/1e/f59e1eae7f5adfdb3fbb1dfdf581c37d.jpg",
+        "https://i.pinimg.com/1200x/b3/e8/88/b3e888ec2fa23fecc31b89afcfc173b3.jpg"
+      ]
+    },
+    {
+      "id": "one-minute-saree",
+      "label": "One Minute Saree",
+      "desc": "Ready-to-wear pre-stitched sarees with customized waistbands and immaculate pleats for instant luxury and supreme comfort.",
+      "layout": "feature-left",
+      "images": [
+        "https://i.pinimg.com/736x/45/65/45/456545090710842f223c7c8ba387452a.jpg",
+        "https://5.imimg.com/data5/SELLER/Default/2025/12/567702007/MA/HC/PO/102721331/ready-to-wear-one-minute-party-wear-saree.jpg",
+        "https://i.pinimg.com/1200x/40/cc/07/40cc07310681d24c3917f7aa52870f96.jpg",
+        "https://global.indiansilkhouseagencies.com/cdn/shop/files/BL601167LAVENDER-2_700x.jpg?v=1763364490",
+        "https://i.pinimg.com/736x/73/a5/f7/73a5f73f221da11303dadc2bb4fe5567.jpg"
+      ]
+    },
+    {
+      "id": "kids-collection",
+      "label": "Kids Collection",
+      "desc": "Charming Pattu Pavadais, festive kids lehengas, and party gowns tailored with ultra-soft baby lining for joyful celebrations.",
+      "subcategories": ["Pattu Pavadai", "Kids Lehenga", "Kids Gowns"],
+      "layout": "editorial-right",
+      "images": [
+        "https://i.pinimg.com/736x/75/0e/6a/750e6a3f46660c249889441d6969c9c4.jpg",
+        "https://i.pinimg.com/736x/b1/4a/16/b14a163796c90d1010dcd3f1ca594056.jpg",
+        "https://i.pinimg.com/736x/14/2f/5c/142f5c5a5341fe49f67fb23b6a7ac5f7.jpg",
+        "https://i.pinimg.com/736x/5f/06/09/5f060985deead9a704df7364cfc44dbe.jpg",
+        "https://i.pinimg.com/736x/a5/20/c7/a520c7c3556bf2d7d4991abe74019214.jpg"
+      ]
+    },
+    {
+      "id": "embroidery-works",
+      "label": "Embroidery Works",
+      "desc": "Detailed embroidery including thread work, stone work, bead work, bridal embroidery, and custom patterns — each piece a labour of love.",
+      "layout": "triple-grid",
+      "images": [
+        "https://i.pinimg.com/736x/ce/11/a6/ce11a64f821dd3de4884baba6b23b5c1.jpg",
+        "https://i.pinimg.com/1200x/24/17/d4/2417d49172bcd14159251ea79c66828f.jpg",
+        "https://viaanadesignerstudio.com/wp-content/uploads/2024/07/IMG_0681-scaled.jpg",
+        "https://i.pinimg.com/736x/e8/df/85/e8df85e67ac841576e4213b6de725a22.jpg",
+        "https://viaanadesignerstudio.com/wp-content/uploads/2024/12/img_9642-scaled.jpeg"
+      ]
+    },
+    {
+      "id": "chudidar-works",
+      "label": "Chudidar Works",
+      "desc": "Custom stitched and designer chudidar collections — comfortable, stylish, and made precisely for your silhouette.",
+      "layout": "triple-grid",
+      "images": [
+        "https://i.pinimg.com/736x/40/a4/9e/40a49eb2fd21506641abb8c5a0961e3b.jpg",
+        "https://cdn.shopify.com/s/files/1/0593/9616/1590/files/partnerimages_3ce2ce7b_04-10-2023-01532.jpg?v=1712832183",
+        "https://assets.myntassets.com/dpr_1.5,q_60,w_400,c_limit,fl_progressive/assets/images/2024/OCTOBER/16/IJV7f7KX_2c67021049694df4848b7c99bd3f8e6b.jpg",
+        "https://i.pinimg.com/736x/82/30/05/823005eb0c6c8d2594fe68f3ce7bebec.jpg",
+        "https://www.lashkaraa.com/cdn/shop/files/dusty-green-embroidered-satin-straight-suit-7363508.png?v=1773720030&width=1091"
+      ]
+    }
+  ],
+  "navLabels": {
+    "bridal-blouses": "Bridal Blouses",
+    "designer-blouses": "Designer Blouses",
+    "lehenga-designs": "Lehengas",
+    "reception-designs": "Reception",
+    "saree-pre-pleating": "Pre-Pleating",
+    "saree-conversion": "Saree Conversion",
+    "one-minute-saree": "1-Min Saree",
+    "kids-collection": "Kids Wear",
+    "embroidery-works": "Embroidery",
+    "chudidar-works": "Chudidars"
+  }
+}
