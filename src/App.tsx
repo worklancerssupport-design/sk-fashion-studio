@@ -1169,9 +1169,9 @@ export default function App() {
           </div>
           <div className="contact-details">
             <p>
-              <MapPin />
+              <span><MapPin /></span>
               <span>
-                B Park Avenue Street, 30A<small>Sheshadripuram 1st Main Rd, Seshadripuram, Velachery, Chennai, Tamil Nadu 600042</small>
+                B Park Avenue Street, 30A Sheshadripuram 1st Main Rd, Seshadripuram, Velachery, Chennai, Tamil Nadu, 600042
               </span>
             </p>
             <a href="tel:+919884016637">
