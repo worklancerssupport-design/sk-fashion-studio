@@ -1,10 +1,37 @@
 /* ════════════════════════════════════════════════════════════════════════════
+   MASTER GRID / CONTAINER SYSTEM
+   Single source of truth for page alignment. All sections, headers, and
+   footers align to this container's left and right edges.
+   ════════════════════════════════════════════════════════════════════════════ */
+
+:root {
+  --container-max: 1200px;
+  --container-pad: clamp(20px, 4vw, 32px);
+}
+
+.container {
+  width: 100%;
+  max-width: var(--container-max);
+  margin-inline: auto;
+  padding-inline: var(--container-pad);
+}
+
+/* Edge-align helper for full-bleed sections whose inner content must
+   still snap to the container's virtual left edge. */
+.edge-align-left {
+  padding-left: max(
+    var(--container-pad),
+    calc((100vw - var(--container-max)) / 2 + var(--container-pad))
+  );
+}
+
+/* ════════════════════════════════════════════════════════════════════════════
    HEADER — Clean, Minimal, Luxury Single-Row Header with Glowing Line
    ════════════════════════════════════════════════════════════════════════════ */
 
 header.site-header {
   height: 96px !important;
-  padding: 0 6.5vw !important;
+  padding: 0 !important;
   display: flex !important;
   align-items: center !important;
   justify-content: space-between !important;
@@ -21,10 +48,26 @@ header.site-header {
   transition: height 0.35s cubic-bezier(0.16, 1, 0.3, 1), background 0.35s ease, box-shadow 0.35s ease, padding 0.35s ease !important;
 }
 
+/* Header inner row uses container — keeps brand/nav/cta aligned with body */
+header.site-header {
+  padding-inline: var(--container-pad) !important;
+}
+
+header.site-header > .brand,
+header.site-header > .header-nav-center,
+header.site-header > .header-right-actions {
+  margin-inline: 0;
+}
+
+@media (min-width: 1200px) {
+  header.site-header {
+    padding-inline: calc((100vw - var(--container-max)) / 2 + var(--container-pad)) !important;
+  }
+}
+
 /* Transformed sticky state on scroll */
 header.site-header.site-header--scrolled {
   height: 72px !important;
-  padding: 0 5.5vw !important;
   background: rgba(18, 13, 16, 0.94) !important;
   border-bottom: 1px solid rgba(240, 139, 171, 0.16) !important;
   backdrop-filter: blur(16px) !important;
@@ -128,7 +171,7 @@ nav.header-nav-center {
 
 nav.header-nav-center a {
   position: relative !important;
-  font-size: 0.76rem !important;
+  font-size: 0.7rem !important;
   letter-spacing: 0.14em !important;
   text-transform: uppercase !important;
   font-weight: 500 !important;
@@ -326,15 +369,21 @@ nav.header-nav-center a:not(.nav-link--active):hover::after {
    ════════════════════════════════════════════════════════════════════════════ */
 
 section.services {
-  padding: 120px 9vw 140px !important;
-  background: #fdf6f8 !important;
+  padding: 120px 0 140px !important;
+  background: #ffffff !important;
   scroll-margin-top: 80px;
 }
 
 .services-header {
-  max-width: 560px;
-  margin: 0 0 72px;
+  max-width: var(--container-max) !important;
+  margin: 0 auto 72px !important;
+  padding-inline: var(--container-pad) !important;
   text-align: left;
+}
+
+.services-header .services-eyebrow,
+.services-header .services-heading {
+  max-width: 560px;
 }
 
 .services-eyebrow {
@@ -365,13 +414,16 @@ section.services {
 .service-grid {
   display: grid !important;
   grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)) !important;
-  gap: 1px !important;
-  background: rgba(26, 16, 19, 0.08) !important;
-  border: 1px solid rgba(26, 16, 19, 0.08) !important;
+  gap: 0 !important;
+  background: transparent !important;
+  border: 0 !important;
+  max-width: var(--container-max) !important;
+  margin: 0 auto !important;
+  padding-inline: var(--container-pad) !important;
 }
 
 .service {
-  background: #fdf6f8 !important;
+  background: #ffffff !important;
   padding: 36px 32px 38px !important;
   display: flex !important;
   flex-direction: column !important;
@@ -387,7 +439,7 @@ section.services {
 }
 
 .service:hover {
-  background: #ffffff !important;
+  background: #fdf6f8 !important;
   box-shadow: none !important;
   border-color: transparent !important;
 }
@@ -465,15 +517,16 @@ footer.site-footer {
   box-sizing: border-box !important;
   background: #0c090b !important;
   color: #efe9ea !important;
-  padding: 72px 8vw 28px !important;
+  padding: 72px 0 28px !important;
   border-top: 1px solid rgba(255, 255, 255, 0.05) !important;
   grid-template-columns: none !important;
   gap: 0 !important;
 }
 
 .footer-inner {
-  max-width: 1320px;
-  margin: 0 auto;
+  max-width: var(--container-max) !important;
+  margin: 0 auto !important;
+  padding-inline: var(--container-pad) !important;
   display: flex;
   flex-direction: column;
   gap: 32px;
@@ -646,7 +699,7 @@ footer.site-footer {
 
 @media (max-width: 800px) {
   footer.site-footer {
-    padding: 56px 6vw 24px !important;
+    padding: 56px 0 24px !important;
   }
   .footer-inner {
     gap: 28px;
@@ -666,7 +719,6 @@ footer.site-footer {
   }
   header {
     height: 84px !important;
-    padding: 0 6vw !important;
   }
   header .brand > b { font-size: 2.2rem !important; padding-right: 12px !important; }
   header .brand > span { font-size: .78rem !important; letter-spacing: .18em !important; }
@@ -677,7 +729,6 @@ footer.site-footer {
 @media (max-width: 520px) {
   header {
     height: 76px !important;
-    padding: 0 5vw !important;
   }
   header .brand > b { font-size: 1.9rem !important; padding-right: 10px !important; }
   header .brand > span { font-size: .68rem !important; letter-spacing: .12em !important; }
@@ -1069,15 +1120,16 @@ footer.site-footer {
 
 /* ── About the Owner — typography-first layout ── */
 .about-owner-section {
-  padding: 120px 9vw;
+  padding: 120px 0;
   background: #140d11;
   position: relative;
   overflow: hidden;
 }
 
 .about-owner-container {
-  max-width: 960px;
-  margin: 0 auto;
+  max-width: var(--container-max) !important;
+  margin: 0 auto !important;
+  padding-inline: var(--container-pad) !important;
   text-align: left;
 }
 
@@ -1153,7 +1205,7 @@ footer.site-footer {
 
 @media (max-width: 700px) {
   .about-owner-section {
-    padding: 90px 7vw;
+    padding: 90px 0;
   }
   .about-owner-quote p {
     font-size: 1.04rem;
@@ -1165,15 +1217,16 @@ footer.site-footer {
    ════════════════════════════════════════════════════════════════════════════ */
 
 .customer-reviews-section {
-  padding: 120px 9vw 140px;
+  padding: 120px 0 140px;
   background: #0f0a0d;
   position: relative;
   overflow: hidden;
 }
 
 .reviews-container {
-  max-width: 960px;
-  margin: 0 auto;
+  max-width: var(--container-max) !important;
+  margin: 0 auto !important;
+  padding-inline: var(--container-pad) !important;
   display: flex;
   flex-direction: column;
   align-items: flex-start;
@@ -1393,7 +1446,7 @@ footer.site-footer {
 
 @media (max-width: 680px) {
   .customer-reviews-section {
-    padding: 90px 6vw 100px;
+    padding: 90px 0 100px;
   }
   .reviews-header {
     margin-bottom: 56px;
@@ -1413,7 +1466,7 @@ footer.site-footer {
    ════════════════════════════════════════════════════════════════════════════ */
 
 .space-gallery-section {
-  padding: 80px 9vw 90px;
+  padding: 140px 0 160px !important;
   background: #0f0a0d;
   scroll-margin-top: 80px;
   position: relative;
@@ -1421,8 +1474,9 @@ footer.site-footer {
 }
 
 .space-gallery-container {
-  max-width: 1080px;
-  margin: 0 auto;
+  max-width: var(--container-max) !important;
+  margin: 0 auto !important;
+  padding-inline: var(--container-pad) !important;
 }
 
 /* ── Header — left-aligned, single reading column ── */
@@ -1662,7 +1716,7 @@ footer.site-footer {
 /* ── Responsive ── */
 @media (max-width: 960px) {
   .space-gallery-section {
-    padding: 70px 7vw 80px;
+    padding: 90px 0 100px !important;
   }
   .space-gallery-head {
     margin-bottom: 32px;
@@ -1684,7 +1738,7 @@ footer.site-footer {
 
 @media (max-width: 600px) {
   .space-gallery-section {
-    padding: 60px 6vw 70px;
+    padding: 70px 0 80px !important;
   }
   .space-gallery-head {
     margin-bottom: 28px;
@@ -2415,12 +2469,18 @@ footer.site-footer {
 
 /* ── Left column — text content, centered with breathing room ── */
 .contact-left {
-  padding: 100px 6vw 100px 6vw !important;
+  padding-top: 100px !important;
+  padding-bottom: 100px !important;
+  padding-left: max(
+    var(--container-pad),
+    calc((100vw - var(--container-max)) / 2 + var(--container-pad))
+  ) !important;
+  padding-right: max(40px, var(--container-pad)) !important;
   display: flex;
   flex-direction: column;
   gap: 72px;
   justify-content: center;
-  align-items: center;
+  align-items: flex-start;
 }
 
 /* Centered inner wrapper — text uses most of the left column width */
@@ -2678,7 +2738,13 @@ a.contact-value:focus-visible {
     min-height: auto;
   }
   .contact-left {
-    padding: 80px 7vw 60px !important;
+    padding-top: 80px !important;
+    padding-bottom: 60px !important;
+    padding-left: max(
+      var(--container-pad),
+      calc((100vw - var(--container-max)) / 2 + var(--container-pad))
+    ) !important;
+    padding-right: max(40px, var(--container-pad)) !important;
     gap: 56px;
   }
   .contact-right {
@@ -2689,7 +2755,10 @@ a.contact-value:focus-visible {
 
 @media (max-width: 600px) {
   .contact-left {
-    padding: 60px 6vw 48px;
+    padding-top: 60px !important;
+    padding-bottom: 48px !important;
+    padding-left: var(--container-pad) !important;
+    padding-right: var(--container-pad) !important;
     gap: 44px;
   }
   .contact-header {
@@ -2720,11 +2789,18 @@ a.contact-value:focus-visible {
 /* ── Header — left-aligned, single reading column, dark on white ── */
 .explore-head {
   text-align: left !important;
-  max-width: 56ch !important;
-  margin: 0 0 32px !important;
+  max-width: var(--container-max) !important;
+  width: 100% !important;
+  margin: 0 auto 32px !important;
+  padding-inline: var(--container-pad) !important;
   display: flex;
   flex-direction: column;
   align-items: flex-start;
+}
+
+.explore-head h2,
+.explore-head .explore-subtitle {
+  max-width: 56ch;
 }
 
 .explore-head .eyebrow {
@@ -2770,10 +2846,10 @@ a.contact-value:focus-visible {
   flex-wrap: wrap !important;
   align-items: center !important;
   gap: 8px !important;
-  width: auto !important;
-  max-width: none !important;
-  margin: 0 0 32px !important;
-  padding: 0 !important;
+  width: 100% !important;
+  max-width: var(--container-max) !important;
+  margin: 0 auto 32px !important;
+  padding-inline: var(--container-pad) !important;
   border-top: 0 !important;
   border-bottom: 0 !important;
 }

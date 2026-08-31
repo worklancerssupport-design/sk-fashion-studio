@@ -3,7 +3,14 @@
    ════════════════════════════════════════════════════════════════════════════ */
 
 .hero { height: 100vh; min-height: 760px; background: #100d0f; }
-.hero-copy { margin-left: 12vw; max-width: 640px; padding: 8vh 0 0; }
+.hero-copy {
+  max-width: 760px;
+  padding: 8vh 0 0;
+  padding-left: max(
+    var(--container-pad, clamp(20px, 4vw, 32px)),
+    calc((100vw - var(--container-max, 1200px)) / 2 + var(--container-pad, clamp(20px, 4vw, 32px)))
+  );
+}
 .hero-copy h1 { margin: 26px 0 34px; }
 .hero-copy > p:last-of-type { max-width: 530px; line-height: 1.95; opacity: 0.7; }
 .hero .actions { margin-top: 44px; }
@@ -32,7 +39,7 @@
    ════════════════════════════════════════════════════════════════════════════ */
 
 .explore-section {
-  padding: 90px 10vw 110px;
+  padding: 90px 0 110px;
   background:
     radial-gradient(ellipse at 8% 12%,  rgba(245, 210, 220, 0.55) 0%, transparent 42%),
     radial-gradient(ellipse at 92% 88%, rgba(255, 228, 232, 0.45) 0%, transparent 38%),
@@ -73,8 +80,10 @@
 /* Section head */
 .explore-head {
   text-align: center;
-  max-width: 700px;
+  max-width: var(--container-max, 1200px);
+  width: 100%;
   margin: 0 auto 36px;
+  padding-inline: var(--container-pad, clamp(20px, 4vw, 32px));
 }
 .explore-head .eyebrow { margin-bottom: 14px; }
 .explore-head h2 {
@@ -98,6 +107,10 @@
   justify-content: center;
   margin-bottom: 52px;
   padding-bottom: 20px;
+  max-width: var(--container-max, 1200px);
+  width: 100%;
+  margin-inline: auto;
+  padding-inline: var(--container-pad, clamp(20px, 4vw, 32px));
   border-bottom: 1px solid rgba(210, 155, 170, 0.3);
 }
 .cat-nav-pill {
@@ -131,6 +144,10 @@
   display: flex;
   flex-direction: column;
   gap: 0;
+  max-width: var(--container-max, 1200px);
+  width: 100%;
+  margin-inline: auto;
+  padding-inline: var(--container-pad, clamp(20px, 4vw, 32px));
 }
 
 /* ── Each category article ── */
@@ -262,7 +279,7 @@
    RESPONSIVE — Explore Designs
    ════════════════════════════════════════════════════════════════════════════ */
 @media (max-width: 900px) {
-  .explore-section { padding: 80px 7vw 100px; }
+  .explore-section { padding: 80px 0 100px; }
   .explore-head { margin-bottom: 40px; }
   .explore-cat-nav { margin-bottom: 55px; }
   .design-category { padding: 55px 0; }
@@ -293,7 +310,7 @@
 }
 
 @media (max-width: 600px) {
-  .explore-section { padding: 60px 6vw 80px; }
+  .explore-section { padding: 60px 0 80px; }
   .explore-cat-nav { gap: 6px; margin-bottom: 40px; }
   .cat-nav-pill { padding: 8px 14px; font-size: .64rem; }
   .design-cat-meta h3 { font-size: 1.85rem; }
@@ -312,7 +329,7 @@
    ════════════════════════════════════════════════════════════════════════════ */
 @media (max-width: 800px) {
   .hero { height: 92vh; min-height: 680px; }
-  .hero-copy { margin-left: 7vw; padding-top: 5vh; max-width: 520px; }
+  .hero-copy { padding-top: 5vh; max-width: 520px; }
   .hero-copy h1 { margin: 22px 0; }
   .hero .actions { margin-top: 30px; }
   .float-one { left: auto; right: 3vw; width: 30vw; height: 33vh; opacity: .5; }
@@ -323,7 +340,7 @@
 
 @media (max-width: 430px) {
   .hero { min-height: 90vh; }
-  .hero-copy { margin: 0 7vw; padding-top: 9vh; }
+  .hero-copy { margin: 0 var(--container-pad, 20px); padding-top: 9vh; }
   .hero-copy h1 { font-size: 3.2rem; }
   .hero-copy > p:last-of-type { font-size: .9rem; }
   .hero .actions { gap: 10px; }

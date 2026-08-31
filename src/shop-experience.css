@@ -6,7 +6,7 @@
    ════════════════════════════════════════════════════════════════════════════ */
 
 .shop-gallery-section {
-  padding: 140px 9vw 160px;
+  padding: 140px 0 160px;
   background:
     radial-gradient(ellipse at 10% 20%, rgba(45, 25, 20, 0.7) 0%, transparent 50%),
     radial-gradient(ellipse at 90% 80%, rgba(35, 15, 12, 0.5) 0%, transparent 45%),
@@ -213,7 +213,7 @@
 
 /* ── Responsive ── */
 @media (max-width: 900px) {
-  .shop-gallery-section { padding: 90px 7vw 100px; }
+  .shop-gallery-section { padding: 90px 0 100px; }
   .shop-gallery-grid {
     grid-template-columns: 1fr 1fr;
     grid-template-rows: 220px 220px 220px;
@@ -222,11 +222,11 @@
   .shop-gallery-item--0 { grid-column: span 2; grid-row: span 1; }
   .meet-owners { grid-template-columns: 1fr; }
   .owner-photo { height: 420px; }
-  .owner-content { padding: 60px 7vw; }
+  .owner-content { padding: 60px 0; }
 }
 
 @media (max-width: 600px) {
-  .shop-gallery-section { padding: 70px 6vw 80px; }
+  .shop-gallery-section { padding: 70px 0 80px; }
   .shop-gallery-grid {
     grid-template-columns: 1fr;
     grid-template-rows: 280px 200px 200px 200px 200px;

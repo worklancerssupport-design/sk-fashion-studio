@@ -1821,7 +1821,6 @@ export default function App() {
           >
             <Sparkles size={13} className="cta-icon-sparkle" />
             <span>Start Your Design</span>
-            <ArrowRight size={14} className="cta-icon-arrow" />
           </motion.button>
 
           <B className="menu" onClick={() => setMenu(!menu)} aria-label="Toggle Navigation Menu">
@@ -1881,7 +1880,7 @@ export default function App() {
             </motion.p>
             <motion.div className="actions" initial={{ opacity: 0, y: 12 }} animate={{ opacity: 1, y: 0 }} transition={{ delay: 0.5 }}>
               <B className="button pink" onClick={() => smoothScrollTo('explore-designs', 1300, 70)}>
-                Explore our designs <ArrowRight size={16} />
+                Explore our designs
               </B>
               <B className="button light" onClick={() => openCustomWithOutfit()}>
                 Create your custom design
