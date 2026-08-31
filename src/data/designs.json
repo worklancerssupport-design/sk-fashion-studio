@@ -3,7 +3,7 @@
     {
       "id": "bridal-blouses",
       "label": "Bridal Blouses",
-      "desc": "Premium bridal blouse designs with heavy embroidery, stone work, and detailed craftsmanship — made for your most important day.",
+      "desc": "Premium bridal blouse designs with heavy embroidery, stone work, and detailed craftsmanship, made for your most important day.",
       "layout": "feature-left",
       "images": [
         "https://i.pinimg.com/originals/b3/f6/6d/b3f66da77bb5d1b9e685a34ae521a17e.jpg",
@@ -30,7 +30,7 @@
     {
       "id": "lehenga-designs",
       "label": "Lehenga Designs",
-      "desc": "Bridal, traditional, and designer lehenga stitching styles — from grand bridal flares to contemporary silhouettes.",
+      "desc": "Bridal, traditional, and designer lehenga stitching styles, from grand bridal flares to contemporary silhouettes.",
       "layout": "editorial-right",
       "images": [
         "https://www.trendbuy.co.in/cdn/shop/files/New_Trending_Design_Bridal_Lehenga_Choli.jpg?v=1743833178",
@@ -44,7 +44,7 @@
     {
       "id": "reception-designs",
       "label": "Reception Designs",
-      "desc": "Elegant and modern outfits curated for receptions and special evening events — refined, graceful, and unforgettable.",
+      "desc": "Elegant and modern outfits curated for receptions and special evening events, refined, graceful, and unforgettable.",
       "layout": "triple-grid",
       "images": [
         "https://i.pinimg.com/1200x/38/0f/dc/380fdcf5dc8a36c295ccb1bf29a67329.jpg",
@@ -110,7 +110,7 @@
     {
       "id": "embroidery-works",
       "label": "Embroidery Works",
-      "desc": "Detailed embroidery including thread work, stone work, bead work, bridal embroidery, and custom patterns — each piece a labour of love.",
+      "desc": "Detailed embroidery including thread work, stone work, bead work, bridal embroidery, and custom patterns, each piece a labour of love.",
       "layout": "triple-grid",
       "images": [
         "https://i.pinimg.com/736x/ce/11/a6/ce11a64f821dd3de4884baba6b23b5c1.jpg",
@@ -123,7 +123,7 @@
     {
       "id": "chudidar-works",
       "label": "Chudidar Works",
-      "desc": "Custom stitched and designer chudidar collections — comfortable, stylish, and made precisely for your silhouette.",
+      "desc": "Custom stitched and designer chudidar collections, comfortable, stylish, and made precisely for your silhouette.",
       "layout": "triple-grid",
       "images": [
         "https://i.pinimg.com/736x/40/a4/9e/40a49eb2fd21506641abb8c5a0961e3b.jpg",

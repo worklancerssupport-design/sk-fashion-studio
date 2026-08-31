@@ -343,15 +343,6 @@ function CategorySection({ cat, active }: { cat: typeof designCategories[0]; act
           <div className="design-cat-meta">
             <h3>{cat.label}</h3>
             <p>{cat.desc}</p>
-            {cat.subcategories && (
-              <div className="design-subcat-chips">
-                {cat.subcategories.map((sub, idx) => (
-                  <span key={idx} className="subcat-chip">
-                    <Sparkles size={12} /> {sub}
-                  </span>
-                ))}
-              </div>
-            )}
           </div>
           <span className="design-cat-num">0{designCategories.indexOf(cat) + 1}</span>
         </div>
@@ -392,11 +383,11 @@ function CategorySection({ cat, active }: { cat: typeof designCategories[0]; act
 
 // ─── EXPLORE DESIGNS SECTION ─────────────────────────────────────────────────
 function ExploreDesigns() {
-  const [activeNav, setActiveNav] = useState<string>('all');
+  const [activeNav, setActiveNav] = useState<string>(designCategories[0].id);
 
   const selectCategory = (id: string) => {
     setActiveNav(id);
-    smoothScrollTo(id === 'all' ? 'explore-designs' : id, 1200, 75);
+    smoothScrollTo(id, 1200, 75);
   };
 
   return (
@@ -409,26 +400,19 @@ function ExploreDesigns() {
         whileInView={{ opacity: 1, y: 0 }}
         viewport={{ once: true }}
       >
-        <p className="eyebrow pink-text">THE DESIGN PORTFOLIO</p>
-        <h2>Explore Our <i>Designs</i></h2>
+        <p className="eyebrow explore-eyebrow">The Design Portfolio</p>
+        <h2>Explore our <i>designs.</i></h2>
         <p className="explore-subtitle">
-          From timeless bridal craftsmanship to modern saree transformations and kids wear, discover
-          creations crafted for life’s grandest occasions.
+          A curated collection across bridal couture, designer blouses, saree transformations and bespoke kids wear.
         </p>
       </motion.div>
 
-      {/* Category navigation bar */}
+      {/* Category navigation bar — linear, full-width, equal cells */}
       <div className="explore-cat-nav">
-        <button
-          className={`cat-nav-pill${activeNav === 'all' ? ' cat-nav-pill--active' : ''}`}
-          onClick={() => selectCategory('all')}
-        >
-          All Designs
-        </button>
         {designCategories.map(cat => (
           <button
             key={cat.id}
-            className={`cat-nav-pill${activeNav === cat.id ? ' cat-nav-pill--active' : ''}`}
+            className={`cat-nav-link${activeNav === cat.id ? ' cat-nav-link--active' : ''}`}
             onClick={() => selectCategory(cat.id)}
           >
             {navLabels[cat.id] || cat.label}
@@ -2055,7 +2039,7 @@ export default function App() {
                   <span className="footer-contact-label">Founder</span>
                   <div className="footer-contact-value">
                     <span>Karuna Kumari</span>
-                    <span className="footer-contact-sub">Fashion School Graduate · 8+ Years of Bespoke Craft</span>
+                    {/* <span className="footer-contact-sub">Fashion School Graduate · 8+ Years of Bespoke Craft</span> */}
                   </div>
                 </div>
 
@@ -2063,7 +2047,7 @@ export default function App() {
                   <span className="footer-contact-label">Phone</span>
                   <div className="footer-contact-value">
                     <a href={`tel:${contactData.phoneDigits}`}>{contactData.phone}</a>
-                    <span className="footer-contact-sub">{contactData.workingHours}</span>
+                    {/* <span className="footer-contact-sub">{contactData.workingHours}</span> */}
                   </div>
                 </div>
 
@@ -2071,7 +2055,7 @@ export default function App() {
                   <span className="footer-contact-label">WhatsApp</span>
                   <div className="footer-contact-value">
                     <a href={contactData.whatsapp} target="_blank" rel="noreferrer">{contactData.phone}</a>
-                    <span className="footer-contact-sub">Instant Design Quotes &amp; Queries</span>
+                    {/* <span className="footer-contact-sub">Instant Design Quotes &amp; Queries</span> */}
                   </div>
                 </div>
 
@@ -2079,7 +2063,7 @@ export default function App() {
                   <span className="footer-contact-label">Email</span>
                   <div className="footer-contact-value">
                     <a href={`mailto:${contactData.email}`}>{contactData.email}</a>
-                    <span className="footer-contact-sub">Send References &amp; Fabric Details</span>
+                    {/* <span className="footer-contact-sub">Send References &amp; Fabric Details</span> */}
                   </div>
                 </div>
 
@@ -2087,7 +2071,7 @@ export default function App() {
                   <span className="footer-contact-label">Boutique</span>
                   <div className="footer-contact-value">
                     <span>30A, Sheshadripuram 1st Main Rd, Chennai</span>
-                    <a href={contactData.mapsDirectionsUrl} target="_blank" rel="noreferrer" className="footer-contact-action">Get directions →</a>
+                    {/* <a href={contactData.mapsDirectionsUrl} target="_blank" rel="noreferrer" className="footer-contact-action">Get directions →</a> */}
                   </div>
                 </div>
 

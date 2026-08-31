@@ -1064,31 +1064,6 @@ footer.site-footer {
 }
 
 /* ════════════════════════════════════════════════════════════════════════════
-   EXPLORE DESIGNS SUBCATEGORY CHIPS
-   ════════════════════════════════════════════════════════════════════════════ */
-
-.design-subcat-chips {
-  display: flex;
-  flex-wrap: wrap;
-  gap: 8px;
-  margin-top: 10px;
-}
-
-.subcat-chip {
-  display: inline-flex;
-  align-items: center;
-  gap: 5px;
-  font-size: 0.72rem;
-  padding: 3px 10px;
-  border-radius: 20px;
-  background: rgba(240, 139, 171, 0.12);
-  color: #f08bab;
-  border: 1px solid rgba(240, 139, 171, 0.28);
-  font-weight: 500;
-  letter-spacing: 0.04em;
-}
-
-/* ════════════════════════════════════════════════════════════════════════════
    ABOUT THE OWNER SECTION (Karuna Kumari)
    ════════════════════════════════════════════════════════════════════════════ */
 
@@ -2725,6 +2700,211 @@ a.contact-value:focus-visible {
   }
   .contact-right {
     height: 320px;
+  }
+}
+
+/* ════════════════════════════════════════════════════════════════════════════
+   EXPLORE OUR DESIGNS — White mode, typography-first header
+   Matches the About Owner / Visit Our Space pattern, inverted for white theme.
+   ════════════════════════════════════════════════════════════════════════════ */
+
+.explore-section {
+  background: #ffffff !important;
+  color: #151415;
+}
+
+.explore-section::before {
+  display: none;
+}
+
+/* ── Header — left-aligned, single reading column, dark on white ── */
+.explore-head {
+  text-align: left !important;
+  max-width: 56ch !important;
+  margin: 0 0 32px !important;
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+}
+
+.explore-head .eyebrow {
+  margin: 0 0 28px !important;
+}
+
+.explore-eyebrow {
+  font-size: 0.7rem !important;
+  letter-spacing: 0.22em;
+  text-transform: uppercase;
+  font-weight: 500;
+  color: rgba(20, 14, 18, 0.5) !important;
+}
+
+.explore-head h2 {
+  font-family: 'Playfair Display', Georgia, serif !important;
+  font-weight: 500 !important;
+  font-size: clamp(2.4rem, 4.6vw, 3.6rem) !important;
+  line-height: 1.05 !important;
+  letter-spacing: -0.025em !important;
+  color: rgba(20, 14, 18, 0.88) !important;
+  margin: 0 0 18px !important;
+  max-width: 18ch !important;
+}
+
+.explore-head h2 i {
+  font-style: italic;
+  font-weight: 500;
+  color: rgba(20, 14, 18, 0.5);
+}
+
+.explore-subtitle {
+  font-size: 0.95rem !important;
+  line-height: 1.7 !important;
+  color: rgba(20, 14, 18, 0.55) !important;
+  margin: 0 !important;
+  max-width: 52ch !important;
+}
+
+/* ── Category navigation — minimal outline pills, same on every viewport ── */
+.explore-cat-nav {
+  display: flex !important;
+  flex-wrap: wrap !important;
+  align-items: center !important;
+  gap: 8px !important;
+  width: auto !important;
+  max-width: none !important;
+  margin: 0 0 32px !important;
+  padding: 0 !important;
+  border-top: 0 !important;
+  border-bottom: 0 !important;
+}
+
+.cat-nav-link {
+  flex: none !important;
+  background: transparent !important;
+  border: 1px solid rgba(20, 14, 18, 0.1) !important;
+  border-radius: 999px !important;
+  backdrop-filter: none !important;
+  box-shadow: none !important;
+  padding: 8px 16px !important;
+  font-size: 0.7rem !important;
+  letter-spacing: 0.12em !important;
+  text-transform: uppercase !important;
+  font-weight: 500 !important;
+  color: rgba(20, 14, 18, 0.55) !important;
+  cursor: pointer !important;
+  white-space: nowrap !important;
+  line-height: 1 !important;
+  transition: color .25s ease, border-color .25s ease, background-color .25s ease !important;
+}
+
+.cat-nav-link:hover {
+  border-color: rgba(20, 14, 18, 0.28) !important;
+  color: rgba(20, 14, 18, 0.82) !important;
+  background: rgba(20, 14, 18, 0.025) !important;
+}
+
+.cat-nav-link--active {
+  background: rgba(20, 14, 18, 0.92) !important;
+  color: rgba(255, 255, 255, 0.95) !important;
+  border-color: rgba(20, 14, 18, 0.92) !important;
+}
+
+/* ── Tighten vertical rhythm — push the first category image higher ── */
+.design-category {
+  padding: 40px 0 !important;
+}
+
+.design-category:first-child {
+  border-top: 0 !important;
+  padding-top: 24px !important;
+}
+
+.design-cat-header {
+  margin-bottom: 18px !important;
+}
+
+/* ── Per-category header — "museum placard" treatment ──
+   Title = small sans-serif caps label, not a headline.
+   Caption = tiny low-contrast one-liner, recedes behind the images.
+   Number = sans tabular-num anchor on the right.
+   Active state = subtle editorial mark (thin line before title), NO pink. */
+.design-cat-meta {
+  display: flex !important;
+  flex-direction: column !important;
+  gap: 6px !important;
+  min-width: 0 !important;
+}
+
+.design-cat-meta h3 {
+  font-family: 'Inter', 'Helvetica Neue', system-ui, sans-serif !important;
+  font-weight: 500 !important;
+  font-size: 0.95rem !important;
+  line-height: 1.2 !important;
+  letter-spacing: 0.22em !important;
+  text-transform: uppercase !important;
+  color: rgba(20, 14, 18, 0.92) !important;
+  margin: 0 !important;
+  display: inline-flex !important;
+  align-items: center !important;
+}
+
+.design-cat-meta p {
+  font-family: 'Inter', 'Helvetica Neue', system-ui, sans-serif !important;
+  font-size: 0.82rem !important;
+  font-weight: 400 !important;
+  line-height: 1.5 !important;
+  letter-spacing: 0 !important;
+  color: rgba(20, 14, 18, 0.42) !important;
+  max-width: 56ch !important;
+  margin: 0 !important;
+}
+
+.design-cat-num {
+  font-family: 'Inter', 'Helvetica Neue', system-ui, sans-serif !important;
+  font-weight: 400 !important;
+  font-size: 0.85rem !important;
+  letter-spacing: 0.12em !important;
+  color: rgba(20, 14, 18, 0.28) !important;
+  font-variant-numeric: tabular-nums !important;
+  flex-shrink: 0 !important;
+}
+
+/* Active state — neutral. Title text stays the same dark; no pink, no color shift. */
+.design-category--active .design-cat-meta h3 {
+  color: rgba(20, 14, 18, 0.92) !important;
+}
+
+.design-category--active .design-cat-num {
+  color: rgba(20, 14, 18, 0.55) !important;
+}
+
+@media (max-width: 800px) {
+  .explore-head {
+    margin: 0 0 28px !important;
+  }
+  .design-category {
+    padding: 32px 0 !important;
+  }
+  .design-category:first-child {
+    padding-top: 16px !important;
+  }
+  .design-cat-header {
+    flex-direction: column !important;
+    align-items: flex-start !important;
+    gap: 10px !important;
+    margin-bottom: 16px !important;
+  }
+  .design-cat-meta h3 {
+    font-size: 0.82rem !important;
+    letter-spacing: 0.18em !important;
+  }
+  .design-cat-meta p {
+    font-size: 0.78rem !important;
+    line-height: 1.45 !important;
+  }
+  .design-cat-num {
+    font-size: 0.72rem !important;
+    order: -1 !important;
   }
 }
 
