@@ -3,7 +3,7 @@ import { Routes, Route } from 'react-router-dom';
 import { AnimatePresence, motion } from 'framer-motion';
 import {
   AlertCircle, ArrowRight, Check, CheckCircle2, ChevronDown, ChevronLeft, ChevronRight,
-  Clock, Download, ExternalLink, FileText, Globe, Heart, Instagram, Loader2, MapPin, Menu,
+  Clock, Download, ExternalLink, FileText, Heart, Instagram, Loader2, MapPin, Menu,
   MessageCircle, MessageSquarePlus, Phone, Scissors, Send, ShieldCheck,
   Sparkles, Star, Upload, UserCheck, X
 } from 'lucide-react';
@@ -127,56 +127,6 @@ function HeroSlideshow() {
 }
 
 // ─── HERO EXPLORE DROPDOWN ───────────────────────────────────────────────────
-function ExploreDropdown() {
-  const [open, setOpen] = useState(false);
-  const ref = useRef<HTMLDivElement>(null);
-
-  useEffect(() => {
-    const handler = (e: MouseEvent) => {
-      if (ref.current && !ref.current.contains(e.target as Node)) setOpen(false);
-    };
-    document.addEventListener('mousedown', handler);
-    return () => document.removeEventListener('mousedown', handler);
-  }, []);
-
-  const go = (targetId: string) => {
-    setOpen(false);
-    smoothScrollTo(targetId, 1300, 70);
-  };
-
-  const menuItems = [
-    { label: 'All Designs', id: 'explore-designs' },
-    ...designCategories.map(c => ({ label: c.label, id: c.id })),
-  ];
-
-  return (
-    <div className="explore-wrap" ref={ref}>
-      <B className="button pink explore-button" onClick={() => setOpen(x => !x)}>
-        Explore our designs <ChevronDown className={open ? 'up' : ''} />
-      </B>
-      <AnimatePresence>
-        {open && (
-          <motion.div
-            className="explore-menu"
-            initial={{ opacity: 0, y: 10, scale: 0.97 }}
-            animate={{ opacity: 1, y: 0, scale: 1 }}
-            exit={{ opacity: 0, y: 10, scale: 0.97 }}
-            transition={{ duration: 0.18 }}
-          >
-            {menuItems.map(item => (
-              <B key={item.id} onClick={() => go(item.id)}>
-                <Sparkles size={14} />
-                {item.label}
-                <ArrowRight size={14} />
-              </B>
-            ))}
-          </motion.div>
-        )}
-      </AnimatePresence>
-    </div>
-  );
-}
-
 // ─── SERVICE INFORMATIONAL MODAL (Framer Motion) ─────────────────────────────
 function ServiceDetailModal({
   service,
@@ -318,7 +268,6 @@ function CategorySection({ cat, active }: { cat: typeof designCategories[0]; act
             onClick={() => setLight(0)}
           >
             <img src={img(images[0], 1200)} alt={cat.label} />
-            <span className="cat-img-overlay"><span>{cat.label}</span></span>
           </motion.button>
           <div className="cat-img-grid-2x2">
             {images.slice(1, 5).map((id, i) => (
@@ -329,7 +278,6 @@ function CategorySection({ cat, active }: { cat: typeof designCategories[0]; act
                 onClick={() => setLight(i + 1)}
               >
                 <img src={img(id)} alt={cat.label} />
-                <span className="cat-img-overlay"><span>{cat.label}</span></span>
               </motion.button>
             ))}
           </div>
@@ -349,7 +297,6 @@ function CategorySection({ cat, active }: { cat: typeof designCategories[0]; act
                 onClick={() => setLight(i)}
               >
                 <img src={img(id)} alt={cat.label} />
-                <span className="cat-img-overlay"><span>{cat.label}</span></span>
               </motion.button>
             ))}
           </div>
@@ -359,7 +306,6 @@ function CategorySection({ cat, active }: { cat: typeof designCategories[0]; act
             onClick={() => setLight(images.length > 4 ? 4 : 0)}
           >
             <img src={img(images[4] || images[0], 1200)} alt={cat.label} />
-            <span className="cat-img-overlay"><span>{cat.label}</span></span>
           </motion.button>
         </div>
       );
@@ -376,9 +322,6 @@ function CategorySection({ cat, active }: { cat: typeof designCategories[0]; act
               onClick={() => setLight(i)}
             >
               <img src={img(id, 1200)} alt={cat.label} />
-              <span className="cat-img-overlay">
-                <span>{cat.subcategories ? cat.subcategories[i % cat.subcategories.length] : cat.label}</span>
-              </span>
             </motion.button>
           ))}
         </div>
@@ -396,7 +339,6 @@ function CategorySection({ cat, active }: { cat: typeof designCategories[0]; act
               onClick={() => setLight(i)}
             >
               <img src={img(id, i === 0 ? 1400 : 900)} alt={cat.label} />
-              <span className="cat-img-overlay"><span>{cat.label}</span></span>
             </motion.button>
           ))}
         </div>
@@ -414,7 +356,6 @@ function CategorySection({ cat, active }: { cat: typeof designCategories[0]; act
             onClick={() => setLight(i)}
           >
             <img src={img(id, i === 0 ? 1200 : 900)} alt={cat.label} />
-            <span className="cat-img-overlay"><span>{cat.label}</span></span>
           </motion.button>
         ))}
       </div>
@@ -752,73 +693,41 @@ function ShopGallery() {
 
 // ─── ABOUT THE OWNER SECTION (Karuna Kumari) ─────────────────────────────────
 function AboutOwner() {
-  const languages = ['Tamil', 'English', 'Hindi', 'Telugu'];
-
   return (
     <motion.section
       id="about-owner"
       className="about-owner-section"
       initial={{ opacity: 0, y: 28 }}
       whileInView={{ opacity: 1, y: 0 }}
-      viewport={{ once: true, amount: 0.12 }}
+      viewport={{ once: true, amount: 0.15 }}
     >
-      {/* Light Tailoring Background Motifs */}
-      <DecorMeasuringTape className="decor-owner-tl" />
-      <DecorMannequinSilhouette className="decor-owner-br" />
-      <DecorTailorScissors className="decor-owner-tr" />
-
       <div className="about-owner-container">
-        {/* Owner Header Info */}
-        <div className="owner-header-tag">
-          <p className="eyebrow pink-text">THE HEART OF SK FASHION STUDIO</p>
-          <h2>About the Owner</h2>
-          <h3 className="owner-name-title">Karuna Kumari</h3>
-          <span className="owner-role-badge">Founder &amp; Head Designer</span>
-        </div>
+        <p className="about-owner-eyebrow">The Designer</p>
 
-        {/* Bio Text */}
-        <div className="owner-bio-text">
+        <h2 className="about-owner-name">
+          Karuna <i>Kumari.</i>
+        </h2>
+
+        <p className="about-owner-role">Founder &amp; Head Designer · SK Fashion Studio</p>
+
+        <div className="about-owner-body">
           <p>
             Karuna Kumari is the creative force behind SK Fashion Studio. A fashion school graduate since 2016,
-            she brings over 8 years of experience in designing, tailoring, custom styling, and understanding the
-            unique needs of every client.
+            she brings over eight years of experience in designing, tailoring and custom styling — and a quiet
+            belief that every outfit should feel made for the person wearing it.
           </p>
           <p>
-            Her approach to fashion is deeply personal — every outfit is designed with attention to comfort,
-            fit, occasion, personality, and individual style. From bridal blouses and wedding outfits to saree
-            transformations and children’s wear, she believes that every creation should feel truly made for the
-            person wearing it.
+            From bridal blouses and wedding wear to saree transformations and children's outfits, her process is
+            the same: attention to comfort, fit, occasion and the small details that make a garment yours. Comfortable to converse and style in English, Hindi, Tamil, or Telugu.     
           </p>
         </div>
 
-        {/* Measurements Trust Highlight Card */}
-        <div className="owner-trust-card">
-          <div className="trust-card-icon">
-            <ShieldCheck size={26} />
-          </div>
-          <div className="trust-card-body">
-            <h4>Personal Measurements, Personally Taken</h4>
-            <p>
-              "At SK Fashion Studio, all customer measurements are personally taken by Karuna Kumari.
-              No male staff member will take measurements."
-            </p>
-            <span className="trust-card-guarantee">
-              <UserCheck size={14} /> 100% Privacy, Comfort &amp; Respect Guaranteed
-            </span>
-          </div>
-        </div>
-
-        {/* Languages Spoken */}
-        <div className="owner-languages-block">
-          <span className="languages-label">
-            <Globe size={15} /> Languages Spoken:
-          </span>
-          <div className="languages-pills">
-            {languages.map(lang => (
-              <span className="lang-pill" key={lang}>{lang}</span>
-            ))}
-          </div>
-        </div>
+        <blockquote className="about-owner-quote">
+          <p>
+            All customer measurements are personally taken by Karuna Kumari.
+            No male staff member will ever take your measurements.
+          </p>
+        </blockquote>
       </div>
     </motion.section>
   );
@@ -2115,11 +2024,13 @@ export default function App() {
             <motion.h1 initial={{ opacity: 0, y: 28 }} animate={{ opacity: 1, y: 0 }} transition={{ delay: 0.16 }}>
               Raw fabric.<br />Rare <i>fashion.</i>
             </motion.h1>
-            <motion.p initial={{ opacity: 0 }} animate={{ opacity: 1 }} transition={{ delay: 0.35 }}>
+            <motion.p initial={{ opacity: 0 }} animate={{ opacity: 0.7 }} transition={{ delay: 0.35 }}>
               Bespoke tailoring and custom design, crafted entirely around you.
             </motion.p>
             <motion.div className="actions" initial={{ opacity: 0, y: 12 }} animate={{ opacity: 1, y: 0 }} transition={{ delay: 0.5 }}>
-              <ExploreDropdown />
+              <B className="button pink" onClick={() => smoothScrollTo('explore-designs', 1300, 70)}>
+                Explore our designs <ArrowRight size={16} />
+              </B>
               <B className="button light" onClick={() => openCustomWithOutfit()}>
                 Create your custom design
               </B>
@@ -2128,63 +2039,30 @@ export default function App() {
           <a className="scroll" href="#about">SCROLL TO EXPLORE <b>↓</b></a>
         </section>
 
-        {/* ── About Atelier ── */}
-        <Section id="about" c="intro">
-          <p className="eyebrow pink-text">THE SK EXPERIENCE</p>
-          <h2>Crafting fashion,<br /><i>one detail at a time.</i></h2>
-          <div className="intro-grid">
-            <p>
-              Every garment begins with a personal conversation. We listen to your vision, understand the
-              occasion, and bring it alive through considered design, delicate hand embroidery, and precise bespoke tailoring.
-            </p>
-            <div>
-              {[
-                'Personalised stitching',
-                'Perfect fitting by Karuna Kumari',
-                'Detailed Maggam & Aari embroidery',
-                'Saree conversions & pre-pleating',
-                'Skin-safe kids wear'
-              ].map(x => (
-                <span className="tag" key={x}><Sparkles size={14} />{x}</span>
-              ))}
-            </div>
-          </div>
-        </Section>
-
         {/* ── Services Section ── */}
         <Section id="services" c="services">
-          <DecorBlouseOutline className="decor-services-tr" />
-          <DecorEmbroideryCircle className="decor-services-bl" />
-          <div className="heading-row">
-            <div>
-              <p className="eyebrow pink-text">OUR ATELIER SERVICES</p>
-              <h2>Designed around <i>you.</i></h2>
-              <p className="services-subtitle">
-                Click any service to view design inclusions, fabric options, and bespoke customization details.
-              </p>
-            </div>
+          <div className="services-header">
+            <p className="services-eyebrow">Services</p>
+            <h2 className="services-heading">
+              Designed around <i>you.</i>
+            </h2>
           </div>
 
           <div className="service-grid">
             {servicesData.map(service => (
               <motion.article
-                whileHover={{ y: -6 }}
-                className="service service-card-interactive"
+                whileHover={{ y: -4 }}
+                transition={{ duration: 0.35, ease: [0.16, 1, 0.3, 1] }}
+                className="service"
                 key={service.id}
                 onClick={() => setActiveServiceModal(service)}
               >
-                <div className="service-card-top-bar">
-                  <em>{service.number}</em>
-                  <span className="service-badge-pill">{service.badge}</span>
-                </div>
-                <Scissors size={24} className="service-card-icon" />
+                <span className="service-number">{service.number}</span>
                 <h3>{service.title}</h3>
                 <p>{service.shortDesc}</p>
-                <div className="service-card-footer">
-                  <span className="service-learn-more">
-                    View Service Details <ArrowRight size={14} />
-                  </span>
-                </div>
+                <span className="service-arrow" aria-hidden="true">
+                  <ArrowRight size={16} />
+                </span>
               </motion.article>
             ))}
           </div>
@@ -2256,10 +2134,7 @@ export default function App() {
           <div className="footer-header-row">
             <div className="footer-brand-box">
               <a className="footer-brand-logo" href="#home">
-                <span className="footer-brand-monogram">SK</span>
-                <div className="footer-brand-text">
-                  <span className="footer-brand-name">FASHION TAILORS</span>
-                </div>
+                <BrandLogo bare size="md" color="#ffffff" />
               </a>
               <p className="footer-brand-desc">
                 Bespoke Bridal, Designer Blouse &amp; Haute Couture Studio
