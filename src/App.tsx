@@ -10,6 +10,7 @@ import {
 import { jsPDF } from 'jspdf';
 import { fetchGoogleReviews, GooglePlaceDetails, fallbackPlaceData } from './services/googleReviews';
 import EditPage from './edit/EditPage';
+import BrandLogo from './components/BrandLogo';
 import servicesData from './data/services.json';
 import { categories as designCategories, navLabels as navLabelsRaw } from './data/designs.json';
 
@@ -2016,8 +2017,7 @@ export default function App() {
           transition={{ duration: 0.6, delay: 0.1 }}
           whileHover={{ y: -1 }}
         >
-          <img src="/sk_logo_alone.svg" alt="SK" className="brand-logo" />
-          <span style={{ fontFamily: "'Jost', sans-serif", fontSize: '14px', fontWeight: 300, letterSpacing: '0.18em', color: '#fff', textTransform: 'uppercase', fontStyle: 'normal', borderRight: 'none', paddingRight: 0 }}>FASHION STUDIO</span>
+          <BrandLogo bare size="md" color="#ffffff" />
         </motion.a>
 
         {/* CENTER: Clean Navigation Links */}

@@ -1,6 +1,7 @@
 import React, { useState } from 'react';
 import { useAuth } from './hooks/useAuth';
-import { Lock, User, LogIn, AlertCircle } from 'lucide-react';
+import BrandLogo from '../components/BrandLogo';
+import { Lock, LogIn, AlertCircle } from 'lucide-react';
 
 export default function EditLogin() {
   const { login, error } = useAuth();
@@ -16,13 +17,17 @@ export default function EditLogin() {
   };
 
   return (
-    <div className="edit-login-wrapper">
+    <div className="edit-login-page">
       <form className="edit-login-card" onSubmit={handleSubmit}>
-        <div className="edit-login-header">
-          <div className="edit-login-icon"><Lock size={28} /></div>
-          <h1>Edit Console</h1>
-          <p>Sign in to manage your website content</p>
+        <div className="edit-login-mark">
+          <BrandLogo size="md" color="#151415" />
         </div>
+
+        <div className="edit-login-eyebrow">Sign in</div>
+        <h1 className="edit-login-title">Edit <em>Console</em></h1>
+        <p className="edit-login-subtitle">
+          Sign in to manage the website content — categories, images, navigation labels and more.
+        </p>
 
         {error && (
           <div className="edit-login-error">
@@ -32,10 +37,7 @@ export default function EditLogin() {
         )}
 
         <div className="edit-login-field">
-          <label htmlFor="username">
-            <User size={16} />
-            <span>Username</span>
-          </label>
+          <label htmlFor="username">Username</label>
           <input
             id="username"
             type="text"
@@ -48,10 +50,7 @@ export default function EditLogin() {
         </div>
 
         <div className="edit-login-field">
-          <label htmlFor="password">
-            <Lock size={16} />
-            <span>Password</span>
-          </label>
+          <label htmlFor="password">Password</label>
           <input
             id="password"
             type="password"
@@ -68,7 +67,7 @@ export default function EditLogin() {
             <span className="edit-spinner" />
           ) : (
             <>
-              <LogIn size={18} />
+              <LogIn size={16} />
               <span>Sign In</span>
             </>
           )}
