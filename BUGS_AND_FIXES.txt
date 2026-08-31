@@ -1,0 +1,22 @@
+BUGS AND FIXES
+==============
+
+BUG: Hero text pushed to the right ("half way from left to middle"),
+even after hard refresh. Cause was invisible even after many CSS checks.
+
+ROOT CAUSE: A broken comment block in src/final-tweaks.css (~lines 807-808)
+had stray text plus a second closing "*/" with no opening "/*". That
+invalid CSS triggered a parse error which silently dropped the
+.decor-el { position: absolute; } rule. The two decoration SVGs
+(.decor-hero-tl / .decor-hero-br) then fell into the display:flex .hero
+as position:static, occupying ~84px + 56px of space before .hero-copy
+and shoving the text right.
+
+FIX: Repair the comment (realigned to /* ... */). .decor-el is now
+parsed, the decor icons are position:absolute (out of flex flow), and
+.hero-copy sits at its intended margin-left: 12vw.
+
+LESSON: A stray/mismatched CSS comment (unbalanced */) can invalidate
+and silently drop unrelated rules further down the file. After editing
+large CSS files, re-verify with a headless-browser computed-style dump
+rather than trusting the minified build output.

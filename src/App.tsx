@@ -5,7 +5,7 @@ import {
   AlertCircle, ArrowRight, Check, CheckCircle2, ChevronDown, ChevronLeft, ChevronRight,
   Clock, Download, ExternalLink, FileText, Heart, Instagram, Loader2, MapPin, Menu,
   MessageCircle, MessageSquarePlus, Phone, Scissors, Send, ShieldCheck,
-  Sparkles, Star, Upload, UserCheck, X
+  Sparkles, Upload, UserCheck, X
 } from 'lucide-react';
 import { jsPDF } from 'jspdf';
 import { fetchGoogleReviews, GooglePlaceDetails, fallbackPlaceData } from './services/googleReviews';
@@ -164,88 +164,52 @@ function ServiceDetailModal({
         onClick={(e: React.MouseEvent) => e.stopPropagation()}
       >
         <button className="service-modal-close" onClick={onClose} aria-label="Close modal">
-          <X size={20} />
+          <X size={18} />
         </button>
 
-        {/* Modal Banner */}
+        {/* Modal Image with overlaid heading */}
         <div className="service-modal-hero">
           <img src={img(service.image, 1200)} alt={service.title} />
           <div className="service-modal-hero-overlay">
-            <span className="service-modal-badge">{service.badge}</span>
-            <h2>{service.title}</h2>
+            <p className="service-modal-eyebrow">Service</p>
+            <h2 className="service-modal-title">{service.title}</h2>
           </div>
         </div>
 
         {/* Modal Body */}
         <div className="service-modal-body">
-          <div className="service-modal-section">
-            <p className="service-modal-desc">{service.fullDesc}</p>
-          </div>
+          <p className="service-modal-desc">{service.fullDesc}</p>
 
-          <div className="service-modal-grid">
-            <div className="service-modal-block">
-              <h4>
-                <CheckCircle2 size={16} className="pink-icon" /> What is Included
-              </h4>
-              <ul>
-                {service.whatsIncluded.map((item, idx) => (
-                  <li key={idx}>
-                    <span className="bullet-dot" />
-                    <span>{item}</span>
-                  </li>
-                ))}
-              </ul>
-            </div>
+          <section className="service-modal-section">
+            <p className="service-modal-label">What is Included</p>
+            <ul className="service-modal-list">
+              {service.whatsIncluded.map((item, idx) => (
+                <li key={idx}>{item}</li>
+              ))}
+            </ul>
+          </section>
 
-            <div className="service-modal-block">
-              <h4>
-                <Sparkles size={16} className="pink-icon" /> Suitable Occasions
-              </h4>
-              <div className="occasion-tags">
-                {service.suitableOccasions.map((occ, idx) => (
-                  <span className="occasion-tag" key={idx}>{occ}</span>
-                ))}
-              </div>
+          <section className="service-modal-section">
+            <p className="service-modal-label">Customization &amp; Options</p>
+            <ul className="service-modal-list">
+              {service.customizationOptions.map((opt, idx) => (
+                <li key={idx}>{opt}</li>
+              ))}
+            </ul>
+          </section>
+        </div>
 
-              <h4 style={{ marginTop: '20px' }}>
-                <Scissors size={16} className="pink-icon" /> Customization &amp; Options
-              </h4>
-              <ul className="custom-options-list">
-                {service.customizationOptions.map((opt, idx) => (
-                  <li key={idx}>
-                    <span className="bullet-dash">–</span>
-                    <span>{opt}</span>
-                  </li>
-                ))}
-              </ul>
-            </div>
-          </div>
-
-          {/* Privacy & Trust Bar */}
-          <div className="service-modal-trust-bar">
-            <UserCheck size={18} className="pink-icon" />
-            <div>
-              <strong>Personal Measurement Guarantee:</strong> All customer measurements and fittings are conducted personally by Karuna Kumari.
-            </div>
-          </div>
-
-          {/* Bottom Action */}
-          <div className="service-modal-footer">
-            <div className="service-modal-footer-text">
-              <p className="eyebrow pink-text">INTERESTED IN THIS SERVICE?</p>
-              <span>Have questions or specific fabric requirements? Let's bring your design to life.</span>
-            </div>
-            <motion.button
-              className="button pink service-modal-cta"
-              whileHover={{ scale: 1.03 }}
-              whileTap={{ scale: 0.97 }}
-              onClick={() => onStartCustom(service.outfitKey)}
-            >
-              <Sparkles size={16} />
-              <span>Create Your Custom Design</span>
-              <ArrowRight size={16} />
-            </motion.button>
-          </div>
+        {/* Bottom Action — always visible */}
+        <div className="service-modal-footer">
+          <motion.button
+            className="service-modal-cta"
+            whileHover={{ x: 4 }}
+            transition={{ duration: 0.2, ease: [0.16, 1, 0.3, 1] }}
+            onClick={() => onStartCustom(service.outfitKey)}
+          >
+            <span>Start Your Custom Design</span>
+            <ArrowRight size={16} />
+          </motion.button>
         </div>
       </motion.div>
     </motion.div>
@@ -503,124 +467,75 @@ function ShopGallery() {
   return (
     <>
     <section id="gallery" className="space-gallery-section">
-      {/* Subtle fashion-related decorative elements (absolute positioned) */}
-      <DecorThreadSpool className="decor-space-tl" />
-      <DecorFloralMotif className="decor-space-br" />
-
       <div className="space-gallery-container">
-        {/* Section Header */}
+        {/* Section Header — left-aligned, single column */}
         <motion.div
           className="space-gallery-head"
           initial={{ opacity: 0, y: 22 }}
           whileInView={{ opacity: 1, y: 0 }}
           viewport={{ once: true, amount: 0.2 }}
         >
-          <p className="eyebrow pink-text">ATELIER &amp; BOUTIQUE</p>
-          <h2>Visit Our Space</h2>
+          <p className="space-gallery-eyebrow">The Studio</p>
+          <h2 className="space-gallery-heading">Visit our <i>space.</i></h2>
           <p className="space-gallery-subtitle">
             Step inside SK Fashion Studio — where creativity, craftsmanship, and personal attention come together.
           </p>
         </motion.div>
 
-        {/* Clean Editorial Layout */}
+        {/* Gallery — 2 stacked left, 1 big right */}
         <div className="space-gallery-layout">
-          {/* Top Row: Large Featured (Left) + 2 Stacked (Right) */}
-          <div className="space-gallery-top-grid">
-            {/* 1. Large Shop Image (Left) */}
-            <motion.button
-              className="space-gallery-card space-card--featured"
-              whileHover={{ scale: 1.015 }}
-              initial={{ opacity: 0, y: 20 }}
-              whileInView={{ opacity: 1, y: 0 }}
-              viewport={{ once: true }}
-              onClick={() => setLight(0)}
-              aria-label={`View ${shopPhotos[0].title}`}
-            >
-              <img src={shopPhotos[0].url} alt={shopPhotos[0].title} />
-              <div className="space-card-overlay">
-                <span className="space-card-tag">{shopPhotos[0].tag}</span>
-                <h4 className="space-card-caption">{shopPhotos[0].title}</h4>
-              </div>
-            </motion.button>
+          {shopPhotos.length > 0 && (
+            <div className="space-gallery-top-row">
+              {shopPhotos.length > 1 && (
+                <div className="space-gallery-stack">
+                  {shopPhotos.slice(1, 3).map((photo, i) => (
+                    <motion.button
+                      key={photo.url}
+                      className="space-gallery-card space-card--stacked"
+                      initial={{ opacity: 0, y: 20 }}
+                      whileInView={{ opacity: 1, y: 0 }}
+                      viewport={{ once: true }}
+                      transition={{ delay: 0.08 * (i + 1) }}
+                      onClick={() => setLight(i + 1)}
+                      aria-label={`View ${photo.title}`}
+                    >
+                      <img src={photo.url} alt={photo.title} />
+                    </motion.button>
+                  ))}
+                </div>
+              )}
 
-            {/* Right: 2 Stacked Boutique Images */}
-            <div className="space-gallery-stack">
-              {/* 2. Small Interior */}
               <motion.button
-                className="space-gallery-card space-card--stacked"
-                whileHover={{ scale: 1.02 }}
+                className="space-gallery-card space-card--featured"
                 initial={{ opacity: 0, y: 20 }}
                 whileInView={{ opacity: 1, y: 0 }}
                 viewport={{ once: true }}
-                transition={{ delay: 0.1 }}
-                onClick={() => setLight(1)}
-                aria-label={`View ${shopPhotos[1].title}`}
+                onClick={() => setLight(0)}
+                aria-label={`View ${shopPhotos[0].title}`}
               >
-                <img src={shopPhotos[1].url} alt={shopPhotos[1].title} />
-                <div className="space-card-overlay">
-                  <span className="space-card-tag">{shopPhotos[1].tag}</span>
-                  <h4 className="space-card-caption">{shopPhotos[1].title}</h4>
-                </div>
-              </motion.button>
-
-              {/* 3. Small Detail */}
-              <motion.button
-                className="space-gallery-card space-card--stacked"
-                whileHover={{ scale: 1.02 }}
-                initial={{ opacity: 0, y: 20 }}
-                whileInView={{ opacity: 1, y: 0 }}
-                viewport={{ once: true }}
-                transition={{ delay: 0.15 }}
-                onClick={() => setLight(2)}
-                aria-label={`View ${shopPhotos[2].title}`}
-              >
-                <img src={shopPhotos[2].url} alt={shopPhotos[2].title} />
-                <div className="space-card-overlay">
-                  <span className="space-card-tag">{shopPhotos[2].tag}</span>
-                  <h4 className="space-card-caption">{shopPhotos[2].title}</h4>
-                </div>
+                <img src={shopPhotos[0].url} alt={shopPhotos[0].title} />
               </motion.button>
             </div>
-          </div>
+          )}
 
-          {/* Bottom Row: 2 Balanced Images */}
-          <div className="space-gallery-bottom-row">
-            {/* 4. Workspace */}
-            <motion.button
-              className="space-gallery-card space-card--bottom"
-              whileHover={{ scale: 1.018 }}
-              initial={{ opacity: 0, y: 20 }}
-              whileInView={{ opacity: 1, y: 0 }}
-              viewport={{ once: true }}
-              transition={{ delay: 0.2 }}
-              onClick={() => setLight(3)}
-              aria-label={`View ${shopPhotos[3].title}`}
-            >
-              <img src={shopPhotos[3].url} alt={shopPhotos[3].title} />
-              <div className="space-card-overlay">
-                <span className="space-card-tag">{shopPhotos[3].tag}</span>
-                <h4 className="space-card-caption">{shopPhotos[3].title}</h4>
-              </div>
-            </motion.button>
-
-            {/* 5. Boutique Detail */}
-            <motion.button
-              className="space-gallery-card space-card--bottom"
-              whileHover={{ scale: 1.018 }}
-              initial={{ opacity: 0, y: 20 }}
-              whileInView={{ opacity: 1, y: 0 }}
-              viewport={{ once: true }}
-              transition={{ delay: 0.25 }}
-              onClick={() => setLight(4)}
-              aria-label={`View ${shopPhotos[4].title}`}
-            >
-              <img src={shopPhotos[4].url} alt={shopPhotos[4].title} />
-              <div className="space-card-overlay">
-                <span className="space-card-tag">{shopPhotos[4].tag}</span>
-                <h4 className="space-card-caption">{shopPhotos[4].title}</h4>
-              </div>
-            </motion.button>
-          </div>
+          {shopPhotos.length > 3 && (
+            <div className="space-gallery-grid">
+              {shopPhotos.slice(3).map((photo, i) => (
+                <motion.button
+                  key={photo.url}
+                  className="space-gallery-card space-card--grid"
+                  initial={{ opacity: 0, y: 20 }}
+                  whileInView={{ opacity: 1, y: 0 }}
+                  viewport={{ once: true }}
+                  transition={{ delay: 0.06 * (i + 1) }}
+                  onClick={() => setLight(i + 3)}
+                  aria-label={`View ${photo.title}`}
+                >
+                  <img src={photo.url} alt={photo.title} />
+                </motion.button>
+              ))}
+            </div>
+          )}
         </div>
       </div>
 
@@ -663,12 +578,9 @@ function ShopGallery() {
             >
               <img src={shopPhotos[light].url} alt={shopPhotos[light].title} />
               <figcaption className="space-lightbox-caption">
-                <div className="space-lightbox-meta">
-                  <span className="space-lightbox-tag">{shopPhotos[light].tag}</span>
-                  <h4>{shopPhotos[light].title}</h4>
-                </div>
+                <span className="space-lightbox-title">{shopPhotos[light].title}</span>
                 <span className="space-lightbox-counter">
-                  {light + 1} / {shopPhotos.length}
+                  {light + 1} <i>/</i> {shopPhotos.length}
                 </span>
               </figcaption>
             </motion.figure>
@@ -773,51 +685,22 @@ function CustomerReviews() {
   return (
     <section id="reviews" className="customer-reviews-section">
       <div className="reviews-container">
-        {/* Section Header */}
+
+        {/* Section Header — left-aligned, single column */}
         <motion.div
           className="reviews-header"
           initial={{ opacity: 0, y: 22 }}
           whileInView={{ opacity: 1, y: 0 }}
           viewport={{ once: true }}
         >
-          <p className="eyebrow pink-text">REAL GOOGLE REVIEWS</p>
-          <h2>Loved by Our <i>Clients</i></h2>
+          <p className="reviews-eyebrow">Reviews</p>
+          <h2 className="reviews-heading">Loved by our <i>clients.</i></h2>
           <p className="reviews-subtitle">
             Every stitch tells a story. Here's what our clients have to say about their experience with SK Fashion Studio.
           </p>
         </motion.div>
 
-        {/* Prominent Overall Rating Banner */}
-        <motion.div
-          className="reviews-summary-badge"
-          initial={{ opacity: 0, scale: 0.95 }}
-          whileInView={{ opacity: 1, scale: 1 }}
-          viewport={{ once: true }}
-        >
-          <div className="summary-rating-left">
-            <span className="large-score">{placeData.rating.toFixed(1)}</span>
-            <div className="score-stars">
-              {[...Array(5)].map((_, i) => (
-                <Star key={i} size={22} className="pink-star-filled" fill="#f08bab" />
-              ))}
-            </div>
-          </div>
-          <div className="summary-rating-divider" />
-          <div className="summary-rating-right">
-            <div className="google-verified-tag">
-              <svg width="20" height="20" viewBox="0 0 24 24" fill="none">
-                <path d="M22.56 12.25c0-.78-.07-1.53-.2-2.25H12v4.26h5.92c-.26 1.37-1.04 2.53-2.21 3.31v2.77h3.57c2.08-1.92 3.28-4.74 3.28-8.09z" fill="#4285F4"/>
-                <path d="M12 23c2.97 0 5.46-.98 7.28-2.66l-3.57-2.77c-.98.66-2.23 1.06-3.71 1.06-2.86 0-5.29-1.93-6.16-4.53H2.18v2.84C3.99 20.53 7.7 23 12 23z" fill="#34A853"/>
-                <path d="M5.84 14.09c-.22-.66-.35-1.36-.35-2.09s.13-1.43.35-2.09V7.06H2.18C1.43 8.55 1 10.22 1 12s.43 3.45 1.18 4.94l2.85-2.22.81-.63z" fill="#FBBC05"/>
-                <path d="M12 5.38c1.62 0 3.06.56 4.21 1.64l3.15-3.15C17.45 2.09 14.97 1 12 1 7.7 1 3.99 3.47 2.18 7.06l3.66 2.84c.87-2.6 3.3-4.52 6.16-4.52z" fill="#EA4335"/>
-              </svg>
-              <span>Based on Google Reviews</span>
-            </div>
-            <p className="summary-count">Verified reviews from authentic studio clients in Chennai</p>
-          </div>
-        </motion.div>
-
-        {/* Review Cards Carousel */}
+        {/* Carousel */}
         <div
           className="reviews-carousel-wrap"
           onTouchStart={handleTouchStart}
@@ -829,14 +712,14 @@ function CustomerReviews() {
               onClick={prevReview}
               aria-label="Previous Review"
             >
-              <ChevronLeft size={22} />
+              <ChevronLeft size={18} />
             </button>
             <button
               className="review-nav-btn next"
               onClick={nextReview}
               aria-label="Next Review"
             >
-              <ChevronRight size={22} />
+              <ChevronRight size={18} />
             </button>
           </div>
 
@@ -850,41 +733,25 @@ function CustomerReviews() {
                 exit={{ opacity: 0, x: -40 }}
                 transition={{ duration: 0.35, ease: 'easeInOut' }}
               >
-                <div className="review-card-top">
-                  <div className="reviewer-profile">
-                    <img
-                      src={reviews[currentIndex].profile_photo_url || img('photo-1534528741775-53994a69daeb', 160)}
-                      alt={reviews[currentIndex].author_name}
-                      className="reviewer-avatar"
-                    />
-                    <div className="reviewer-info">
-                      <h4>{reviews[currentIndex].author_name}</h4>
-                      <span className="review-date">
-                        {reviews[currentIndex].relative_time_description || 'Google Verified Client'}
-                      </span>
-                    </div>
-                  </div>
-                  <div className="review-stars-row">
-                    {[...Array(reviews[currentIndex].rating || 5)].map((_, i) => (
-                      <Star key={i} size={17} className="pink-star" fill="#f08bab" />
-                    ))}
-                  </div>
-                </div>
+                <p className="review-quote">"{reviews[currentIndex].text}"</p>
 
-                <div className="review-card-text">
-                  <p>"{reviews[currentIndex].text}"</p>
-                </div>
-
-                <div className="review-card-footer">
-                  <span className="google-badge-pill">
-                    <CheckCircle2 size={13} /> Verified Google Review
+                <div className="review-meta">
+                  <span className="review-author">
+                    {reviews[currentIndex].author_name}
+                  </span>
+                  <span className="review-dot-sep">·</span>
+                  <span className="review-date">
+                    {reviews[currentIndex].relative_time_description || 'Google Verified Client'}
+                  </span>
+                  <span className="review-dot-sep">·</span>
+                  <span className="review-rating">
+                    {reviews[currentIndex].rating || 5}.0
                   </span>
                 </div>
               </motion.div>
             </AnimatePresence>
           </div>
 
-          {/* Dots Indicator */}
           <div className="reviews-carousel-dots">
             {reviews.map((_, idx) => (
               <button
@@ -897,25 +764,25 @@ function CustomerReviews() {
           </div>
         </div>
 
-        {/* Official Google Buttons */}
+        {/* Actions */}
         <div className="reviews-actions-row">
           <a
             href={placeData.place_url}
             target="_blank"
             rel="noreferrer"
-            className="button light google-action-btn"
+            className="reviews-link"
           >
-            <span>Read All Reviews on Google</span>
-            <ExternalLink size={16} />
+            <span>Read all reviews on Google</span>
+            <ExternalLink size={14} />
           </a>
 
           <a
             href={placeData.write_review_url}
             target="_blank"
             rel="noreferrer"
-            className="button pink google-action-btn"
+            className="reviews-cta"
           >
-            <MessageSquarePlus size={16} />
+            <MessageSquarePlus size={14} />
             <span>Write a Review</span>
           </a>
         </div>
@@ -2080,52 +1947,76 @@ export default function App() {
         {/* ── Customer Reviews Section (Loved by Our Clients — Google Reviews) ── */}
         <CustomerReviews />
 
-        {/* ── Contact Section ── */}
+        {/* ── Contact Section — Visit the Studio ── */}
         <Section id="contact" c="contact">
-          <DecorFloralMotif className="decor-contact-tr" />
-          <div>
-            <p className="eyebrow pink-text">VISIT THE STUDIO</p>
-            <h2>Let's make your<br /><i>vision wearable.</i></h2>
-            <p>We would love to hear about your next special outfit. Come visit us or reach out directly.</p>
-            <a
-              className="button dark"
-              href={contactData.mapsDirectionsUrl}
-              target="_blank"
-              rel="noreferrer"
-            >
-              Get directions <MapPin />
-            </a>
+          <div className="contact-left">
+            <div className="contact-header">
+              <p className="contact-eyebrow">Visit the Studio</p>
+              <h2 className="contact-heading">
+                Let&rsquo;s make your<br />
+                <i>vision wearable.</i>
+              </h2>
+            </div>
+
+            <div className="contact-details">
+              <div className="contact-meta">
+                <span className="contact-meta-label">Atelier</span>
+                <address className="contact-address">
+                  {contactData.address.split(',').map((line, i) => (
+                    <span key={i} className="contact-address-line">{line.trim()}</span>
+                  ))}
+                </address>
+                <a
+                  className="contact-action"
+                  href={contactData.mapsDirectionsUrl}
+                  target="_blank"
+                  rel="noreferrer"
+                >
+                  Get directions
+                  <span className="contact-arrow" aria-hidden="true">→</span>
+                </a>
+              </div>
+
+              <div className="contact-meta-side">
+                <div className="contact-meta">
+                  <span className="contact-meta-label">Call</span>
+                  <a
+                    className="contact-value"
+                    href={`tel:${contactData.phoneDigits}`}
+                  >
+                    {contactData.phone}
+                  </a>
+                  <span className="contact-meta-sub">{contactData.workingHours}</span>
+                  <span className="contact-meta-sub">{contactData.workingHoursNote}</span>
+                </div>
+
+                <div className="contact-meta">
+                  <span className="contact-meta-label">Follow</span>
+                  <a
+                    className="contact-value"
+                    href={contactData.instagram}
+                    target="_blank"
+                    rel="noreferrer"
+                  >
+                    @sk_fashion_studio
+                  </a>
+                </div>
+              </div>
+            </div>
           </div>
-          <div className="contact-details">
-            <p>
-              <span><MapPin /></span>
-              <span>
-                {contactData.address}
-              </span>
-            </p>
-            <a href={`tel:${contactData.phoneDigits}`}>
-              <Phone />
-              <span>{contactData.phone}<small>Call us — {contactData.workingHours}</small></span>
-            </a>
-            <a href={contactData.instagram} target="_blank" rel="noreferrer" aria-label="Follow SK Fashion Studio on Instagram">
-              <Instagram /> Follow us on Instagram
-            </a>
+
+          <div className="contact-right">
+            <div className="contact-map">
+              <iframe
+                title="SK Fashion Studio Location"
+                src={contactData.mapsEmbedUrl}
+                loading="lazy"
+                allowFullScreen
+                referrerPolicy="no-referrer-when-downgrade"
+              />
+            </div>
           </div>
         </Section>
-
-        {/* ── Google Maps Embed ── */}
-        <div className="map-embed-wrapper">
-          <iframe
-            title="SK Fashion Studio Location"
-            src={contactData.mapsEmbedUrl}
-            width="100%"
-            height="420"
-            style={{ border: 0, display: 'block' }}
-            allowFullScreen
-            loading="lazy"
-            referrerPolicy="no-referrer-when-downgrade"
-          />
-        </div>
       </main>
 
       {/* ── Footer ── */}
