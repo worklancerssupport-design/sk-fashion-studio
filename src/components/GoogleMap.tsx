@@ -55,7 +55,7 @@ export default function GoogleMap({ className }: GoogleMapProps) {
     <div className={className}>
       <MapContainer
         center={CENTER}
-        zoom={16}
+        zoom={17}
         zoomControl={false}
         attributionControl={false}
         scrollWheelZoom={false}
@@ -64,7 +64,12 @@ export default function GoogleMap({ className }: GoogleMapProps) {
         keyboard={false}
         style={{ width: '100%', height: '100%' }}
       >
-        <TileLayer url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png" />
+        <TileLayer
+          url={`https://api.maptiler.com/maps/dataviz-light/{z}/{x}/{y}.png?key=${import.meta.env.VITE_MAPTILER_API_KEY}`}
+          tileSize={512}
+          zoomOffset={-1}
+          maxZoom={20}
+        />
         <ScrollZoom />
         <Marker
           position={CENTER}

@@ -2629,7 +2629,7 @@ a.contact-value:focus-visible {
 }
 
 .contact-map .leaflet-tile-container {
-  filter: none;
+  filter: grayscale(100%) brightness(0.98), contrast(1.1);
 }
 
 .contact-map .leaflet-control-attribution,
