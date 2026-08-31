@@ -453,17 +453,20 @@ section.services {
 .process article p { font-size: .75rem; color: #7e7577; line-height: 1.7; }
 
 /* ════════════════════════════════════════════════════════════════════════════
-   SITE FOOTER — Modern Spacious Luxury Horizontal Layout
+   SITE FOOTER — Brand+Nav LEFT, Minimal contact directory RIGHT
+   Left column: consistent BrandLogo + tagline + 5 high-value nav (vertical).
+   Right column: 6 contacts as a quiet label/value grid (no cards, no icons,
+   no pink flood). Monochrome with opacity discipline.
    ════════════════════════════════════════════════════════════════════════════ */
 
 footer.site-footer {
   display: block !important;
   width: 100% !important;
   box-sizing: border-box !important;
-  background: #0e0a0c !important;
-  color: #c9bfc2 !important;
-  padding: 80px 8vw 40px !important;
-  border-top: 1px solid rgba(240, 139, 171, 0.15) !important;
+  background: #0c090b !important;
+  color: #efe9ea !important;
+  padding: 72px 8vw 28px !important;
+  border-top: 1px solid rgba(255, 255, 255, 0.05) !important;
   grid-template-columns: none !important;
   gap: 0 !important;
 }
@@ -473,280 +476,193 @@ footer.site-footer {
   margin: 0 auto;
   display: flex;
   flex-direction: column;
-  gap: 48px;
-}
-
-/* ── 1. Top Row: Brand & Horizontal Nav + Socials ── */
-.footer-header-row {
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-  flex-wrap: wrap;
   gap: 32px;
-  padding-bottom: 36px;
-  border-bottom: 1px solid rgba(255, 255, 255, 0.08);
 }
 
-.footer-brand-box {
+.footer-rule {
+  height: 1px;
+  background: rgba(255, 255, 255, 0.07);
+  border: 0;
+  margin: 0;
+  width: 100%;
+}
+
+/* ── Main: two columns ── */
+.footer-main {
+  display: grid;
+  grid-template-columns: calc(50% - 200px) 1fr;
+  gap: 400px;
+  align-items: stretch;
+}
+
+/* ── LEFT: Brand + tagline + vertical high-value nav ── */
+.footer-brand-col {
   display: flex;
   flex-direction: column;
-  gap: 8px;
+  align-items: flex-start;
+  gap: 18px;
 }
 
-.footer-brand-logo {
-  display: flex;
+.footer-brand-link {
+  display: inline-flex;
   align-items: center;
   gap: 14px;
   text-decoration: none;
-  color: #fff;
+  color: #ffffff;
+  transition: opacity 0.25s ease;
 }
+.footer-brand-link:hover { opacity: 0.8; }
 
-.footer-brand-monogram {
+.footer-tagline {
+  margin: 0;
   font-family: 'Playfair Display', Georgia, serif;
   font-style: italic;
-  font-size: 2.2rem;
-  line-height: 1;
-  border-right: 1px solid rgba(255, 255, 255, 0.25);
-  padding-right: 14px;
-  color: #fff;
-  display: inline-block;
+  font-weight: 400;
+  font-size: 0.92rem;
+  line-height: 1.4;
+  letter-spacing: 0.005em;
+  color: #efe9ea;
+  opacity: 0.4;
+  max-width: 36ch;
 }
 
-.footer-brand-text {
+.footer-nav-vertical {
   display: flex;
   flex-direction: column;
-  gap: 2px;
+  align-items: flex-start;
+  gap: 10px;
+  margin-top: auto;
 }
 
-.footer-brand-name {
-  font-size: 0.82rem;
-  letter-spacing: 0.18em;
-  font-weight: 600;
-  color: #fff;
-  line-height: 1.2;
-}
-
-.footer-brand-sub {
-  font-size: 0.46rem;
-  letter-spacing: 0.26em;
-  color: #f08bab;
-  font-weight: 500;
-}
-
-.footer-brand-desc {
-  font-size: 0.76rem;
-  color: #8c8185;
-  margin: 0;
-  letter-spacing: 0.02em;
-  line-height: 1.5;
-  opacity: 0.55;
-}
-
-/* Nav & Socials Group */
-.footer-nav-and-social {
-  display: flex;
-  align-items: center;
-  gap: 32px;
-  flex-wrap: wrap;
-}
-
-.footer-nav-links {
-  display: flex;
-  align-items: center;
-  gap: 22px;
-  flex-wrap: wrap;
-}
-
-.footer-nav-links a,
-.footer-nav-links button {
-  font-size: 0.74rem;
-  letter-spacing: 0.08em;
+.footer-nav-vertical a,
+.footer-nav-vertical button {
+  font-family: 'DM Sans', 'Jost', sans-serif;
+  font-size: 0.78rem;
+  letter-spacing: 0.14em;
   text-transform: uppercase;
-  color: #9e9396;
+  font-weight: 500;
+  color: #efe9ea;
+  opacity: 0.62;
   background: none;
   border: 0;
-  padding: 6px 0;
+  padding: 2px 0;
   cursor: pointer;
-  transition: color 0.25s ease;
+  text-align: left;
+  transition: opacity 0.25s ease, color 0.25s ease;
+}
+
+.footer-nav-vertical a:hover,
+.footer-nav-vertical button:hover {
+  opacity: 1;
+  color: #f08bab;
+}
+
+/* ── RIGHT: Minimal 6 contact rows (label/value grid) ── */
+.footer-contact-col {
+  display: flex;
+  flex-direction: column;
+}
+
+.footer-contact-grid {
+  display: grid;
+  grid-template-columns: auto 1fr;
+  column-gap: 28px;
+  row-gap: 22px;
+  align-items: start;
+}
+
+/* Row wrapper disappears from layout so children participate in parent grid */
+.footer-contact-row {
+  display: contents;
+}
+
+.footer-contact-label {
+  font-family: 'DM Sans', 'Jost', sans-serif;
+  font-size: 0.66rem;
+  letter-spacing: 0.16em;
+  text-transform: uppercase;
+  font-weight: 500;
+  color: #efe9ea;
+  opacity: 0.4;
+  padding-top: 3px;
   white-space: nowrap;
 }
 
-.footer-nav-links a:hover,
-.footer-nav-links button:hover {
-  color: #f08bab;
-}
-
-.footer-social-icons {
-  display: flex;
-  align-items: center;
-  gap: 12px;
-}
-
-.footer-social-icons a {
-  display: grid;
-  place-items: center;
-  width: 38px;
-  height: 38px;
-  border: 1px solid rgba(255, 255, 255, 0.12);
-  border-radius: 50%;
-  color: #c9bfc2;
-  background: rgba(255, 255, 255, 0.03);
-  text-decoration: none;
-  transition: all 0.25s ease;
-}
-
-.footer-social-icons a:hover {
-  background: #f08bab;
-  color: #0e0a0c;
-  border-color: #f08bab;
-  transform: translateY(-2px);
-}
-
-/* ── 2. Middle Row: Spacious Contact & Location Cards ── */
-.footer-cards-grid {
-  display: grid;
-  grid-template-columns: repeat(3, 1fr);
-  gap: 22px;
-}
-
-.footer-card {
-  background: rgba(255, 255, 255, 0.025);
-  border: 1px solid rgba(240, 139, 171, 0.12);
-  border-radius: 12px;
-  padding: 24px 22px;
-  display: flex;
-  align-items: flex-start;
-  gap: 16px;
-  text-decoration: none;
-  color: #c9bfc2;
-  box-sizing: border-box;
-  transition: all 0.3s ease;
-}
-
-.footer-card--clickable {
-  cursor: pointer;
-}
-
-.footer-card--clickable:hover {
-  background: rgba(240, 139, 171, 0.06);
-  border-color: rgba(240, 139, 171, 0.35);
-  transform: translateY(-3px);
-  box-shadow: 0 12px 28px rgba(0, 0, 0, 0.35);
-}
-
-.footer-card-icon {
-  width: 38px;
-  height: 38px;
-  border-radius: 10px;
-  background: rgba(240, 139, 171, 0.12);
-  color: #f08bab;
-  display: grid;
-  place-items: center;
-  flex-shrink: 0;
-}
-
-.footer-card-body {
+.footer-contact-value {
   display: flex;
   flex-direction: column;
-  gap: 5px;
+  gap: 4px;
+  font-family: 'DM Sans', 'Jost', sans-serif;
+  font-size: 0.82rem;
+  line-height: 1.45;
+  color: #efe9ea;
+  opacity: 0.78;
   min-width: 0;
 }
 
-.footer-card-label {
-  font-size: 0.58rem;
-  letter-spacing: 0.16em;
-  text-transform: uppercase;
+.footer-contact-value a {
+  color: inherit;
+  text-decoration: none;
+  transition: opacity 0.25s ease, color 0.25s ease;
+}
+.footer-contact-value a:hover {
   color: #f08bab;
-  font-weight: 500;
+  opacity: 1;
 }
 
-.footer-card-value {
-  font-size: 0.88rem;
-  font-weight: 500;
-  color: #f1eaec;
-  line-height: 1.45;
-  word-break: break-word;
-}
-
-.footer-card--clickable:hover .footer-card-value {
-  color: #fff;
-}
-
-.footer-card-sub {
-  font-size: 0.68rem;
-  color: #84787c;
+.footer-contact-sub {
+  font-size: 0.7rem;
+  opacity: 0.5;
   line-height: 1.4;
 }
 
-.footer-card-link {
+.footer-contact-action {
   font-size: 0.7rem;
-  letter-spacing: 0.06em;
-  color: #f08bab;
+  letter-spacing: 0.02em;
+  opacity: 0.6;
+  color: inherit;
   text-decoration: none;
-  font-weight: 500;
-  margin-top: 4px;
-  display: inline-block;
-  transition: all 0.2s ease;
+  transition: opacity 0.25s ease, color 0.25s ease;
+  margin-top: 2px;
+  align-self: flex-start;
+}
+.footer-contact-action:hover {
+  color: #f08bab;
+  opacity: 1;
 }
 
-.footer-card-link:hover {
-  color: #fff;
-  text-decoration: underline;
-}
-
-/* ── 3. Bottom Row: Copyright & Tagline ── */
-.footer-bottom-bar {
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-  flex-wrap: wrap;
-  gap: 16px;
-  padding-top: 28px;
-  border-top: 1px solid rgba(255, 255, 255, 0.06);
-}
-
-.footer-copyright {
-  font-size: 0.68rem;
-  color: #63585c;
-  letter-spacing: 0.04em;
-}
-
-.footer-tag {
-  font-size: 0.68rem;
-  color: #7d7075;
-  letter-spacing: 0.03em;
-  font-style: italic;
+/* ── Legal ── */
+.footer-legal {
+  margin: 0;
+  font-family: 'DM Sans', 'Jost', sans-serif;
+  font-size: 0.66rem;
+  letter-spacing: 0.05em;
+  font-weight: 400;
+  color: #efe9ea;
+  opacity: 0.4;
 }
 
 /* ── Responsive Styling ── */
-@media (max-width: 1024px) {
-  .footer-cards-grid {
-    grid-template-columns: repeat(2, 1fr);
-    gap: 18px;
-  }
-}
 
 @media (max-width: 800px) {
   footer.site-footer {
-    padding: 60px 6vw 30px !important;
+    padding: 56px 6vw 24px !important;
   }
-  .footer-header-row {
-    flex-direction: column;
-    align-items: flex-start;
-    gap: 24px;
+  .footer-inner {
+    gap: 28px;
   }
-  .footer-nav-and-social {
-    flex-direction: column;
-    align-items: flex-start;
-    gap: 20px;
-    width: 100%;
-  }
-  .footer-nav-links {
-    gap: 14px 18px;
-  }
-  .footer-cards-grid {
+  .footer-main {
     grid-template-columns: 1fr;
-    gap: 14px;
+    gap: 40px;
+  }
+  .footer-tagline {
+    font-size: 0.86rem;
+  }
+  .footer-nav-vertical {
+    gap: 8px;
+  }
+  .footer-contact-grid {
+    row-gap: 18px;
   }
   header {
     height: 84px !important;
@@ -759,11 +675,6 @@ footer.site-footer {
 }
 
 @media (max-width: 520px) {
-  .footer-bottom-bar {
-    flex-direction: column;
-    align-items: flex-start;
-    gap: 8px;
-  }
   header {
     height: 76px !important;
     padding: 0 5vw !important;
@@ -2699,14 +2610,14 @@ a.contact-value:focus-visible {
   left: 0 !important;
   width: 100% !important;
   height: 100% !important;
-  background: #fdf4f6;
+  background: #0f0a0d;
   isolation: isolate;
   border-radius: 0 !important;
   border: 0 !important;
   aspect-ratio: auto !important;
 }
 
-.contact-map iframe {
+.contact-map-canvas {
   position: absolute !important;
   inset: 0 !important;
   top: 0 !important;
@@ -2717,20 +2628,57 @@ a.contact-value:focus-visible {
   display: block;
 }
 
-/* Pink brand overlay — sits on top of the map, tints it pale pink
-   but lets saturated pinks (the location pin) show through */
-.contact-map::after {
-  content: '';
+.contact-map .leaflet-tile-container {
+  filter: grayscale(100%) brightness(1.12) contrast(0.92);
+}
+
+.contact-map .leaflet-control-attribution,
+.contact-map .leaflet-control-zoom {
+  display: none !important;
+}
+
+.map-pin-pink {
+  background: none !important;
+  border: none !important;
+}
+
+.map-location-card {
   position: absolute;
-  inset: 0;
-  background: linear-gradient(
-    180deg,
-    rgba(253, 230, 236, 0.45) 0%,
-    rgba(252, 218, 228, 0.4) 100%
-  );
-  mix-blend-mode: multiply;
-  pointer-events: none;
-  z-index: 1;
+  top: 12px;
+  left: 12px;
+  z-index: 1000;
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  padding: 10px 14px;
+  background: rgba(255, 255, 255, 0.92);
+  backdrop-filter: blur(8px);
+  border-radius: 8px;
+  text-decoration: none;
+  box-shadow: 0 2px 12px rgba(0, 0, 0, 0.1);
+  transition: box-shadow 0.2s;
+}
+
+.map-location-card:hover {
+  box-shadow: 0 4px 20px rgba(240, 139, 171, 0.25);
+}
+
+.map-location-card-name {
+  display: block;
+  font-family: 'Outfit', sans-serif;
+  font-size: 0.8rem;
+  font-weight: 600;
+  color: #1a1013;
+  line-height: 1.2;
+}
+
+.map-location-card-action {
+  display: block;
+  font-family: 'Outfit', sans-serif;
+  font-size: 0.65rem;
+  color: #f08bab;
+  font-weight: 500;
+  letter-spacing: 0.02em;
 }
 
 /* ── Reset the legacy responsive .contact padding override from styles.css ── */

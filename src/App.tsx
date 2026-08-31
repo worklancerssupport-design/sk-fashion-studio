@@ -11,6 +11,7 @@ import { jsPDF } from 'jspdf';
 import { fetchGoogleReviews, GooglePlaceDetails, fallbackPlaceData } from './services/googleReviews';
 import EditPage from './edit/EditPage';
 import BrandLogo from './components/BrandLogo';
+import GoogleMap from './components/GoogleMap';
 import servicesData from './data/services.json';
 import { categories as designCategories, navLabels as navLabelsRaw } from './data/designs.json';
 
@@ -2007,40 +2008,35 @@ export default function App() {
 
           <div className="contact-right">
             <div className="contact-map">
-              <iframe
-                title="SK Fashion Studio Location"
-                src={contactData.mapsEmbedUrl}
-                loading="lazy"
-                allowFullScreen
-                referrerPolicy="no-referrer-when-downgrade"
+              <GoogleMap
+                className="contact-map-canvas"
               />
             </div>
           </div>
         </Section>
       </main>
 
-      {/* ── Footer ── */}
+      {/* ── Footer — Brand+Nav LEFT, Minimal contact directory RIGHT ── */}
       <footer className="site-footer">
         <div className="footer-inner">
-          <div className="footer-header-row">
-            <div className="footer-brand-box">
-              <a className="footer-brand-logo" href="#home">
-                <BrandLogo bare size="md" color="#ffffff" />
-              </a>
-              <p className="footer-brand-desc">
-                Bespoke Bridal, Designer Blouse &amp; Haute Couture Studio
-              </p>
-            </div>
 
-            <div className="footer-nav-and-social">
-              <nav className="footer-nav-links">
+          {/* Main: two columns */}
+          <div className="footer-main">
+
+            {/* Left: Brand (consistent BrandLogo) + tagline + vertical high-value nav */}
+            <div className="footer-brand-col">
+              <a className="footer-brand-link" href="#home" aria-label="SK Fashion Studio — home">
+                <BrandLogo bare size="lg" color="#ffffff" />
+              </a>
+              <p className="footer-tagline">
+                Bespoke bridal · Designer blouse · Haute couture
+              </p>
+
+              <nav className="footer-nav-vertical" aria-label="Footer">
                 {[
-                  { label: 'Home',            href: '#home' },
-                  { label: 'About Atelier',   href: '#about' },
                   { label: 'Services',        href: '#services' },
                   { label: 'Explore Designs', href: '#explore-designs' },
                   { label: 'Shop Gallery',    href: '#gallery' },
-                  { label: 'About Owner',     href: '#about-owner' },
                   { label: 'Reviews',         href: '#reviews' },
                   { label: 'Custom Enquiry',  href: undefined },
                 ].map(({ label, href }) => (
@@ -2049,88 +2045,70 @@ export default function App() {
                     : <button key={label} onClick={() => openCustomWithOutfit()}>{label}</button>
                 ))}
               </nav>
+            </div>
 
-              <div className="footer-social-icons">
-                <a href={contactData.instagram} target="_blank" rel="noreferrer" aria-label="Follow SK Fashion Studio on Instagram" title="Follow us on Instagram">
-                  <Instagram size={17} />
-                </a>
-                <a href={contactData.whatsapp} target="_blank" rel="noreferrer" aria-label="WhatsApp" title="Chat on WhatsApp">
-                  <MessageCircle size={17} />
-                </a>
-                <a href={`tel:${contactData.phoneDigits}`} aria-label="Call SK Fashion Studio" title="Call Atelier">
-                  <Phone size={17} />
-                </a>
+            {/* Right: Minimal 6 contact rows (label/value grid, no cards/icons/pink) */}
+            <div className="footer-contact-col">
+              <div className="footer-contact-grid">
+
+                <div className="footer-contact-row">
+                  <span className="footer-contact-label">Founder</span>
+                  <div className="footer-contact-value">
+                    <span>Karuna Kumari</span>
+                    <span className="footer-contact-sub">Fashion School Graduate · 8+ Years of Bespoke Craft</span>
+                  </div>
+                </div>
+
+                <div className="footer-contact-row">
+                  <span className="footer-contact-label">Phone</span>
+                  <div className="footer-contact-value">
+                    <a href={`tel:${contactData.phoneDigits}`}>{contactData.phone}</a>
+                    <span className="footer-contact-sub">{contactData.workingHours}</span>
+                  </div>
+                </div>
+
+                <div className="footer-contact-row">
+                  <span className="footer-contact-label">WhatsApp</span>
+                  <div className="footer-contact-value">
+                    <a href={contactData.whatsapp} target="_blank" rel="noreferrer">{contactData.phone}</a>
+                    <span className="footer-contact-sub">Instant Design Quotes &amp; Queries</span>
+                  </div>
+                </div>
+
+                <div className="footer-contact-row">
+                  <span className="footer-contact-label">Email</span>
+                  <div className="footer-contact-value">
+                    <a href={`mailto:${contactData.email}`}>{contactData.email}</a>
+                    <span className="footer-contact-sub">Send References &amp; Fabric Details</span>
+                  </div>
+                </div>
+
+                <div className="footer-contact-row">
+                  <span className="footer-contact-label">Boutique</span>
+                  <div className="footer-contact-value">
+                    <span>30A, Sheshadripuram 1st Main Rd, Chennai</span>
+                    <a href={contactData.mapsDirectionsUrl} target="_blank" rel="noreferrer" className="footer-contact-action">Get directions →</a>
+                  </div>
+                </div>
+
+                <div className="footer-contact-row">
+                  <span className="footer-contact-label">Hours</span>
+                  <div className="footer-contact-value">
+                    <span>{contactData.workingHours}</span>
+                    <span className="footer-contact-sub">{contactData.workingHoursNote}</span>
+                  </div>
+                </div>
+
               </div>
             </div>
+
           </div>
 
-          <div className="footer-cards-grid">
-            <div className="footer-card">
-              <div className="footer-card-icon"><Sparkles size={18} /></div>
-              <div className="footer-card-body">
-                <span className="footer-card-label">Founder &amp; Head Designer</span>
-                <span className="footer-card-value">Karuna Kumari</span>
-                <span className="footer-card-sub">Fashion School Graduate 2016 · 8+ Years of Bespoke Craft</span>
-              </div>
-            </div>
+          <div className="footer-rule" />
 
-            <a href={`tel:${contactData.phoneDigits}`} className="footer-card footer-card--clickable">
-              <div className="footer-card-icon"><Phone size={18} /></div>
-              <div className="footer-card-body">
-                <span className="footer-card-label">Phone Consultation</span>
-                <span className="footer-card-value">{contactData.phone}</span>
-                <span className="footer-card-sub">{contactData.workingHours}</span>
-              </div>
-            </a>
+          {/* Legal */}
+          <p className="footer-legal">© 2026 SK Fashion Studio · Chennai</p>
 
-            <a href={contactData.whatsapp} target="_blank" rel="noreferrer" className="footer-card footer-card--clickable">
-              <div className="footer-card-icon"><MessageCircle size={18} /></div>
-              <div className="footer-card-body">
-                <span className="footer-card-label">WhatsApp Studio</span>
-                <span className="footer-card-value">{contactData.phone}</span>
-                <span className="footer-card-sub">Instant Design Quotes &amp; Queries</span>
-              </div>
-            </a>
-
-            <a href={`mailto:${contactData.email}`} className="footer-card footer-card--clickable">
-              <div className="footer-card-icon"><Heart size={18} /></div>
-              <div className="footer-card-body">
-                <span className="footer-card-label">Email Atelier</span>
-                <span className="footer-card-value">{contactData.email}</span>
-                <span className="footer-card-sub">Send References &amp; Fabric Details</span>
-              </div>
-            </a>
-
-            <div className="footer-card">
-              <div className="footer-card-icon"><MapPin size={18} /></div>
-              <div className="footer-card-body">
-                <span className="footer-card-label">Boutique Studio</span>
-                <span className="footer-card-value">30A, Sheshadripuram 1st Main Rd, Chennai</span>
-                <a
-                  href={contactData.mapsDirectionsUrl}
-                  target="_blank"
-                  rel="noreferrer"
-                  className="footer-card-link"
-                >
-                  Get Google Maps Directions →
-                </a>
-              </div>
-            </div>
-
-            <div className="footer-card">
-              <div className="footer-card-icon"><Scissors size={18} /></div>
-              <div className="footer-card-body">
-                <span className="footer-card-label">Working Hours</span>
-                <span className="footer-card-value">{contactData.workingHours}</span>
-                <span className="footer-card-sub">{contactData.workingHoursNote}</span>
-              </div>
-            </div>
-          </div>
-
-          <div className="footer-bottom-bar">
-            <span className="footer-copyright">© 2026 SK Fashion Studio. All Rights Reserved.</span>
-            <span className="footer-tag">Crafting bespoke bridal &amp; couture elegance, stitch by stitch.</span>
-          </div>
         </div>
       </footer>
 

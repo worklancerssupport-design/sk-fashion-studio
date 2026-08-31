@@ -22,7 +22,7 @@ export interface GooglePlaceDetails {
 export const fallbackPlaceData: GooglePlaceDetails = {
   rating: 4.7,
   user_ratings_total: 184,
-  place_url: 'https://www.google.com/maps/place/SK+Fashion+Tailors/@12.9774623,80.2198086,17z/data=!4m8!3m7!1s0x3a525d8f6d634dbd:0xc4061a9bcda01eec!8m2!3d12.9774623!4d80.2198086!9m1!1b1!16s%2Fg%2F11b7ck79z2?entry=ttu',
+  place_url: 'https://www.google.com/maps/place/SK+Fashion+Tailors/@12.977330236100165,80.23049540620549,17z',
   write_review_url: 'https://search.google.com/local/writereview?placeid=ChIJvU1jbY9dQjoR7B6gza4aBsQ',
   reviews: [
     {
