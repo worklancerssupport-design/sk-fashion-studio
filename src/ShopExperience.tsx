@@ -22,7 +22,7 @@ export default function ShopExperience() {
       <section id="shop-gallery" className="shop-gallery">
         <motion.div initial={{ opacity: 0, y: 22 }} whileInView={{ opacity: 1, y: 0 }} viewport={{ once: true }} className="shop-intro">
           <p className="eyebrow pink-text">VISIT OUR SPACE</p>
-          <h2>Step inside<br /><i>SK Fashion Tailors.</i></h2>
+          <h2>Step inside<br /><i>SK Fashion Studio.</i></h2>
           <p>Take a glimpse into the space where ideas, fabrics and craftsmanship come together.</p>
         </motion.div>
         <div className="shop-grid">
@@ -43,7 +43,7 @@ export default function ShopExperience() {
           <h2>About the Owner<br /><i>Karuna Kumari.</i></h2>
           <p>A fashion school graduate since 2016 with 8+ years of expertise in designing, tailoring, custom styling, and understanding the unique needs of every client.</p>
           <blockquote>“The most beautiful thing you can wear is a garment that feels truly like you.”</blockquote>
-          <b>SK FASHION TAILORS<small>KARUNA KUMARI — FOUNDER &amp; HEAD DESIGNER</small></b>
+          <b>SK FASHION STUDIO<small>KARUNA KUMARI — FOUNDER &amp; HEAD DESIGNER</small></b>
         </motion.div>
       </section>
       <AnimatePresence>

@@ -18,7 +18,7 @@ export interface GooglePlaceDetails {
   write_review_url: string;
 }
 
-// Authentic Google Reviews dataset for SK Fashion Tailors (Velachery, Chennai)
+// Authentic Google Reviews dataset for SK Fashion Studio (Velachery, Chennai)
 export const fallbackPlaceData: GooglePlaceDetails = {
   rating: 4.7,
   user_ratings_total: 184,
@@ -44,7 +44,7 @@ export const fallbackPlaceData: GooglePlaceDetails = {
       profile_photo_url: 'https://images.unsplash.com/photo-1517841905240-472988babdf9?auto=format&fit=crop&w=160&q=80',
       rating: 5,
       relative_time_description: '3 weeks ago',
-      text: 'The saree pre-pleating service is a total lifesaver! I had to attend three family functions back to back and draping took less than 2 minutes. Neat, crisp pleating that stayed intact the entire day. Highly recommend SK Fashion Tailors!',
+      text: 'The saree pre-pleating service is a total lifesaver! I had to attend three family functions back to back and draping took less than 2 minutes. Neat, crisp pleating that stayed intact the entire day. Highly recommend SK Fashion Studio!',
     },
     {
       author_name: 'Meera Krishnan',

@@ -576,7 +576,7 @@ function ShopGallery() {
           <p className="eyebrow pink-text">ATELIER &amp; BOUTIQUE</p>
           <h2>Visit Our Space</h2>
           <p className="space-gallery-subtitle">
-            Step inside SK Fashion Tailors — where creativity, craftsmanship, and personal attention come together.
+            Step inside SK Fashion Studio — where creativity, craftsmanship, and personal attention come together.
           </p>
         </motion.div>
 
@@ -751,7 +751,7 @@ function ShopGallery() {
 
 // ─── ABOUT THE OWNER SECTION (Karuna Kumari) ─────────────────────────────────
 function AboutOwner() {
-  const languages = ['Tamil', 'English', 'Hindi', 'Malayalam', 'Telugu'];
+  const languages = ['Tamil', 'English', 'Hindi', 'Telugu'];
 
   return (
     <motion.section
@@ -769,7 +769,7 @@ function AboutOwner() {
       <div className="about-owner-container">
         {/* Owner Header Info */}
         <div className="owner-header-tag">
-          <p className="eyebrow pink-text">THE HEART OF SK FASHION TAILORS</p>
+          <p className="eyebrow pink-text">THE HEART OF SK FASHION STUDIO</p>
           <h2>About the Owner</h2>
           <h3 className="owner-name-title">Karuna Kumari</h3>
           <span className="owner-role-badge">Founder &amp; Head Designer</span>
@@ -778,7 +778,7 @@ function AboutOwner() {
         {/* Bio Text */}
         <div className="owner-bio-text">
           <p>
-            Karuna Kumari is the creative force behind SK Fashion Tailors. A fashion school graduate since 2016,
+            Karuna Kumari is the creative force behind SK Fashion Studio. A fashion school graduate since 2016,
             she brings over 8 years of experience in designing, tailoring, custom styling, and understanding the
             unique needs of every client.
           </p>
@@ -798,7 +798,7 @@ function AboutOwner() {
           <div className="trust-card-body">
             <h4>Personal Measurements, Personally Taken</h4>
             <p>
-              "At SK Fashion Tailors, all customer measurements are personally taken by Karuna Kumari.
+              "At SK Fashion Studio, all customer measurements are personally taken by Karuna Kumari.
               No male staff member will take measurements."
             </p>
             <span className="trust-card-guarantee">
@@ -873,7 +873,7 @@ function CustomerReviews() {
           <p className="eyebrow pink-text">REAL GOOGLE REVIEWS</p>
           <h2>Loved by Our <i>Clients</i></h2>
           <p className="reviews-subtitle">
-            Every stitch tells a story. Here's what our clients have to say about their experience with SK Fashion Tailors.
+            Every stitch tells a story. Here's what our clients have to say about their experience with SK Fashion Studio.
           </p>
         </motion.div>
 
@@ -1054,7 +1054,7 @@ function generateBrandedPDF(data: ConsultationFormData) {
   doc.setTextColor(255, 255, 255);
   doc.setFont('helvetica', 'bold');
   doc.setFontSize(18);
-  doc.text('SK FASHION TAILORS', margin, 18);
+  doc.text('SK FASHION STUDIO', margin, 18);
 
   doc.setFont('helvetica', 'normal');
   doc.setFontSize(8.5);
@@ -1158,7 +1158,7 @@ function generateBrandedPDF(data: ConsultationFormData) {
   doc.setFont('helvetica', 'bold');
   doc.setFontSize(8.2);
   doc.setTextColor(165, 45, 80);
-  doc.text('SK FASHION TAILORS · ATELIER GUARANTEE', margin, footerY + 5);
+  doc.text('SK FASHION STUDIO · ATELIER GUARANTEE', margin, footerY + 5);
 
   doc.setFont('helvetica', 'normal');
   doc.setFontSize(7.5);
@@ -1181,7 +1181,7 @@ function generateBrandedPDF(data: ConsultationFormData) {
 function buildWhatsAppUrl(data: ConsultationFormData): string {
   const ownerNumber = (import.meta.env.VITE_OWNER_WHATSAPP_NUMBER || contactData.phoneDigits).replace(/[^0-9]/g, '');
 
-  const message = `Hello SK Fashion Tailors 👋
+  const message = `Hello SK Fashion Studio 👋
 
 I would like to enquire about a custom design.
 
@@ -1563,7 +1563,7 @@ function Consultation({
                       <strong>Automatic Workflow on Submit:</strong>
                       <ol>
                         <li>A professional branded PDF will download to your device immediately.</li>
-                        <li>WhatsApp will automatically open with your complete enquiry pre-filled to chat with SK Fashion Tailors.</li>
+                        <li>WhatsApp will automatically open with your complete enquiry pre-filled to chat with SK Fashion Studio.</li>
                       </ol>
                     </div>
                   </div>
@@ -1696,7 +1696,7 @@ function Consultation({
             <div className="success-whatsapp-status">
               <div className="wa-status-header">
                 <MessageCircle size={20} className="pink-icon" />
-                <strong>Opening WhatsApp so you can send your enquiry to SK Fashion Tailors.</strong>
+                <strong>Opening WhatsApp so you can send your enquiry to SK Fashion Studio.</strong>
               </div>
               <p className="wa-status-desc">
                 WhatsApp click-to-chat pre-fills your complete enquiry details. Please press the <strong>Send</strong> button in WhatsApp to deliver it directly to our head designer.
@@ -2238,7 +2238,7 @@ export default function App() {
         {/* ── Google Maps Embed ── */}
         <div className="map-embed-wrapper">
           <iframe
-            title="SK Fashion Tailors Location"
+            title="SK Fashion Studio Location"
             src={contactData.mapsEmbedUrl}
             width="100%"
             height="420"
@@ -2291,7 +2291,7 @@ export default function App() {
                 <a href={contactData.whatsapp} target="_blank" rel="noreferrer" aria-label="WhatsApp" title="Chat on WhatsApp">
                   <MessageCircle size={17} />
                 </a>
-                <a href={`tel:${contactData.phoneDigits}`} aria-label="Call SK Fashion Tailors" title="Call Atelier">
+                <a href={`tel:${contactData.phoneDigits}`} aria-label="Call SK Fashion Studio" title="Call Atelier">
                   <Phone size={17} />
                 </a>
               </div>
@@ -2362,7 +2362,7 @@ export default function App() {
           </div>
 
           <div className="footer-bottom-bar">
-            <span className="footer-copyright">© 2026 SK Fashion Tailors. All Rights Reserved.</span>
+            <span className="footer-copyright">© 2026 SK Fashion Studio. All Rights Reserved.</span>
             <span className="footer-tag">Crafting bespoke bridal &amp; couture elegance, stitch by stitch.</span>
           </div>
         </div>
