@@ -1911,6 +1911,9 @@ export default function App() {
                 <span className="service-number">{service.number}</span>
                 <h3>{service.title}</h3>
                 <p>{service.shortDesc}</p>
+                <span className="service-cta" aria-hidden="true">
+                  Learn more
+                </span>
                 <span className="service-arrow" aria-hidden="true">
                   <ArrowRight size={16} />
                 </span>

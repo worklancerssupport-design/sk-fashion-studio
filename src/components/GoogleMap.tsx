@@ -65,10 +65,9 @@ export default function GoogleMap({ className }: GoogleMapProps) {
         style={{ width: '100%', height: '100%' }}
       >
         <TileLayer
-          url={`https://api.maptiler.com/maps/dataviz-light/{z}/{x}/{y}.png?key=${import.meta.env.VITE_MAPTILER_API_KEY}`}
-          tileSize={512}
-          zoomOffset={-1}
-          maxZoom={20}
+          url="https://tile.openstreetmap.org/{z}/{x}/{y}.png"
+          tileSize={256}
+          maxZoom={19}
         />
         <ScrollZoom />
         <Marker

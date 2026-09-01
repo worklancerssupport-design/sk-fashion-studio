@@ -473,23 +473,41 @@ section.services {
   max-width: 38ch;
 }
 
+.service-cta {
+  display: inline-flex !important;
+  align-items: center !important;
+  gap: 6px !important;
+  margin-top: auto !important;
+  padding-top: 22px !important;
+  font-size: 0.72rem !important;
+  font-weight: 600 !important;
+  letter-spacing: 0.16em !important;
+  text-transform: uppercase !important;
+  color: rgba(26, 16, 19, 0.45) !important;
+  transition: color 0.3s ease !important;
+}
+
+.service:hover .service-cta {
+  color: #d96188 !important;
+}
+
 .service-arrow {
   position: absolute;
-  bottom: 12px;
+  top: 15px;
   right: 32px;
   display: flex;
   align-items: center;
   justify-content: center;
-  color: rgba(26, 16, 19, 0.6);
-  opacity: 0;
-  transform: translateX(-6px);
+  color: rgba(26, 16, 19, 0.35);
+  opacity: 1;
+  transform: translateX(0);
   transition: opacity 0.3s ease, transform 0.3s ease, color 0.3s ease;
 }
 
 .service:hover .service-arrow {
   opacity: 1;
-  transform: translateX(0);
   color: #d96188;
+  transform: translateX(3px);
 }
 
 /* ── Process section ── */
@@ -2663,8 +2681,8 @@ a.contact-value:focus-visible {
   display: block;
 }
 
-.contact-map .leaflet-tile-container {
-  filter: grayscale(100%) brightness(0.98), contrast(1.1);
+.contact-map .leaflet-tile {
+  filter: grayscale(94%) brightness(0.98) contrast(1.05);
 }
 
 .contact-map .leaflet-control-attribution,

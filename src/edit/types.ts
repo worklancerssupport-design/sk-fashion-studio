@@ -12,6 +12,26 @@ export interface DesignsData {
   navLabels: Record<string, string>;
 }
 
+export interface Service {
+  id: string;
+  number: string;
+  title: string;
+  badge: string;
+  shortDesc: string;
+  image: string;
+  fullDesc: string;
+  whatsIncluded: string[];
+  suitableOccasions: string[];
+  customizationOptions: string[];
+  outfitKey: string;
+}
+
+export interface ShopPhoto {
+  title: string;
+  tag: string;
+  url: string;
+}
+
 export interface EditHook<T> {
   originalData: T | null;
   editData: T | null;
