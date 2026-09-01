@@ -101,7 +101,7 @@ export default function EditShopPhotosEditor() {
           return (
             <div className="edit-state">
               <div className="edit-spinner-lg" />
-              <p className="edit-state-text">Loading shop photos from GitHub...</p>
+              <p className="edit-state-text">Loading shop photos...</p>
             </div>
           );
         }
@@ -110,7 +110,7 @@ export default function EditShopPhotosEditor() {
           return (
             <div className="edit-state">
               <h3 className="edit-state-title">Failed to load</h3>
-              <p className="edit-state-text">{error || 'Could not load shop photos data from GitHub.'}</p>
+              <p className="edit-state-text">{error || 'Could not load shop photos data.'}</p>
               <button className="edit-btn edit-btn--primary" onClick={refresh}>Try Again</button>
             </div>
           );
@@ -125,7 +125,7 @@ export default function EditShopPhotosEditor() {
               </h1>
               <p className="edit-page-subtitle">
                 Edit the shop photos shown in the gallery section on the homepage.
-                Changes save directly to GitHub and go live on the next deploy.
+                Changes save and go live on the next deploy.
               </p>
             </div>
 

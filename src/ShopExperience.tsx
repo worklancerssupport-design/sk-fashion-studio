@@ -28,7 +28,7 @@ export default function ShopExperience() {
         <div className="shop-grid">
           {photos.map(([title, id], i) => (
             <motion.button whileHover={{ scale: 1.015 }} onClick={() => setActive(i)} key={id} className="shop-photo">
-              <img src={src(id)} alt={title} />
+              <img src={src(id)} alt={`${title} — SK Fashion Studio boutique space, Velachery Chennai`} loading="lazy" decoding="async" />
               <span>{title}</span>
             </motion.button>
           ))}
@@ -36,7 +36,7 @@ export default function ShopExperience() {
       </section>
       <section className="owner-story">
         <motion.div className="owner-photo" initial={{ opacity: 0, scale: 0.97 }} whileInView={{ opacity: 1, scale: 1 }} viewport={{ once: true }}>
-          <img src={src('photo-1573496359142-b8d87734a5a2')} alt="Karuna Kumari — Founder & Head Designer" />
+          <img src={src('photo-1573496359142-b8d87734a5a2')} alt="Karuna Kumari — Founder and Head Designer at SK Fashion Studio, Velachery Chennai" loading="lazy" decoding="async" />
         </motion.div>
         <motion.div initial={{ opacity: 0, x: 24 }} whileInView={{ opacity: 1, x: 0 }} viewport={{ once: true }}>
           <p className="eyebrow pink-text">THE HEART OF SK</p>
@@ -52,7 +52,7 @@ export default function ShopExperience() {
             <button onClick={() => setActive(null)}><X /></button>
             <button className="left" onClick={e => { e.stopPropagation(); setActive((active + photos.length - 1) % photos.length); }}><ChevronLeft /></button>
             <figure onClick={e => e.stopPropagation()}>
-              <img src={src(photos[active][1], 1500)} alt={photos[active][0]} />
+              <img src={src(photos[active][1], 1500)} alt={`${photos[active][0]} — SK Fashion Studio boutique, Velachery Chennai`} decoding="async" />
               <figcaption>{photos[active][0]}<span>{active + 1} / {photos.length}</span></figcaption>
             </figure>
             <button className="right" onClick={e => { e.stopPropagation(); setActive((active + 1) % photos.length); }}><ChevronRight /></button>

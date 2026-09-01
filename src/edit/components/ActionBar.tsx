@@ -49,7 +49,7 @@ export default function ActionBar({
           className="edit-btn"
           onClick={onRefresh}
           disabled={loading || saving}
-          title="Refresh from GitHub"
+          title="Refresh data"
         >
           <RefreshCw size={14} className={loading ? 'edit-spin' : ''} />
           <span>Refresh</span>
@@ -67,7 +67,7 @@ export default function ActionBar({
           className="edit-btn edit-btn--primary"
           onClick={onSave}
           disabled={!hasChanges || loading || saving}
-          title="Save to GitHub"
+          title="Save changes"
         >
           {saving ? <span className="edit-spinner" /> : <Save size={14} />}
           <span>{saving ? 'Saving' : 'Save Changes'}</span>

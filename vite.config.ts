@@ -126,5 +126,16 @@ export default defineConfig(({ mode }) => {
     plugins: [react(), apiPlugin()],
     resolve: { alias: { "@": path.resolve(__dirname, "./src") } },
     server: { port: 5173 },
+    build: {
+      rollupOptions: {
+        output: {
+          manualChunks: {
+            'vendor-react': ['react', 'react-dom', 'react-router-dom'],
+            'vendor-motion': ['framer-motion'],
+            'vendor-map': ['leaflet', 'react-leaflet'],
+          },
+        },
+      },
+    },
   };
 });

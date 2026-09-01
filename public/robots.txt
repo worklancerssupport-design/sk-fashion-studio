@@ -3,4 +3,4 @@ Allow: /
 Disallow: /edit
 Disallow: /api/
 
-Sitemap: https://skfashionstudio.in/sitemap.xml
+Sitemap: https://www.skfashionstudio.in/sitemap.xml

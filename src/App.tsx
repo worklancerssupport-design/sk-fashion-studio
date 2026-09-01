@@ -7,11 +7,11 @@ import {
   MessageCircle, MessageSquarePlus, Phone, Scissors, Send, ShieldCheck,
   Sparkles, Upload, UserCheck, X
 } from 'lucide-react';
-import { jsPDF } from 'jspdf';
 import { fetchGoogleReviews, GooglePlaceDetails, fallbackPlaceData } from './services/googleReviews';
 import EditPage from './edit/EditPage';
 import BrandLogo from './components/BrandLogo';
-import GoogleMap from './components/GoogleMap';
+import { lazy, Suspense } from 'react';
+const GoogleMap = lazy(() => import('./components/GoogleMap'));
 import servicesData from './data/services.json';
 import { categories as designCategories, navLabels as navLabelsRaw } from './data/designs.json';
 
@@ -116,7 +116,9 @@ function HeroSlideshow() {
           key={heroSlides[current]}
           className="hero-slide-img"
           src={img(heroSlides[current], 1600)}
-          alt=""
+          alt="SK Fashion Studio — bridal couture, designer blouses, and bespoke tailoring in Velachery, Chennai"
+          fetchPriority="high"
+          decoding="async"
           initial={{ opacity: 0, scale: 1.06 }}
           animate={{ opacity: 1, scale: 1 }}
           exit={{ opacity: 0, scale: 0.98 }}
@@ -127,7 +129,35 @@ function HeroSlideshow() {
   );
 }
 
-// ─── HERO EXPLORE DROPDOWN ───────────────────────────────────────────────────
+// ─── SHARED SERVICE DETAIL CONTENT (used by both SEO section & visible modal) ──
+function ServiceDetailBody({ service, cn }: {
+  service: ServiceItem;
+  cn?: { desc?: string; section?: string; label?: string; list?: string; labelTag?: 'h3' | 'p' };
+}) {
+  const Label = cn?.labelTag === 'p' ? 'p' : 'h3';
+  return (
+    <>
+      <p className={cn?.desc}>{service.fullDesc}</p>
+      <section className={cn?.section}>
+        <Label className={cn?.label}>What is Included</Label>
+        <ul className={cn?.list}>
+          {service.whatsIncluded.map((item, idx) => (
+            <li key={idx}>{item}</li>
+          ))}
+        </ul>
+      </section>
+      <section className={cn?.section}>
+        <Label className={cn?.label}>Customization &amp; Options</Label>
+        <ul className={cn?.list}>
+          {service.customizationOptions.map((opt, idx) => (
+            <li key={idx}>{opt}</li>
+          ))}
+        </ul>
+      </section>
+    </>
+  );
+}
+
 // ─── SERVICE INFORMATIONAL MODAL (Framer Motion) ─────────────────────────────
 function ServiceDetailModal({
   service,
@@ -170,7 +200,7 @@ function ServiceDetailModal({
 
         {/* Modal Image with overlaid heading */}
         <div className="service-modal-hero">
-          <img src={img(service.image, 1200)} alt={service.title} />
+          <img src={img(service.image, 1200)} alt={`${service.title} — bespoke service by SK Fashion Studio, Velachery Chennai`} loading="lazy" decoding="async" />
           <div className="service-modal-hero-overlay">
             <p className="service-modal-eyebrow">Service</p>
             <h2 className="service-modal-title">{service.title}</h2>
@@ -179,25 +209,13 @@ function ServiceDetailModal({
 
         {/* Modal Body */}
         <div className="service-modal-body">
-          <p className="service-modal-desc">{service.fullDesc}</p>
-
-          <section className="service-modal-section">
-            <p className="service-modal-label">What is Included</p>
-            <ul className="service-modal-list">
-              {service.whatsIncluded.map((item, idx) => (
-                <li key={idx}>{item}</li>
-              ))}
-            </ul>
-          </section>
-
-          <section className="service-modal-section">
-            <p className="service-modal-label">Customization &amp; Options</p>
-            <ul className="service-modal-list">
-              {service.customizationOptions.map((opt, idx) => (
-                <li key={idx}>{opt}</li>
-              ))}
-            </ul>
-          </section>
+          <ServiceDetailBody service={service} cn={{
+            desc: 'service-modal-desc',
+            section: 'service-modal-section',
+            label: 'service-modal-label',
+            list: 'service-modal-list',
+            labelTag: 'p',
+          }} />
         </div>
 
         {/* Bottom Action — always visible */}
@@ -232,7 +250,7 @@ function CategorySection({ cat, active }: { cat: typeof designCategories[0]; act
             whileHover={{ scale: 1.02 }}
             onClick={() => setLight(0)}
           >
-            <img src={img(images[0], 1200)} alt={cat.label} />
+            <img src={img(images[0], 1200)} alt={cat.desc} loading="lazy" decoding="async" />
           </motion.button>
           <div className="cat-img-grid-2x2">
             {images.slice(1, 5).map((id, i) => (
@@ -242,7 +260,7 @@ function CategorySection({ cat, active }: { cat: typeof designCategories[0]; act
                 whileHover={{ scale: 1.03 }}
                 onClick={() => setLight(i + 1)}
               >
-                <img src={img(id)} alt={cat.label} />
+                <img src={img(id)} alt={cat.desc} loading="lazy" decoding="async" />
               </motion.button>
             ))}
           </div>
@@ -261,7 +279,7 @@ function CategorySection({ cat, active }: { cat: typeof designCategories[0]; act
                 whileHover={{ scale: 1.03 }}
                 onClick={() => setLight(i)}
               >
-                <img src={img(id)} alt={cat.label} />
+                <img src={img(id)} alt={cat.desc} loading="lazy" decoding="async" />
               </motion.button>
             ))}
           </div>
@@ -270,7 +288,7 @@ function CategorySection({ cat, active }: { cat: typeof designCategories[0]; act
             whileHover={{ scale: 1.02 }}
             onClick={() => setLight(images.length > 4 ? 4 : 0)}
           >
-            <img src={img(images[4] || images[0], 1200)} alt={cat.label} />
+            <img src={img(images[4] || images[0], 1200)} alt={cat.desc} loading="lazy" decoding="async" />
           </motion.button>
         </div>
       );
@@ -286,7 +304,7 @@ function CategorySection({ cat, active }: { cat: typeof designCategories[0]; act
               whileHover={{ scale: 1.025 }}
               onClick={() => setLight(i)}
             >
-              <img src={img(id, 1200)} alt={cat.label} />
+              <img src={img(id, 1200)} alt={cat.desc} loading="lazy" decoding="async" />
             </motion.button>
           ))}
         </div>
@@ -303,7 +321,7 @@ function CategorySection({ cat, active }: { cat: typeof designCategories[0]; act
               whileHover={{ scale: 1.02 }}
               onClick={() => setLight(i)}
             >
-              <img src={img(id, i === 0 ? 1400 : 900)} alt={cat.label} />
+              <img src={img(id, i === 0 ? 1400 : 900)} alt={cat.desc} loading="lazy" decoding="async" />
             </motion.button>
           ))}
         </div>
@@ -320,7 +338,7 @@ function CategorySection({ cat, active }: { cat: typeof designCategories[0]; act
             whileHover={{ scale: 1.02 }}
             onClick={() => setLight(i)}
           >
-            <img src={img(id, i === 0 ? 1200 : 900)} alt={cat.label} />
+            <img src={img(id, i === 0 ? 1200 : 900)} alt={cat.desc} loading="lazy" decoding="async" />
           </motion.button>
         ))}
       </div>
@@ -368,7 +386,7 @@ function CategorySection({ cat, active }: { cat: typeof designCategories[0]; act
               animate={{ scale: 1, opacity: 1 }}
               onClick={(e: React.MouseEvent) => e.stopPropagation()}
             >
-              <img src={img(cat.images[light], 1400)} alt={cat.label} />
+              <img src={img(cat.images[light], 1400)} alt={cat.desc} decoding="async" />
               <figcaption>{cat.label}<span>{light + 1} / {cat.images.length}</span></figcaption>
             </motion.figure>
             <B className="lb-next" onClick={(e: React.MouseEvent) => { e.stopPropagation(); shift(1); }}>
@@ -484,7 +502,7 @@ function ShopGallery() {
                       onClick={() => setLight(i + 1)}
                       aria-label={`View ${photo.title}`}
                     >
-                      <img src={photo.url} alt={photo.title} />
+                      <img src={photo.url} alt={`${photo.title} — SK Fashion Studio boutique, Velachery Chennai`} loading="lazy" decoding="async" />
                     </motion.button>
                   ))}
                 </div>
@@ -498,7 +516,7 @@ function ShopGallery() {
                 onClick={() => setLight(0)}
                 aria-label={`View ${shopPhotos[0].title}`}
               >
-                <img src={shopPhotos[0].url} alt={shopPhotos[0].title} />
+                <img className="space-card-image--shift-up" src={shopPhotos[0].url} alt={`${shopPhotos[0].title} — SK Fashion Studio boutique, Velachery Chennai`} loading="lazy" decoding="async" />
               </motion.button>
             </div>
           )}
@@ -516,7 +534,7 @@ function ShopGallery() {
                   onClick={() => setLight(i + 3)}
                   aria-label={`View ${photo.title}`}
                 >
-                  <img src={photo.url} alt={photo.title} />
+                  <img src={photo.url} alt={`${photo.title} — SK Fashion Studio boutique, Velachery Chennai`} loading="lazy" decoding="async" />
                 </motion.button>
               ))}
             </div>
@@ -561,7 +579,7 @@ function ShopGallery() {
               transition={{ duration: 0.25, ease: [0.16, 1, 0.3, 1] }}
               onClick={(e: React.MouseEvent) => e.stopPropagation()}
             >
-              <img src={shopPhotos[light].url} alt={shopPhotos[light].title} />
+              <img src={shopPhotos[light].url} alt={`${shopPhotos[light].title} — SK Fashion Studio boutique, Velachery Chennai`} decoding="async" />
               <figcaption className="space-lightbox-caption">
                 <span className="space-lightbox-title">{shopPhotos[light].title}</span>
                 <span className="space-lightbox-counter">
@@ -792,7 +810,8 @@ interface ConsultationFormData {
   files: string[];
 }
 
-function generateBrandedPDF(data: ConsultationFormData) {
+async function generateBrandedPDF(data: ConsultationFormData) {
+  const { jsPDF } = await import('jspdf');
   const doc = new jsPDF({
     orientation: 'portrait',
     unit: 'mm',
@@ -1680,6 +1699,7 @@ export default function App() {
   const [menu, setMenu] = useState(false);
   const [scrolled, setScrolled] = useState(false);
   const [activeSection, setActiveSection] = useState('home');
+  const [showAllServices, setShowAllServices] = useState(false);
 
   useEffect(() => {
     document.body.style.overflow = form || activeServiceModal ? 'hidden' : '';
@@ -1895,12 +1915,15 @@ export default function App() {
           <div className="services-header">
             <p className="services-eyebrow">Services</p>
             <h2 className="services-heading">
-              Designed around <i>you.</i>
+              What we <i>craft.</i>
             </h2>
+            <p className="services-subtitle">
+              Bridal couture, designer blouses, saree transformations, lehengas and bespoke tailoring — each piece designed and personally fitted by Karuna Kumari.
+            </p>
           </div>
 
           <div className="service-grid">
-            {servicesData.map(service => (
+            {servicesData.slice(0, showAllServices ? servicesData.length : 4).map(service => (
               <motion.article
                 whileHover={{ y: -4 }}
                 transition={{ duration: 0.35, ease: [0.16, 1, 0.3, 1] }}
@@ -1920,6 +1943,22 @@ export default function App() {
               </motion.article>
             ))}
           </div>
+
+          {servicesData.length > 4 && (
+            <div className="services-toggle-wrap">
+              <button
+                className="services-toggle"
+                onClick={() => setShowAllServices(!showAllServices)}
+                aria-expanded={showAllServices}
+              >
+                <span>{showAllServices ? 'View less' : 'View more'}</span>
+                <ChevronDown
+                  size={16}
+                  className={`services-toggle-chevron ${showAllServices ? 'services-toggle-chevron--open' : ''}`}
+                />
+              </button>
+            </div>
+          )}
         </Section>
 
         {/* ── Explore Our Designs / Design Portfolio ── */}
@@ -1933,17 +1972,29 @@ export default function App() {
 
         {/* ── Serving South Chennai — Local Service Area ── */}
         <section id="service-area" className="service-area-section">
-          <p className="eyebrow service-area-eyebrow">A Local Boutique Studio</p>
-          <h2 className="service-area-heading">
-            Serving customers across <i>South Chennai.</i>
-          </h2>
-          <p className="service-area-copy">
-            SK Fashion Studio is a designer boutique in Velachery, Chennai, specialising in
-            bespoke bridal wear, designer blouses, saree transformations and custom tailoring.
-            Brides, grooms and families from across the city visit our studio for personally
-            fitted, made-to-measure pieces, and we regularly welcome clients from Velachery,
-            Madipakkam, Pallikaranai, Adambakkam, Guindy, Alandur, Perungudi and Thoraipakkam.
-          </p>
+          <div className="service-area-layout">
+            <div className="service-area-image">
+              <img
+                src="https://res.cloudinary.com/akjmqvws/image/upload/v1788280789/shop_exterior.png"
+                alt="SK Fashion Studio — Velachery, Chennai"
+                loading="lazy"
+                decoding="async"
+              />
+            </div>
+            <div className="service-area-content">
+              <p className="eyebrow service-area-eyebrow">A Local Boutique Studio</p>
+              <h2 className="service-area-heading">
+                Serving customers across <i>South Chennai.</i>
+              </h2>
+              <p className="service-area-copy">
+                SK Fashion Studio is a designer boutique in Velachery, Chennai, specialising in
+                bespoke bridal wear, designer blouses, saree transformations and custom tailoring.
+                Brides, grooms and families from across the city visit our studio for personally
+                fitted, made-to-measure pieces, and we regularly welcome clients from Velachery,
+                Madipakkam, Pallikaranai, Adambakkam, Guindy, Alandur, Perungudi and Thoraipakkam.
+              </p>
+            </div>
+          </div>
         </section>
 
         {/* ── Customer Reviews Section (Loved by Our Clients — Google Reviews) ── */}
@@ -1951,6 +2002,16 @@ export default function App() {
 
         {/* ── Contact Section — Visit the Studio ── */}
         <Section id="contact" c="contact">
+          <div className="contact-right">
+            <div className="contact-map">
+              <Suspense fallback={<div className="contact-map-canvas" style={{ background: '#1a1417' }} />}>
+                <GoogleMap
+                  className="contact-map-canvas"
+                />
+              </Suspense>
+            </div>
+          </div>
+
           <div className="contact-left">
             <div className="contact-header">
               <p className="contact-eyebrow">Visit the Studio</p>
@@ -2004,14 +2065,6 @@ export default function App() {
                   </a>
                 </div>
               </div>
-            </div>
-          </div>
-
-          <div className="contact-right">
-            <div className="contact-map">
-              <GoogleMap
-                className="contact-map-canvas"
-              />
             </div>
           </div>
         </Section>
@@ -2087,8 +2140,8 @@ export default function App() {
                 <div className="footer-contact-row">
                   <span className="footer-contact-label">Boutique</span>
                   <div className="footer-contact-value">
-                    <span>30A, Sheshadripuram 1st Main Rd, Chennai</span>
-                    {/* <a href={contactData.mapsDirectionsUrl} target="_blank" rel="noreferrer" className="footer-contact-action">Get directions →</a> */}
+                    <span>{contactData.address}</span>
+                    <a href={contactData.mapsDirectionsUrl} target="_blank" rel="noreferrer" className="footer-contact-action">Get directions →</a>
                   </div>
                 </div>
 
@@ -2113,7 +2166,17 @@ export default function App() {
         </div>
       </footer>
 
-      {/* ── Service Details Informational Modal ── */}
+      {/* ── Service Details: always in DOM for SEO crawlability ── */}
+      <section aria-hidden="true" style={{ position: 'absolute', left: '-9999px', width: '1px', height: '1px', overflow: 'hidden' }}>
+        {servicesData.map(service => (
+          <article key={service.id} id={`service-${service.id}`}>
+            <h2>{service.title}</h2>
+            <ServiceDetailBody service={service} />
+          </article>
+        ))}
+      </section>
+
+      {/* ── Service Details Informational Modal (visible, animated) ── */}
       <AnimatePresence>
         {activeServiceModal && (
           <ServiceDetailModal

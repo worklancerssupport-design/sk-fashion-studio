@@ -353,19 +353,60 @@
    SERVICE AREA / LOCAL CONTEXT
    ════════════════════════════════════════════════════════════════════════════ */
 .service-area-section {
-  padding: 48px 10vw 56px;
-  text-align: right;
+  padding-top: 48px;
+  padding-bottom: 56px;
+  padding-left: max(
+    var(--container-pad),
+    calc((100vw - var(--container-max)) / 2 + var(--container-pad))
+  ) !important;
+  padding-right: max(
+    var(--container-pad),
+    calc((100vw - var(--container-max)) / 2 + var(--container-pad))
+  ) !important;
+  text-align: left;
   background: #ffffff;
 }
-.service-area-eyebrow { margin-bottom: 12px; color: #6f6669; text-transform: uppercase; }
-.service-area-heading { max-width: 680px; margin: 0 0 28px auto; color: #1a1417; }
+.service-area-layout {
+  display: flex;
+  align-items: stretch;
+  gap: 40px;
+}
+.service-area-image {
+  position: relative;
+  width: clamp(300px, 46vw, 560px);
+  flex-shrink: 0;
+  border-radius: 8px;
+  border: 1px solid rgba(20, 15, 17, 0.08);
+  background: #f4eff0;
+  overflow: hidden;
+}
+.service-area-image img {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  object-position: bottom;
+  display: block;
+}
+.service-area-content {
+  flex: 1;
+  min-width: 0;
+  max-width: 660px;
+  margin-left: 60px;
+}
+.service-area-eyebrow { margin-bottom: 28px; color: #6f6669; text-transform: uppercase; }
+.service-area-heading { margin: 0 0 28px; color: #1a1417; font-size: clamp(2.4rem, 4.6vw, 3.6rem); }
 .service-area-heading i { font-style: italic; color: #d96188; }
-.service-area-copy { max-width: 660px; margin: 0 0 0 auto; line-height: 1.75; color: #6f6669; font-size: .92rem; }
+.service-area-copy { margin: 0 0 16px; line-height: 1.78; color: #4a4347; font-size: 1rem; font-weight: 400; }
 
 @media (max-width: 800px) {
-  .service-area-section { padding: 40px 7vw 48px; text-align: center; }
-  .service-area-heading { margin: 0 auto 14px; }
-  .service-area-copy { margin: 0 auto; }
+  .service-area-section { padding: 40px var(--container-pad) 48px; text-align: left; }
+  .service-area-layout { flex-direction: column; gap: 28px; }
+  .service-area-image { width: 100%; max-width: 100%; aspect-ratio: 3 / 4; }
+  .service-area-content { max-width: 100%; margin-left: 0; }
+  .service-area-heading { margin: 0 0 14px; }
+  .service-area-copy { margin: 0; }
 }
 @media (max-width: 430px) {
   .service-area-section { padding: 32px 6vw 40px; }

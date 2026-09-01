@@ -11,6 +11,19 @@
     <link rel="canonical" href="https://skfashionstudio.in/" />
     <meta name="theme-color" content="#1a1a2e" />
 
+    <!-- Preconnect to font + image CDNs -->
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link rel="preconnect" href="https://images.unsplash.com" crossorigin />
+    <link rel="preconnect" href="https://i.pinimg.com" crossorigin />
+    <link rel="preconnect" href="https://images.pexels.com" crossorigin />
+
+    <!-- Preload fonts (moved from CSS @import for earlier discovery) -->
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;600&family=Jost:wght@300;400;500&family=Playfair+Display:ital,wght@0,500;0,600;0,700;1,500;1,600&display=swap" />
+
+    <!-- Preload LCP hero image -->
+    <link rel="preload" as="image" href="https://i.pinimg.com/1200x/e9/f4/9a/e9f49a11717c94b60662edfe43c8b20b.jpg" fetchpriority="high" />
+
     <!-- Open Graph -->
     <meta property="og:type" content="website" />
     <meta property="og:site_name" content="SK Fashion Studio" />
@@ -35,6 +48,56 @@
     />
     <meta name="twitter:image" content="https://skfashionstudio.in/og-image.jpg" />
     <meta name="twitter:image:alt" content="SK Fashion Studio designer boutique in Velachery, Chennai" />
+
+    <!-- Structured Data — LocalBusiness + FashionDesigner -->
+    <script type="application/ld+json">
+    {
+      "@context": "https://schema.org",
+      "@type": "LocalBusiness",
+      "additionalType": "https://schema.org/FashionDesigner",
+      "name": "SK Fashion Studio",
+      "url": "https://skfashionstudio.in/",
+      "telephone": "+91 98840 16637",
+      "email": "bespoke@skfashiontailors.in",
+      "image": "https://skfashionstudio.in/og-image.jpg",
+      "address": {
+        "@type": "PostalAddress",
+        "streetAddress": "B Park Avenue Street, 30A Sheshadripuram 1st Main Rd, Seshadripuram, Velachery",
+        "addressLocality": "Chennai",
+        "addressRegion": "Tamil Nadu",
+        "postalCode": "600042",
+        "addressCountry": "IN"
+      },
+      "geo": {
+        "@type": "GeoCoordinates",
+        "latitude": 12.9815,
+        "longitude": 80.2180
+      },
+      "openingHoursSpecification": [
+        {
+          "@type": "OpeningHoursSpecification",
+          "dayOfWeek": ["Monday","Tuesday","Wednesday","Thursday","Friday","Saturday"],
+          "opens": "10:30",
+          "closes": "20:30"
+        }
+      ],
+      "areaServed": [
+        "Velachery",
+        "Madipakkam",
+        "Pallikaranai",
+        "Adambakkam",
+        "Guindy",
+        "Alandur",
+        "Perungudi",
+        "Thoraipakkam",
+        "South Chennai"
+      ],
+      "sameAs": [
+        "https://www.instagram.com/sk_fashion_studio/",
+        "https://wa.me/919884016637"
+      ]
+    }
+    </script>
   </head>
   <body>
     <div id="root"></div>

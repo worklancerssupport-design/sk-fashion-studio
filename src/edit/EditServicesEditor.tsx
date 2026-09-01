@@ -313,7 +313,7 @@ export default function EditServicesEditor() {
           return (
             <div className="edit-state">
               <div className="edit-spinner-lg" />
-              <p className="edit-state-text">Loading services from GitHub...</p>
+              <p className="edit-state-text">Loading services...</p>
             </div>
           );
         }
@@ -322,7 +322,7 @@ export default function EditServicesEditor() {
           return (
             <div className="edit-state">
               <h3 className="edit-state-title">Failed to load</h3>
-              <p className="edit-state-text">{error || 'Could not load services data from GitHub.'}</p>
+              <p className="edit-state-text">{error || 'Could not load services data.'}</p>
               <button className="edit-btn edit-btn--primary" onClick={refresh}>Try Again</button>
             </div>
           );
@@ -337,7 +337,7 @@ export default function EditServicesEditor() {
               </h1>
               <p className="edit-page-subtitle">
                 Edit the services shown in the "Our Services" section on the homepage.
-                Changes save directly to GitHub and go live on the next deploy.
+                Changes save and go live on the next deploy.
               </p>
             </div>
 

@@ -411,6 +411,14 @@ section.services {
   color: rgba(26, 16, 19, 0.55);
 }
 
+.services-subtitle {
+  font-size: 0.95rem;
+  line-height: 1.7;
+  color: #6f6669;
+  margin: 20px 0 0;
+  max-width: 52ch;
+}
+
 .service-grid {
   display: grid !important;
   grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)) !important;
@@ -508,6 +516,49 @@ section.services {
   opacity: 1;
   color: #d96188;
   transform: translateX(0);
+}
+
+/* ── Services toggle — View more / View less ── */
+.services-toggle-wrap {
+  display: flex;
+  justify-content: center;
+  margin-top: 40px;
+  padding-inline: var(--container-pad);
+  max-width: var(--container-max);
+  margin-left: auto;
+  margin-right: auto;
+}
+
+.services-toggle {
+  display: inline-flex;
+  align-items: center;
+  gap: 10px;
+  padding: 12px 24px;
+  background: transparent;
+  border: 1px solid rgba(20, 15, 17, 0.15);
+  border-radius: 4px;
+  color: rgba(26, 16, 19, 0.7);
+  font-family: 'DM Sans', Arial, sans-serif;
+  font-size: 0.75rem;
+  font-weight: 500;
+  letter-spacing: 0.16em;
+  text-transform: uppercase;
+  cursor: pointer;
+  transition: color 0.25s ease, border-color 0.25s ease, background 0.25s ease;
+}
+
+.services-toggle:hover {
+  color: #d96188;
+  border-color: rgba(217, 97, 136, 0.5);
+  background: rgba(217, 97, 136, 0.04);
+}
+
+.services-toggle-chevron {
+  transition: transform 0.3s ease;
+}
+
+.services-toggle-chevron--open {
+  transform: rotate(180deg);
 }
 
 /* ── Process section ── */
@@ -1611,6 +1662,10 @@ footer.site-footer {
   opacity: 1;
 }
 
+.space-card-image--shift-up {
+  object-position: center 28% !important;
+}
+
 /* ── Lightbox ── */
 .space-lightbox-backdrop {
   position: fixed;
@@ -2489,11 +2544,11 @@ footer.site-footer {
 .contact-left {
   padding-top: 100px !important;
   padding-bottom: 100px !important;
-  padding-left: max(
+  padding-left: clamp(60px, 6vw, 100px) !important;
+  padding-right: max(
     var(--container-pad),
     calc((100vw - var(--container-max)) / 2 + var(--container-pad))
   ) !important;
-  padding-right: max(40px, var(--container-pad)) !important;
   display: flex;
   flex-direction: column;
   gap: 72px;
@@ -2762,7 +2817,7 @@ a.contact-value:focus-visible {
       var(--container-pad),
       calc((100vw - var(--container-max)) / 2 + var(--container-pad))
     ) !important;
-    padding-right: max(40px, var(--container-pad)) !important;
+    padding-right: var(--container-pad) !important;
     gap: 56px;
   }
   .contact-right {

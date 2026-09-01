@@ -237,7 +237,7 @@ export default function EditDesignsEditor() {
           return (
             <div className="edit-state">
               <div className="edit-spinner-lg" />
-              <p className="edit-state-text">Loading designs from GitHub...</p>
+              <p className="edit-state-text">Loading designs...</p>
             </div>
           );
         }
@@ -246,7 +246,7 @@ export default function EditDesignsEditor() {
           return (
             <div className="edit-state">
               <h3 className="edit-state-title">Failed to load</h3>
-              <p className="edit-state-text">{error || 'Could not load designs data from GitHub.'}</p>
+              <p className="edit-state-text">{error || 'Could not load designs data.'}</p>
               <button className="edit-btn edit-btn--primary" onClick={refresh}>Try Again</button>
             </div>
           );
@@ -261,7 +261,7 @@ export default function EditDesignsEditor() {
               </h1>
               <p className="edit-page-subtitle">
                 Edit the design categories shown in the "Explore Our Designs" section on the homepage.
-                Changes save directly to GitHub and go live on the next deploy.
+                Changes save and go live on the next deploy.
               </p>
             </div>
 
