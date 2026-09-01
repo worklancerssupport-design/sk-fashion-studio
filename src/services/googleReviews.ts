@@ -22,8 +22,8 @@ export interface GooglePlaceDetails {
 export const fallbackPlaceData: GooglePlaceDetails = {
   rating: 4.7,
   user_ratings_total: 184,
-  place_url: 'https://www.google.com/maps/place/SK+Fashion+Tailors/@12.977330236100165,80.23049540620549,17z',
-  write_review_url: 'https://search.google.com/local/writereview?placeid=ChIJvU1jbY9dQjoR7B6gza4aBsQ',
+  place_url: 'https://share.google/jmG8NPICdRVsuIsg1',
+  write_review_url: 'https://share.google/jmG8NPICdRVsuIsg1',
   reviews: [
     {
       author_name: 'Priyanka Sundar',

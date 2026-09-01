@@ -11,8 +11,7 @@ L.Icon.Default.mergeOptions({
 });
 
 const CENTER: [number, number] = [12.977330236100165, 80.23049540620549];
-const DIRECTIONS_URL =
-  'https://www.google.com/maps/dir/?api=1&destination=12.977330236100165,80.23049540620549';
+const DIRECTIONS_URL = 'https://maps.app.goo.gl/unZV8nF7MoxJhEgS7';
 
 const pinkIcon = L.divIcon({
   className: 'map-pin-pink',
