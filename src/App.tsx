@@ -1751,6 +1751,7 @@ export default function App() {
     { label: 'Services', href: '#services', id: 'services' },
     { label: 'Explore Designs', href: '#explore-designs', id: 'explore-designs' },
     { label: 'Gallery', href: '#gallery', id: 'gallery' },
+    { label: 'Reviews', href: '#reviews', id: 'reviews' },
     { label: 'Contact', href: '#contact', id: 'contact' },
   ];
 

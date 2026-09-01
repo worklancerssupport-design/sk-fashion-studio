@@ -32,6 +32,19 @@ export interface ShopPhoto {
   url: string;
 }
 
+export interface ContactData {
+  address: string;
+  phone: string;
+  phoneDigits: string;
+  email: string;
+  instagram: string;
+  whatsapp: string;
+  mapsEmbedUrl: string;
+  mapsDirectionsUrl: string;
+  workingHours: string;
+  workingHoursNote: string;
+}
+
 export interface EditHook<T> {
   originalData: T | null;
   editData: T | null;
