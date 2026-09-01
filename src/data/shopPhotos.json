@@ -1,17 +1,17 @@
 [
-  {
-    "title": "Our Boutique",
-    "tag": "Boutique Exterior",
-    "url": "/images/62293.jpg"
-  },
-  {
-    "title": "Inside SK Fashion Studio",
-    "tag": "Showroom & Mannequins",
-    "url": "/images/62292.jpg"
-  },
-  {
-    "title": "A Space Made for You",
-    "tag": "Studio Ambiance",
-    "url": "https://i.pinimg.com/1200x/55/c8/9b/55c89bd8cc5820a4401eb95a1e80b088.jpg"
-  }
+    {
+        "title": "Our Boutique",
+        "tag": "Boutique Exterior",
+        "url": "/images/62293.jpg"
+    },
+    {
+        "title": "Inside SK Fashion Studio",
+        "tag": "Showroom & Mannequins",
+        "url": "https://res.cloudinary.com/akjmqvws/image/upload/v1788244381/sk-fashion/designs/y10htt9cxs3q3rocmfjb.jpg"
+    },
+    {
+        "title": "A Space Made for You",
+        "tag": "Studio Ambiance",
+        "url": "https://i.pinimg.com/1200x/55/c8/9b/55c89bd8cc5820a4401eb95a1e80b088.jpg"
+    }
 ]
