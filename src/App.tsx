@@ -1873,10 +1873,10 @@ export default function App() {
           <HeroSlideshow />
           <div className="hero-copy">
             <motion.h1 initial={{ opacity: 0, y: 28 }} animate={{ opacity: 1, y: 0 }} transition={{ delay: 0.16 }}>
-              Raw fabric.<br />Rare <i>fashion.</i>
+              Designer boutique.<br />in Velachery, <i>Chennai.</i>
             </motion.h1>
             <motion.p initial={{ opacity: 0 }} animate={{ opacity: 0.7 }} transition={{ delay: 0.35 }}>
-              Bespoke tailoring and custom design, crafted entirely around you.
+              Designer blouses, bridal wear and bespoke tailoring, crafted entirely around you.
             </motion.p>
             <motion.div className="actions" initial={{ opacity: 0, y: 12 }} animate={{ opacity: 1, y: 0 }} transition={{ delay: 0.5 }}>
               <B className="button pink" onClick={() => smoothScrollTo('explore-designs', 1300, 70)}>
@@ -1930,6 +1930,21 @@ export default function App() {
 
         {/* ── About the Owner — Karuna Kumari ── */}
         <AboutOwner />
+
+        {/* ── Serving South Chennai — Local Service Area ── */}
+        <section id="service-area" className="service-area-section">
+          <p className="eyebrow service-area-eyebrow">A Local Boutique Studio</p>
+          <h2 className="service-area-heading">
+            Serving customers across <i>South Chennai.</i>
+          </h2>
+          <p className="service-area-copy">
+            SK Fashion Studio is a designer boutique in Velachery, Chennai, specialising in
+            bespoke bridal wear, designer blouses, saree transformations and custom tailoring.
+            Brides, grooms and families from across the city visit our studio for personally
+            fitted, made-to-measure pieces, and we regularly welcome clients from Velachery,
+            Madipakkam, Pallikaranai, Adambakkam, Guindy, Alandur, Perungudi and Thoraipakkam.
+          </p>
+        </section>
 
         {/* ── Customer Reviews Section (Loved by Our Clients — Google Reviews) ── */}
         <CustomerReviews />

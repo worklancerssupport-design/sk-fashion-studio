@@ -39,7 +39,7 @@
    ════════════════════════════════════════════════════════════════════════════ */
 
 .explore-section {
-  padding: 90px 0 110px;
+  padding: 48px 0 56px;
   background:
     radial-gradient(ellipse at 8% 12%,  rgba(245, 210, 220, 0.55) 0%, transparent 42%),
     radial-gradient(ellipse at 92% 88%, rgba(255, 228, 232, 0.45) 0%, transparent 38%),
@@ -279,7 +279,7 @@
    RESPONSIVE — Explore Designs
    ════════════════════════════════════════════════════════════════════════════ */
 @media (max-width: 900px) {
-  .explore-section { padding: 80px 0 100px; }
+  .explore-section { padding: 40px 0 48px; }
   .explore-head { margin-bottom: 40px; }
   .explore-cat-nav { margin-bottom: 55px; }
   .design-category { padding: 55px 0; }
@@ -310,7 +310,7 @@
 }
 
 @media (max-width: 600px) {
-  .explore-section { padding: 60px 0 80px; }
+  .explore-section { padding: 32px 0 40px; }
   .explore-cat-nav { gap: 6px; margin-bottom: 40px; }
   .cat-nav-pill { padding: 8px 14px; font-size: .64rem; }
   .design-cat-meta h3 { font-size: 1.85rem; }
@@ -347,4 +347,26 @@
   .float-one { width: 34vw; height: 26vh; right: 1vw; top: 12vh; opacity: .32; }
   .float-two, .float-three { display: none; }
   .scroll { bottom: 22px; }
+}
+
+/* ════════════════════════════════════════════════════════════════════════════
+   SERVICE AREA / LOCAL CONTEXT
+   ════════════════════════════════════════════════════════════════════════════ */
+.service-area-section {
+  padding: 48px 10vw 56px;
+  text-align: right;
+  background: #ffffff;
+}
+.service-area-eyebrow { margin-bottom: 12px; color: #6f6669; text-transform: uppercase; }
+.service-area-heading { max-width: 680px; margin: 0 0 28px auto; color: #1a1417; }
+.service-area-heading i { font-style: italic; color: #d96188; }
+.service-area-copy { max-width: 660px; margin: 0 0 0 auto; line-height: 1.75; color: #6f6669; font-size: .92rem; }
+
+@media (max-width: 800px) {
+  .service-area-section { padding: 40px 7vw 48px; text-align: center; }
+  .service-area-heading { margin: 0 auto 14px; }
+  .service-area-copy { margin: 0 auto; }
+}
+@media (max-width: 430px) {
+  .service-area-section { padding: 32px 6vw 40px; }
 }

@@ -36,3 +36,7 @@ coverage/
 *.tsbuildinfo
 .cache/
 parcel-cache/
+
+# Extras
+EDIT_CONSOLE.md
+seo_priority_fixes.md

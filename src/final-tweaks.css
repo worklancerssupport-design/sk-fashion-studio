@@ -369,7 +369,7 @@ nav.header-nav-center a:not(.nav-link--active):hover::after {
    ════════════════════════════════════════════════════════════════════════════ */
 
 section.services {
-  padding: 120px 0 140px !important;
+  padding: 48px 0 56px !important;
   background: #ffffff !important;
   scroll-margin-top: 80px;
 }
@@ -429,10 +429,10 @@ section.services {
   flex-direction: column !important;
   align-items: flex-start !important;
   text-align: left !important;
-  border: 0 !important;
+  border: 1px solid #efe3e7 !important;
   border-radius: 0 !important;
   box-shadow: none !important;
-  transition: background 0.35s ease !important;
+  transition: background 0.35s ease, border-color 0.35s ease !important;
   position: relative !important;
   cursor: pointer;
   min-height: 240px;
@@ -441,7 +441,7 @@ section.services {
 .service:hover {
   background: #fdf6f8 !important;
   box-shadow: none !important;
-  border-color: transparent !important;
+  border-color: #e3d1d6 !important;
 }
 
 .service-number {
@@ -499,15 +499,15 @@ section.services {
   align-items: center;
   justify-content: center;
   color: rgba(26, 16, 19, 0.35);
-  opacity: 1;
-  transform: translateX(0);
+  opacity: 0;
+  transform: translateX(-4px);
   transition: opacity 0.3s ease, transform 0.3s ease, color 0.3s ease;
 }
 
 .service:hover .service-arrow {
   opacity: 1;
   color: #d96188;
-  transform: translateX(3px);
+  transform: translateX(0);
 }
 
 /* ── Process section ── */
@@ -1138,8 +1138,8 @@ footer.site-footer {
 
 /* ── About the Owner — typography-first layout ── */
 .about-owner-section {
-  padding: 120px 0;
-  background: #140d11;
+  padding: 48px 0 56px;
+  background: #ffffff;
   position: relative;
   overflow: hidden;
 }
@@ -1158,7 +1158,7 @@ footer.site-footer {
   letter-spacing: 0.22em;
   text-transform: uppercase;
   font-weight: 500;
-  color: rgba(255, 255, 255, 0.45);
+  color: #6f6669;
   margin: 0 0 28px;
 }
 
@@ -1168,7 +1168,7 @@ footer.site-footer {
   font-size: clamp(2.4rem, 4.6vw, 3.6rem);
   line-height: 1.05;
   letter-spacing: -0.025em;
-  color: #ffffff;
+  color: #1a1417;
   margin: 0 0 18px;
   max-width: 18ch;
 }
@@ -1176,13 +1176,13 @@ footer.site-footer {
 .about-owner-name i {
   font-style: italic;
   font-weight: 500;
-  color: rgba(255, 255, 255, 0.78);
+  color: #d96188;
 }
 
 .about-owner-role {
   font-size: 0.82rem;
   letter-spacing: 0.04em;
-  color: rgba(255, 255, 255, 0.55);
+  color: #6f6669;
   margin: 0 0 48px;
   font-weight: 400;
 }
@@ -1195,7 +1195,7 @@ footer.site-footer {
 .about-owner-body p {
   font-size: 1rem;
   line-height: 1.78;
-  color: rgba(255, 255, 255, 0.7);
+  color: #4a4347;
   margin: 0 0 16px;
   font-weight: 400;
 }
@@ -1207,7 +1207,7 @@ footer.site-footer {
 .about-owner-quote {
   margin: 0;
   padding: 4px 0 4px 22px;
-  border-left: 1px solid rgba(240, 139, 171, 0.55);
+  border-left: 1px solid #d96188;
   max-width: 56ch;
 }
 
@@ -1217,13 +1217,13 @@ footer.site-footer {
   font-weight: 400;
   font-size: 1.12rem;
   line-height: 1.55;
-  color: rgba(255, 255, 255, 0.85);
+  color: #1a1417;
   margin: 0;
 }
 
 @media (max-width: 700px) {
   .about-owner-section {
-    padding: 90px 0;
+    padding: 40px 0 48px;
   }
   .about-owner-quote p {
     font-size: 1.04rem;
@@ -1235,8 +1235,8 @@ footer.site-footer {
    ════════════════════════════════════════════════════════════════════════════ */
 
 .customer-reviews-section {
-  padding: 120px 0 140px;
-  background: #0f0a0d;
+  padding: 48px 0 56px;
+  background: #ffffff;
   position: relative;
   overflow: hidden;
 }
@@ -1264,7 +1264,7 @@ footer.site-footer {
   letter-spacing: 0.22em;
   text-transform: uppercase;
   font-weight: 500;
-  color: rgba(255, 255, 255, 0.45);
+  color: #6f6669;
   margin: 0;
 }
 
@@ -1274,20 +1274,20 @@ footer.site-footer {
   font-size: clamp(2.4rem, 4.6vw, 3.6rem);
   line-height: 1.05;
   letter-spacing: -0.025em;
-  color: rgba(255, 255, 255, 0.92);
+  color: #1a1417;
   margin: 0;
 }
 
 .reviews-heading i {
   font-style: italic;
   font-weight: 500;
-  color: rgba(255, 255, 255, 0.5);
+  color: #d96188;
 }
 
 .reviews-subtitle {
   font-size: 0.95rem;
   line-height: 1.7;
-  color: rgba(255, 255, 255, 0.48);
+  color: #6f6669;
   margin: 0;
   max-width: 52ch;
 }
@@ -1311,8 +1311,8 @@ footer.site-footer {
   width: 36px;
   height: 36px;
   background: transparent;
-  border: 1px solid rgba(255, 255, 255, 0.18);
-  color: rgba(255, 255, 255, 0.7);
+  border: 1px solid rgba(20, 15, 17, 0.15);
+  color: rgba(20, 15, 17, 0.7);
   display: flex;
   align-items: center;
   justify-content: center;
@@ -1350,7 +1350,7 @@ footer.site-footer {
   font-style: italic;
   font-size: clamp(1.3rem, 2.4vw, 1.65rem);
   line-height: 1.55;
-  color: rgba(255, 255, 255, 0.92);
+  color: #1a1417;
   margin: 0;
   max-width: 62ch;
   letter-spacing: -0.005em;
@@ -1366,12 +1366,12 @@ footer.site-footer {
 .review-author {
   font-size: 0.85rem;
   font-weight: 500;
-  color: rgba(255, 255, 255, 0.92);
+  color: #1a1417;
   letter-spacing: 0.01em;
 }
 
 .review-dot-sep {
-  color: rgba(255, 255, 255, 0.3);
+  color: rgba(20, 15, 17, 0.3);
   font-size: 0.85rem;
 }
 
@@ -1380,7 +1380,7 @@ footer.site-footer {
   letter-spacing: 0.22em;
   text-transform: uppercase;
   font-weight: 500;
-  color: rgba(255, 255, 255, 0.45);
+  color: #6f6669;
 }
 
 .review-rating {
@@ -1401,7 +1401,7 @@ footer.site-footer {
   width: 6px;
   height: 6px;
   border-radius: 50%;
-  background: rgba(255, 255, 255, 0.2);
+  background: rgba(20, 15, 17, 0.2);
   border: none;
   cursor: pointer;
   padding: 0;
@@ -1431,13 +1431,13 @@ footer.site-footer {
   letter-spacing: 0.22em;
   text-transform: uppercase;
   font-weight: 500;
-  color: rgba(255, 255, 255, 0.6);
+  color: rgba(20, 15, 17, 0.6);
   text-decoration: none;
   transition: color 0.2s ease;
 }
 
 .reviews-link:hover {
-  color: #ffffff;
+  color: #1a1417;
 }
 
 .reviews-cta {
@@ -1464,7 +1464,7 @@ footer.site-footer {
 
 @media (max-width: 680px) {
   .customer-reviews-section {
-    padding: 90px 0 100px;
+    padding: 40px 0 48px;
   }
   .reviews-header {
     margin-bottom: 56px;
@@ -1484,8 +1484,8 @@ footer.site-footer {
    ════════════════════════════════════════════════════════════════════════════ */
 
 .space-gallery-section {
-  padding: 140px 0 160px !important;
-  background: #0f0a0d;
+  padding: 48px 0 56px !important;
+  background: #ffffff;
   scroll-margin-top: 80px;
   position: relative;
   overflow: hidden;
@@ -1508,7 +1508,7 @@ footer.site-footer {
   letter-spacing: 0.22em;
   text-transform: uppercase;
   font-weight: 500;
-  color: rgba(255, 255, 255, 0.45);
+  color: #6f6669;
   margin: 0 0 28px;
 }
 
@@ -1518,7 +1518,7 @@ footer.site-footer {
   font-size: clamp(2.4rem, 4.6vw, 3.6rem);
   line-height: 1.05;
   letter-spacing: -0.025em;
-  color: rgba(255, 255, 255, 0.92);
+  color: #1a1417;
   margin: 0 0 18px;
   max-width: 18ch;
 }
@@ -1526,13 +1526,13 @@ footer.site-footer {
 .space-gallery-heading i {
   font-style: italic;
   font-weight: 500;
-  color: rgba(255, 255, 255, 0.5);
+  color: #d96188;
 }
 
 .space-gallery-subtitle {
   font-size: 0.95rem;
   line-height: 1.7;
-  color: rgba(255, 255, 255, 0.48);
+  color: #6f6669;
   margin: 0;
   max-width: 52ch;
 }
@@ -1568,8 +1568,8 @@ footer.site-footer {
   position: relative;
   overflow: hidden;
   border-radius: 8px;
-  border: 1px solid rgba(255, 255, 255, 0.08);
-  background: #191015;
+  border: 1px solid rgba(20, 15, 17, 0.08);
+  background: #f4eff0;
   padding: 0;
   cursor: pointer;
   display: block;
@@ -1579,7 +1579,7 @@ footer.site-footer {
 
 .space-gallery-card:hover,
 .space-gallery-card:focus-visible {
-  border-color: rgba(255, 255, 255, 0.25);
+  border-color: rgba(20, 15, 17, 0.22);
 }
 
 .space-card--featured {
@@ -1602,7 +1602,7 @@ footer.site-footer {
   object-position: center;
   display: block;
   transition: transform 0.75s cubic-bezier(0.25, 0.46, 0.45, 0.94), opacity 0.5s ease;
-  opacity: 0.85;
+  opacity: 1;
 }
 
 .space-gallery-card:hover img,
@@ -1734,7 +1734,7 @@ footer.site-footer {
 /* ── Responsive ── */
 @media (max-width: 960px) {
   .space-gallery-section {
-    padding: 90px 0 100px !important;
+    padding: 40px 0 48px !important;
   }
   .space-gallery-head {
     margin-bottom: 32px;
@@ -1756,7 +1756,7 @@ footer.site-footer {
 
 @media (max-width: 600px) {
   .space-gallery-section {
-    padding: 70px 0 80px !important;
+    padding: 32px 0 40px !important;
   }
   .space-gallery-head {
     margin-bottom: 28px;
