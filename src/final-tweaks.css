@@ -1535,7 +1535,7 @@ footer.site-footer {
    ════════════════════════════════════════════════════════════════════════════ */
 
 .space-gallery-section {
-  padding: 48px 0 56px !important;
+  padding: 42px 0 56px !important;
   background: #ffffff;
   scroll-margin-top: 80px;
   position: relative;
@@ -1789,7 +1789,7 @@ footer.site-footer {
 /* ── Responsive ── */
 @media (max-width: 960px) {
   .space-gallery-section {
-    padding: 40px 0 48px !important;
+    padding: 35px 0 48px !important;
   }
   .space-gallery-head {
     margin-bottom: 32px;
@@ -1811,7 +1811,7 @@ footer.site-footer {
 
 @media (max-width: 600px) {
   .space-gallery-section {
-    padding: 32px 0 40px !important;
+    padding: 28px 0 40px !important;
   }
   .space-gallery-head {
     margin-bottom: 28px;
