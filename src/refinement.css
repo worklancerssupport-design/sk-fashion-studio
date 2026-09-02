@@ -39,7 +39,7 @@
    ════════════════════════════════════════════════════════════════════════════ */
 
 .explore-section {
-  padding: 48px 0 56px;
+  padding: var(--section-padding-y) 0;
   background:
     radial-gradient(ellipse at 8% 12%,  rgba(245, 210, 220, 0.55) 0%, transparent 42%),
     radial-gradient(ellipse at 92% 88%, rgba(255, 228, 232, 0.45) 0%, transparent 38%),
@@ -105,8 +105,8 @@
   gap: 8px;
   flex-wrap: wrap;
   justify-content: center;
-  margin-bottom: 52px;
-  padding-bottom: 20px;
+  margin-bottom: 28px;
+  padding-bottom: 10px;
   max-width: var(--container-max, 1200px);
   width: 100%;
   margin-inline: auto;
@@ -279,7 +279,6 @@
    RESPONSIVE — Explore Designs
    ════════════════════════════════════════════════════════════════════════════ */
 @media (max-width: 900px) {
-  .explore-section { padding: 40px 0 48px; }
   .explore-head { margin-bottom: 40px; }
   .explore-cat-nav { margin-bottom: 55px; }
   .design-category { padding: 55px 0; }
@@ -310,7 +309,6 @@
 }
 
 @media (max-width: 600px) {
-  .explore-section { padding: 32px 0 40px; }
   .explore-cat-nav { gap: 6px; margin-bottom: 40px; }
   .cat-nav-pill { padding: 8px 14px; font-size: .64rem; }
   .design-cat-meta h3 { font-size: 1.85rem; }
@@ -353,8 +351,7 @@
    SERVICE AREA / LOCAL CONTEXT
    ════════════════════════════════════════════════════════════════════════════ */
 .service-area-section {
-  padding-top: 48px;
-  padding-bottom: 96px;
+  padding: var(--section-padding-y) 0 calc(var(--section-padding-y) + 24px);
   padding-left: max(
     var(--container-pad),
     calc((100vw - var(--container-max)) / 2 + var(--container-pad))
@@ -364,7 +361,8 @@
     calc((100vw - var(--container-max)) / 2 + var(--container-pad))
   ) !important;
   text-align: left;
-  background: #ffffff;
+  background:
+    #ffffff;
 }
 .service-area-layout {
   display: flex;
@@ -395,13 +393,12 @@
   max-width: 660px;
   margin-left: 60px;
 }
-.service-area-eyebrow { margin-bottom: 28px; color: #6f6669; text-transform: uppercase; }
+.service-area-eyebrow { margin-top: 22px; margin-bottom: 28px; color: #6f6669; text-transform: uppercase; }
 .service-area-heading { margin: 0 0 28px; color: #1a1417; font-size: clamp(2.4rem, 4.6vw, 3.6rem); }
 .service-area-heading i { font-style: italic; color: #d96188; }
 .service-area-copy { margin: 0 0 16px; line-height: 1.78; color: #4a4347; font-size: 1rem; font-weight: 400; }
 
 @media (max-width: 800px) {
-  .service-area-section { padding: 40px var(--container-pad) 72px; text-align: left; }
   .service-area-layout { flex-direction: column; gap: 28px; }
   .service-area-image { width: 100%; max-width: 100%; aspect-ratio: 3 / 4; }
   .service-area-content { max-width: 100%; margin-left: 0; }
@@ -409,5 +406,5 @@
   .service-area-copy { margin: 0; }
 }
 @media (max-width: 430px) {
-  .service-area-section { padding: 32px 6vw 40px; }
+  .service-area-section { padding-left: 6vw !important; padding-right: 6vw !important; }
 }

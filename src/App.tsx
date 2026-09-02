@@ -628,7 +628,7 @@ function AboutOwner() {
         <div className="about-owner-body">
           <p>
             Karuna Kumari is the creative force behind SK Fashion Studio. A fashion school graduate since 2016,
-            she brings over eight years of experience in designing, tailoring and custom styling — and a quiet
+            she brings over eight years of experience in designing, tailoring and custom styling, and a quiet
             belief that every outfit should feel made for the person wearing it.
           </p>
           <p>
@@ -1700,6 +1700,7 @@ export default function App() {
   const [scrolled, setScrolled] = useState(false);
   const [activeSection, setActiveSection] = useState('home');
   const [showAllServices, setShowAllServices] = useState(false);
+  const servicesToggleRef = useRef<HTMLDivElement | null>(null);
 
   useEffect(() => {
     document.body.style.overflow = form || activeServiceModal ? 'hidden' : '';
@@ -1945,10 +1946,22 @@ export default function App() {
           </div>
 
           {servicesData.length > 4 && (
-            <div className="services-toggle-wrap">
+            <div className="services-toggle-wrap" ref={servicesToggleRef}>
               <button
                 className="services-toggle"
-                onClick={() => setShowAllServices(!showAllServices)}
+                onClick={() => {
+                  const collapsing = showAllServices;
+                  setShowAllServices(!showAllServices);
+                  if (collapsing) {
+                    requestAnimationFrame(() => {
+                      const el = servicesToggleRef.current;
+                      if (!el) return;
+                      const rect = el.getBoundingClientRect();
+                      const targetY = window.scrollY + rect.top - 80;
+                      window.scrollTo({ top: targetY, behavior: 'smooth' });
+                    });
+                  }
+                }}
                 aria-expanded={showAllServices}
               >
                 <span>{showAllServices ? 'View less' : 'View more'}</span>
@@ -2141,7 +2154,7 @@ export default function App() {
                   <span className="footer-contact-label">Boutique</span>
                   <div className="footer-contact-value">
                     <span>{contactData.address}</span>
-                    <a href={contactData.mapsDirectionsUrl} target="_blank" rel="noreferrer" className="footer-contact-action">Get directions →</a>
+                    {/* <a href={contactData.mapsDirectionsUrl} target="_blank" rel="noreferrer" className="footer-contact-action">Get directions →</a> */}
                   </div>
                 </div>
 
