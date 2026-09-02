@@ -354,7 +354,7 @@
    ════════════════════════════════════════════════════════════════════════════ */
 .service-area-section {
   padding-top: 48px;
-  padding-bottom: 56px;
+  padding-bottom: 96px;
   padding-left: max(
     var(--container-pad),
     calc((100vw - var(--container-max)) / 2 + var(--container-pad))
@@ -401,7 +401,7 @@
 .service-area-copy { margin: 0 0 16px; line-height: 1.78; color: #4a4347; font-size: 1rem; font-weight: 400; }
 
 @media (max-width: 800px) {
-  .service-area-section { padding: 40px var(--container-pad) 48px; text-align: left; }
+  .service-area-section { padding: 40px var(--container-pad) 72px; text-align: left; }
   .service-area-layout { flex-direction: column; gap: 28px; }
   .service-area-image { width: 100%; max-width: 100%; aspect-ratio: 3 / 4; }
   .service-area-content { max-width: 100%; margin-left: 0; }
