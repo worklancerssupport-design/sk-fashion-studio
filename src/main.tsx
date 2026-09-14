@@ -5,12 +5,14 @@ import './styles.css'
 import './refinement.css'
 import './shop-experience.css'
 import './final-tweaks.css'
+import { Analytics } from '@vercel/analytics/react'
 import App from './App'
 
 createRoot(document.getElementById('root')!).render(
   <StrictMode>
     <BrowserRouter>
       <App />
+      <Analytics />
     </BrowserRouter>
   </StrictMode>
 )
