@@ -3068,3 +3068,96 @@ a.contact-value:focus-visible {
 }
 
 
+
+/* ── FAQ Section ── */
+.faq-section {
+  padding: var(--section-padding-y) 0;
+  background: #fff;
+}
+
+.faq-inner {
+  max-width: var(--container-max);
+  margin: 0 auto;
+  padding: 0 var(--container-pad);
+}
+
+.faq-eyebrow {
+  font-size: 0.7rem;
+  letter-spacing: 0.22em;
+  text-transform: uppercase;
+  font-weight: 500;
+  color: rgba(26, 16, 19, 0.5);
+  margin: 0 0 24px;
+}
+
+.faq-heading {
+  font-family: 'Playfair Display', Georgia, serif;
+  font-weight: 500;
+  font-size: clamp(2.4rem, 4.6vw, 3.6rem);
+  line-height: 1.05;
+  letter-spacing: -0.025em;
+  color: #1a1013;
+  margin: 0 0 40px;
+}
+
+.faq-heading i {
+  font-style: italic;
+  font-weight: 500;
+  color: rgba(26, 16, 19, 0.55);
+}
+
+.faq-grid {
+  display: grid;
+  gap: 0;
+  max-width: 820px;
+}
+
+.faq-item {
+  border-bottom: 1px solid rgba(26, 16, 19, 0.1);
+}
+
+.faq-item:first-child {
+  border-top: 1px solid rgba(26, 16, 19, 0.1);
+}
+
+.faq-item summary {
+  font-family: 'Jost', sans-serif;
+  font-size: 1.05rem;
+  font-weight: 500;
+  color: #1a1013;
+  padding: 20px 0;
+  cursor: pointer;
+  list-style: none;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: 16px;
+  line-height: 1.4;
+}
+
+.faq-item summary::-webkit-details-marker {
+  display: none;
+}
+
+.faq-item summary::after {
+  content: '+';
+  font-size: 1.3rem;
+  font-weight: 300;
+  color: rgba(26, 16, 19, 0.4);
+  flex-shrink: 0;
+  transition: transform 0.25s ease;
+}
+
+.faq-item[open] summary::after {
+  content: '−';
+}
+
+.faq-item p {
+  font-family: 'DM Sans', sans-serif;
+  font-size: 0.95rem;
+  line-height: 1.7;
+  color: rgba(26, 16, 19, 0.7);
+  padding: 0 0 20px;
+  margin: 0;
+  max-width: 680px;
+}

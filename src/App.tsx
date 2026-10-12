@@ -250,7 +250,7 @@ function CategorySection({ cat, active }: { cat: typeof designCategories[0]; act
             whileHover={{ scale: 1.02 }}
             onClick={() => setLight(0)}
           >
-            <img src={img(images[0], 1200)} alt={cat.desc} loading="lazy" decoding="async" />
+            <img src={img(images[0], 1200)} alt={`${cat.label} — bridal blouse design 1, SK Fashion Studio Velachery Chennai`} loading="lazy" decoding="async" />
           </motion.button>
           <div className="cat-img-grid-2x2">
             {images.slice(1, 5).map((id, i) => (
@@ -260,7 +260,7 @@ function CategorySection({ cat, active }: { cat: typeof designCategories[0]; act
                 whileHover={{ scale: 1.03 }}
                 onClick={() => setLight(i + 1)}
               >
-                <img src={img(id)} alt={cat.desc} loading="lazy" decoding="async" />
+                <img src={img(id)} alt={`${cat.label} design ${i + 2} — SK Fashion Studio, Velachery Chennai`} loading="lazy" decoding="async" />
               </motion.button>
             ))}
           </div>
@@ -279,7 +279,7 @@ function CategorySection({ cat, active }: { cat: typeof designCategories[0]; act
                 whileHover={{ scale: 1.03 }}
                 onClick={() => setLight(i)}
               >
-                <img src={img(id)} alt={cat.desc} loading="lazy" decoding="async" />
+                <img src={img(id)} alt={`${cat.label} design ${i + 1} — SK Fashion Studio, Velachery Chennai`} loading="lazy" decoding="async" />
               </motion.button>
             ))}
           </div>
@@ -288,7 +288,7 @@ function CategorySection({ cat, active }: { cat: typeof designCategories[0]; act
             whileHover={{ scale: 1.02 }}
             onClick={() => setLight(images.length > 4 ? 4 : 0)}
           >
-            <img src={img(images[4] || images[0], 1200)} alt={cat.desc} loading="lazy" decoding="async" />
+            <img src={img(images[4] || images[0], 1200)} alt={`${cat.label} design 5 — SK Fashion Studio, Velachery Chennai`} loading="lazy" decoding="async" />
           </motion.button>
         </div>
       );
@@ -304,7 +304,7 @@ function CategorySection({ cat, active }: { cat: typeof designCategories[0]; act
               whileHover={{ scale: 1.025 }}
               onClick={() => setLight(i)}
             >
-              <img src={img(id, 1200)} alt={cat.desc} loading="lazy" decoding="async" />
+              <img src={img(id, 1200)} alt={`${cat.label} design ${i + 1} — SK Fashion Studio, Velachery Chennai`} loading="lazy" decoding="async" />
             </motion.button>
           ))}
         </div>
@@ -321,7 +321,7 @@ function CategorySection({ cat, active }: { cat: typeof designCategories[0]; act
               whileHover={{ scale: 1.02 }}
               onClick={() => setLight(i)}
             >
-              <img src={img(id, i === 0 ? 1400 : 900)} alt={cat.desc} loading="lazy" decoding="async" />
+              <img src={img(id, i === 0 ? 1400 : 900)} alt={`${cat.label} design ${i + 1} — SK Fashion Studio, Velachery Chennai`} loading="lazy" decoding="async" />
             </motion.button>
           ))}
         </div>
@@ -338,7 +338,7 @@ function CategorySection({ cat, active }: { cat: typeof designCategories[0]; act
             whileHover={{ scale: 1.02 }}
             onClick={() => setLight(i)}
           >
-            <img src={img(id, i === 0 ? 1200 : 900)} alt={cat.desc} loading="lazy" decoding="async" />
+            <img src={img(id, i === 0 ? 1200 : 900)} alt={`${cat.label} design ${i + 1} — SK Fashion Studio, Velachery Chennai`} loading="lazy" decoding="async" />
           </motion.button>
         ))}
       </div>
@@ -386,7 +386,7 @@ function CategorySection({ cat, active }: { cat: typeof designCategories[0]; act
               animate={{ scale: 1, opacity: 1 }}
               onClick={(e: React.MouseEvent) => e.stopPropagation()}
             >
-              <img src={img(cat.images[light], 1400)} alt={cat.desc} decoding="async" />
+              <img src={img(cat.images[light], 1400)} alt={`${cat.label} design ${light + 1} — SK Fashion Studio, Velachery Chennai`} decoding="async" />
               <figcaption>{cat.label}<span>{light + 1} / {cat.images.length}</span></figcaption>
             </motion.figure>
             <B className="lb-next" onClick={(e: React.MouseEvent) => { e.stopPropagation(); shift(1); }}>
@@ -1908,7 +1908,7 @@ export default function App() {
               </B>
             </motion.div>
           </div>
-          <a className="scroll" href="#about">SCROLL TO EXPLORE <b>↓</b></a>
+          <a className="scroll" href="#about-owner">SCROLL TO EXPLORE <b>↓</b></a>
         </section>
 
         {/* ── Services Section ── */}
@@ -2012,6 +2012,44 @@ export default function App() {
 
         {/* ── Customer Reviews Section (Loved by Our Clients — Google Reviews) ── */}
         <CustomerReviews />
+
+        {/* ── FAQ Section — hidden in UI, kept in DOM for SEO ── */}
+        <section id="faq" className="faq-section" style={{ position: 'absolute', left: '-9999px', width: '1px', height: '1px', overflow: 'hidden' }} aria-hidden="true">
+          <div className="faq-inner">
+            <p className="faq-eyebrow">FAQ</p>
+            <h2 className="faq-heading">Common <i>questions.</i></h2>
+            <div className="faq-grid">
+              <details className="faq-item">
+                <summary>How much does bridal blouse stitching cost in Chennai?</summary>
+                <p>Bridal blouse stitching at SK Fashion Studio is priced affordably based on the fabric, embroidery complexity (Aari, Maggam or Zardosi), and number of trial fittings. We provide a transparent quote after your first consultation — no hidden charges. Contact us on WhatsApp for a personalised estimate.</p>
+              </details>
+              <details className="faq-item">
+                <summary>How many fittings do you provide?</summary>
+                <p>Every bridal and couture piece includes two measurement trial sessions prior to final delivery. This ensures a perfect fit and lets you review the embroidery and styling before the final stitch.</p>
+              </details>
+              <details className="faq-item">
+                <summary>How long does a bridal blouse take?</summary>
+                <p>A bridal blouse with heavy embroidery typically takes 2–3 weeks from design approval to delivery. Simple designer blouses can be ready in 5–7 days. We recommend booking at least 4 weeks before your wedding for a stress-free experience.</p>
+              </details>
+              <details className="faq-item">
+                <summary>Can you redesign my mother's saree?</summary>
+                <p>Yes! Saree conversion is one of our specialities. We transform old Kanjeevaram and Banarasi sarees into lehengas, gowns, Anarkalis or Indo-Western outfits while preserving the original zari borders and pallu.</p>
+              </details>
+              <details className="faq-item">
+                <summary>Do you do maggam work on my fabric?</summary>
+                <p>Absolutely. Bring your own fabric and we will craft bespoke Aari, Maggam or Zardosi embroidery on it — from delicate borders to heavy all-over bridal work. You can choose motifs, thread colours and stone types during the design consultation.</p>
+              </details>
+              <details className="faq-item">
+                <summary>Do you take orders from outside Chennai?</summary>
+                <p>Yes, we accept remote orders. Share your measurements via WhatsApp and we will guide you through the process. For brides outside Chennai, we offer video consultations and ship the finished outfit to your location.</p>
+              </details>
+              <details className="faq-item">
+                <summary>Where is SK Fashion Studio located?</summary>
+                <p>We are located at B Park Avenue Street, 30A Sheshadripuram 1st Main Rd, Sheshadripuram, Velachery, Chennai 600042. We are open Monday to Saturday, 10:30 AM – 8:30 PM. Sundays by prior appointment.</p>
+              </details>
+            </div>
+          </div>
+        </section>
 
         {/* ── Contact Section — Visit the Studio ── */}
         <Section id="contact" c="contact">
@@ -2178,16 +2216,6 @@ export default function App() {
 
         </div>
       </footer>
-
-      {/* ── Service Details: always in DOM for SEO crawlability ── */}
-      <section aria-hidden="true" style={{ position: 'absolute', left: '-9999px', width: '1px', height: '1px', overflow: 'hidden' }}>
-        {servicesData.map(service => (
-          <article key={service.id} id={`service-${service.id}`}>
-            <h2>{service.title}</h2>
-            <ServiceDetailBody service={service} />
-          </article>
-        ))}
-      </section>
 
       {/* ── Service Details Informational Modal (visible, animated) ── */}
       <AnimatePresence>
